@@ -1,0 +1,736 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+
+\usepackage{amsthm,amsmath,amssymb}
+
+\usepackage[bookmarks=true,hypertexnames=false,pagebackref]{hyperref}
+\hypersetup{colorlinks=true, citecolor=blue, linkcolor=red,
+  urlcolor=blue}
+\usepackage{amsthm}
+\usepackage[lining,semibold,type1]{libertine} % a bit lighter than Times--no osf in math
+\usepackage[T1]{fontenc} % best for Western European languages
+\usepackage{textcomp} % required to get special symbols
+\usepackage[varqu,varl]{inconsolata}% a typewriter font must be defined
+\usepackage[libertine,vvarbb]{newtxmath}
+\usepackage[scr=rsfso]{mathalfa}
+\usepackage{bm}
+\usepackage{cleveref}
+\usepackage{graphicx}
+\usepackage{todonotes}
+\usepackage{enumerate}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{problem}[theorem]{Problem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definitions}[theorem]{Definitions}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{block}[theorem]{}
+\newtheorem*{myclaim}{Claim}
+\newtheorem*{remark}{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{condition}{Condition}
+\newtheorem{problem}{Problem}
+\newtheorem{property}{Property}
+
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\tuple}[1]{\left(#1\right)} \newcommand{\eps}{\varepsilon}
+\newcommand{\inner}[2]{\langle #1,#2\rangle} \newcommand{\tp}{\tuple}
+\renewcommand{\mid}{\;\middle\vert\;} \newcommand{\cmid}{\,:\,}
+\newcommand{\numP}{\#\mathbf{P}} \renewcommand{\P}{\mathbf{P}}
+\newcommand{\defeq}{\triangleq} \renewcommand{\d}{\,\-d}
+\newcommand{\ol}{\overline}
+
+\newcommand{\id}[1]{\mathbf{1}\left[#1\right]}
+
+\usepackage[ruled,linesnumbered,vlined]{algorithm2e}
+%\renewcommand{\thealgorithm}{} %% disable the algorithm counter
+\usepackage{algpseudocode}
+\SetKwRepeat{Do}{do}{while}
+
+\def\*#1{\mathbf{#1}} \def\+#1{\mathcal{#1}} \def\-#1{\mathrm{#1}} \def\^#1{\mathbb{#1}} \def\$#1{\mathtt{#1}}
+\def\!#1{\mathtt{#1}}
+\def\@#1{\mathscr{#1}}
+
+\def\EG{\emph{e.g.}}
+\def\IE{\emph{i.e.}}
+
+% Zhidan's macros
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+
+\usepackage{xifthen}
+
+\renewcommand{\Pr}[2][]{ \ifthenelse{\isempty{#1}}
+  {\mathbf{Pr}\left[#2\right]} {\mathbf{Pr}_{#1}\left[#2\right]} }
+\newcommand{\E}[2][]{ \ifthenelse{\isempty{#1}}
+  {\mathbf{E}\left[#2\right]}
+  {\mathop{\mathbf{E}}_{#1}\left[#2\right]} }
+\newcommand{\Var}[2][]{ \ifthenelse{\isempty{#1}}
+  {\mathbf{Var}\left[#2\right]}
+  {\mathop{\mathbf{Var}}_{#1}\left[#2\right]} }
+
+
+\newcommand{\zdtodo}[1]{\todo[color = blue!40, size = \tiny]{\textbf{zhidan:} #1}}
+
+\newcommand{\qgl}[1]{{\color{purple}{#1}}}
+\newcommand{\hktodo}[1]{{\color{blue}{#1}}}
+
+\newcommand{\zd}[1]{{\color{green} #1}}
+\newcommand{\zdnew}[1]{{\color{cyan} #1}}
+%%% article specific macros %%%
+
+\def\Expand{\!{Expand}}
+
+\title{Deterministic Counting of $b$-Matchings}
+\author{}
+%\address{Shanghai Jiao Tong University}
+
+%\date{Last modified on Oct 28, 2020}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Preliminaries}
+
+\zdnew{A collection of symbols and notations here: might be more clearly?}
+
+\subsection{$b$-matchings and notations}
+    Consider a graph $G=(V,E)$ with an integer $b\geq 1$. A $b$-matching of $G$ is a subset of edges $S\subseteq E$ such that for each $v\in V$, we have $\abs{S\cap E_v}\leq b$ where $E_v\triangleq \set{e\in E \mid v\in e}$ is the collection of incident edges of $v$. Let $\Omega=\Omega_{G,b}$ be the set of all $b$-matchings of $G$ and $\mu=\mu_{G,b}$ be the uniform distribution over $\Omega$. 
+
+
+    For convenience, we use a binary indicator vector $\sigma: E\rightarrow \set{0,1}$ to represent any subset of edge $S\subseteq E$ where $\sigma(e)=1$ if $e\in S$ for each $e\in E$. 
+    Moreover, we use $\sigma_S:S\rightarrow \set{0,1}$ to denote the partial assignment defined on $S\subseteq E$ or the partial assignment defined on $S\subseteq E$ induced from $\sigma$, i.e., for any variable $e$ in $S$, we have $\sigma_S(e)=\sigma(e)$. \zdtodo{If necessary: change the notation here.} \qgl{We sometimes use the notation $v\gets a$ to denote the partial assignment on a single edge.}
+
+    Given any partial assignment $\tau: E'\rightarrow \set{0,1}$ defined on $E'\subseteq E$, we abuse $\tau$ to denote the event that $\set{\sigma_S=\tau \ \vert \ \mbox{$\sigma$ is a $b$-matching}}$. By this notation, we call a partial assignment $\tau$ is feasible if $\tau\neq \emptyset$. (\qgl{and we can use $\tau_1\land \tau_2$ to denote the concatenation of the partial assignments}) Furthermore, given any subset of edges $S\subseteq E\setminus E'$, we use $\mu_S^{\tau}$ to denote the marginal distribution on $S$ conditioned on the event $\tau$. \qgl{In particular $\mu_v=\mu_{\set{v}}$.} \qgl{here, we also define $E^{\tau}_v$ as the unpinned edges in $E_v$.} 
+    % We can equivalently view the instance with pinned partial assignment as a instance with no pinning.
+
+    In our later discussion, {we also allow the existence of the \qgl{dangling edges}}. Specifically, we represent the graph by $G=(V,E=E_1\cup E_2)$ where $E_1$ is the set of normal edges and $E_2$ is the set of dangling edges.
+    {One can generalize the previous notations and notions in the graph with dangling edges similarly.} 
+
+    
+
+    
+\subsection{Marginal probability bounds}
+% \begin{lemma}
+%     Consider any graph $G=(V,E)$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a feasible partial assignment $\tau:E'\rightarrow \set{0,1}$ where $E'\subseteq E$. For each $v\in V$, it holds that  
+%     \begin{align*}
+%        \sigma \sim \mu^{\tau}, \quad \quad   \mu^{\tau}(\sigma_{E_v\setminus E'}=\boldsymbol{0})\geq 1/{\Delta^b}.
+%     \end{align*}
+% \end{lemma}
+\begin{lemma}\label{lem:marginal-bound}
+    Consider any graph $G=(V,E=E_1\cup E_2)$ of maximum degree $\Delta$ with a positive integer $b$ and a partial assignment $\sigma$. For each $v\in V$, it holds that  
+    \begin{align*}
+         \mu^{\sigma}_{E^{\sigma}_v}(\boldsymbol{0})\geq {2^{-\Delta}}.
+    \end{align*} 
+\end{lemma}
+\begin{remark}
+    The statement of this lemma indicates its applicability to the graph with dangling edges.
+\end{remark}
+\begin{proof}
+    \qgl{immediately from czc's paper.}
+\end{proof}
+
+% We also need the monotonicity of the uniform distribution over all $b$-matchings.
+
+% \begin{lemma}
+%     Consider any graph $G=(V,E)$ of maximum degree $\Delta$ with an integer $b\geq 1$. Given an edge $e\in E$ and feasible partial assignments $\tau_1,\tau_2:\set{e}\rightarrow \set{0,1}$ where $\tau_1(e)=0$ and $\tau_2(e)=1$, we have 
+%     \begin{align*}
+%         d
+%     \end{align*}
+% \end{lemma}
+
+
+\section{The coupling for $b$-matchings} \zdtodo{reconstruct the coupling process and this section}
+
+    Throughout the remaining discussion, we consider the graph $G=(V,E=E_1\cup E_2)$ where $E_2= \set{e_0}$, i.e., the graph with a unique dangling edge. Moreover, the edges in the graph are labeled in an arbitrary order.
+    
+    Let $\sigma, \tau$ be the partial assignments defined on the same subset of edges. We say that a vertex $v \in V$ is disagreeing under $(\sigma, \tau)$ if $\abs{{\!{Ham}\left(\sigma,{E_v}\right)}-{\!{Ham}\left(\tau,{E_v}\right)}}=1$, where ${\!{Ham}\left(\sigma',{E_v}\right)}$ denotes the hamming weight of $\sigma$ restricted to the edges $E_v$.
+    %\qgl{qgl: The notion of disagreeing vertex is confusing and should be changed in the new version. Because the in-disagreeing vertices include the vertex $v$ that $\abs{{\!{Ham}\left(\sigma',{E_v}\right)}-{\!{Ham}\left(\tau',{E_v}\right)}}=0$ or $\abs{{\!{Ham}\left(\sigma',{E_v}\right)}-{\!{Ham}\left(\tau',{E_v}\right)}}>1$. However, when we say that there is a unique disagreeing vertex, we always want to say that all other vertices satisfy $\abs{{\!{Ham}\left(\sigma',{E_v}\right)}-{\!{Ham}\left(\tau',{E_v}\right)}}=0$.}
+    Furthermore, we say that $(\sigma, \tau)$ is a pair of \emph{1-discrepancy partial assignments} if there is a unique disagreeing vertex $v \in V$ and ${\!{Ham}\left(\sigma, {E_u}\right)} = {\!{Ham}\left(\tau,{E_u}\right)}$ for any $u \in V \setminus \set{v}$.
+    
+
+    \hktodo{the input of the algorithm should be $\sigma,\tau$. Do not use $\sigma',\tau'$}
+    
+    We first review the coupling process for the marginal distribution of the $b$-matchings conditioned on the 1-discrepancy partial assignments $\sigma$ and $\tau$ designed by \qgl{[CG23]} in Algorithm~\ref{algo:Couple}. For our subsequent analysis, we state the description of the coupling process in the following equivalent way.
+
+	\begin{algorithm}[th]
+		\caption{$\!{Couple}(G, \sigma, \tau, v)$}
+		\label{algo:Couple}
+             % \qgl{$L\gets 0$; \quad \tcp{a global variable. I don't know how to write this appropriately in latex.} }
+             \KwIn{A graph $G = (V, E = E_1 \cup \set{e_0})$ with the 1-discrepancy partial assignments $(\sigma, \tau)$ where $\sigma(e_0) = 0, \tau(e_0) = 1$ and the unique \qgl{disagreeing} vertex $v\in V$.}
+		% \KwIn{A graph $G=(V,E=E_1\cup \set{e_0})$ where the edges are labeled by an arbitrary order with partial assignments $\sigma'$ and $\tau'$ and a unique \qgl{disagreeing} vertex $v\in V$.}
+		  \KwOut{A pair of partial assignments $\sigma', \tau' : E \to \set{0,1}$ drawn from a coupling between $\mu^{\sigma}$ and $\mu^{\tau}$.}	
+           
+            % \If{$v$ is isolated}
+            % {
+                
+            % } 
+            \While{
+                $E_v^{\sigma} \neq \emptyset$
+            }
+            {
+                \If{${\!{Ham}\left(\sigma, {E_v}\right)} < {\!{Ham}\left(\tau, {E_v}\right)}$}
+                {
+                    choose $e = \set{u,v} \in E_v^{\sigma}$ with the smallest index such that $\mu^{\sigma}_e(1) \geq \mu^{\tau}_e(1)$\;
+                }
+                \Else{
+                    choose $e = \set{u,v} \in E_v^{\sigma}$ with the smallest index such that $\mu^{\sigma}_e(1) \leq \mu^{\tau}_e(1)$\;
+                }
+                sample $(\sigma_e, \tau_e)$ from an optimal coupling of $(\mu^{\sigma}_e, \mu^{\tau}_e)$\;
+                $\sigma \gets \sigma \land \sigma_e$ and $\tau \gets \tau \land \tau_e$\; 
+                \If{$\sigma_e \neq \tau_e$}
+                {
+                    % $L\gets L+1$\;
+                    % $(\sigma,\tau)\gets \!{Couple}(G,\sigma',\tau',u)$; \quad 
+                    % \tcp{The disagreeing vertex has changed}
+                    % \hktodo{\Return{$(\sigma,\tau )$;}}
+                    \hktodo{\Return $ \!{Couple}(G,\sigma, \tau, u)$; \quad 
+                    \tcp{The disagreeing vertex has been changed}}
+                }
+                % \tcp{The disagreeing vertex remains the same}    
+            }
+            sample $(\sigma', \tau')$ from an optimal coupling of $(\mu^{\sigma},\mu^{\tau})$\;     
+		\Return{$(\sigma', \tau')$;}
+	\end{algorithm}
+
+    % The correctness of the coupling relies on the following fact. 
+    % \begin{lemma}\label{lem-marignal-dominance}
+    %     Here we should introduce the lemma concerning the marginal dominance phenomenon.
+    % \end{lemma}
+
+\zdnew{
+Now we show some properties of the coupling process and the correctness of the coupling process follows immediately. The following proposition has been shown in~\zd{[CG[23]]}. For completeness, we state it here.
+\begin{proposition}[Proposition 16 in \zd{[CG23]}] \label{prop:coupling-correctness}
+    The procedure $\!{Couple}(G, \sigma', \tau', v)$ satisfies the following properties:
+    \begin{enumerate}
+        \item \textbf{(Termination)} It always terminates.
+        
+        \item \textbf{(Validity of the Process)} At each call of $\!{Couple}(G, \sigma, \tau, v)$, there always exists one unique disagreeing vertex $v$ under $\sigma$ and $\tau$. %If exists, the disagreeing vertex is exactly $v$.
+        
+        \item \textbf{(Existence of Dominance)} In the process of $\!{Couple}(G, \sigma, \tau, v)$, when $E_v^\sigma \neq \emptyset$, if $\!Ham(\sigma, E_v) < \!Ham(\tau, E_v)$, there exists $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \ge \mu^\tau_e(1)$; similarly if $\!Ham(\sigma, E_v) < \!Ham(\tau, E_v)$, there exists $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \le \mu^\tau_e(1)$
+        
+        \item \textbf{(Correctness of the Coupling)} The outcome of $\!{Couple}(G, \sigma, \tau, v)$ is a coupling of $(\mu^{\sigma}, \mu^{\tau})$.
+    \end{enumerate}
+\end{proposition}
+\zdtodo{if necessary, prove it in appendix}
+}
+
+    According to~\Cref{prop:coupling-correctness}, \qgl{we claim that the partial assignments $(\sigma_0, \tau_0)$ are always 1-discrepancy.} 
+    Let $L$ be the times that the subroutine $\!{Couple}(\cdot)$ is called in $\!{Couple}(G, \sigma_0, \tau_0, v)$.
+    We can prove the following lemma by similar analysis in \qgl{CG23}.
+    \begin{lemma}\label{lem:decay}
+        Given any graph $G = (V, E = E_1 \cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a vertex $v\in V$ where the dangling edge $e_0$ is incident to $v$, let $\sigma_0, \tau_0 : \set{e_0} \rightarrow \set{0, 1}$ be the partial assignments where $\sigma_0 = e_0 \gets 0$ and $\tau_0 = e_0 \gets 1$. For any non-negative integer $\ell$, we have
+        \begin{align*}
+            \Pr{L \geq \ell} \leq \left(1 - {2^{-\Delta}}\right)^{\ell}
+        \end{align*}
+        in the coupling procedure $\!{Couple}(G,\sigma_0,\tau_0,v)$.
+    \end{lemma}
+    \begin{proof}
+        We prove it by induction. 
+        % Note that it suffices to prove that for any positive integer $\ell$, we have 
+        % \begin{align*}
+        %     \Pr{L= \ell}\leq \left(1-\frac{1}{2^{\Delta}}\right)^{\ell}
+        % \end{align*}
+        The base case where $\ell=0$ holds immediately. Given that the statement holds for any non-negative integer $\ell$, we claim that the statement holds for $\ell+1$. Observe that the event $\set{L\geq \ell}$ is equivalent to the event that subroutine $\!{Couple}(\cdot)$ was called with at least $\ell$ times. At the beginning of the $\ell$-th call of the subroutine $\!{Couple}(\cdot)$, a new call of the subroutine $\!{Couple}(\cdot)$ happens with probability at most $1-1/2^{\Delta}$ according to~\Cref{lem:marginal-bound}. \qgl{this is because we execute an optimal coupling} Consequently, we have
+        \begin{align*}
+            \frac{ \Pr{L\geq \ell+1}}{ \Pr{L=\ell}}\leq \frac{1-2^{-\Delta}}{2^{-\Delta}}.
+        \end{align*}
+        Note that 
+        \begin{align*}
+            \Pr{L\geq \ell}&= \Pr{L\geq \ell+1} + \Pr{L= \ell}\\
+            &\geq \Pr{L\geq \ell+1} + \Pr{L\geq \ell+1} \cdot 
+            \frac{2^{-\Delta}}{1-2^{-\Delta}}\\
+            &\geq \Pr{L\geq \ell+1} \cdot 
+            \frac{1}{1-2^{-\Delta}}.
+        \end{align*}
+        Combined with the induction hypothesis, it implies that $\Pr{L\geq \ell+1}\leq \left(1-{2^{-\Delta}}\right)^{\ell+1}$ and the proof is complete.
+    \end{proof}
+
+    % However, for algorithmic results, we need a variant of the coupling procedure $\!{RandomCouple}(\cdot)$, as stated in Algorithm~\ref{algo:randomCouple}. \qgl{In this algorithm, we use ${E}_v^{\sigma',\tau'}$ to denote the set of all edges $e\in E_v^{\sigma'}$ satisfying the dominance property.}
+    % \begin{algorithm}[th]
+    %     \caption{$\!{RandomCouple}(G,\sigma',\tau',v)$}
+    %     \label{algo:randomCouple}
+    %     \qgl{$L\gets 0$; \quad \tcp{a global variable}} 
+    %     \KwIn{A graph $G=(V,E=E_1\cup \set{e_0})$ with partial assignments $\sigma'$ and $\tau'$ and a unique \qgl{disagreeing} vertex $v\in V$.}
+    %     \KwOut{A pair of assignments $\sigma,\tau: E\rightarrow \set{0,1}$ drawn from a coupling between $\mu^{\sigma'}$ and $\mu^{\tau'}$.}	
+           
+    %         % \If{$v$ is isolated}
+    %         % {
+                
+    %         % } 
+    %         \While{
+    %             $E_v^{\sigma'}\neq \emptyset$
+    %         }
+    %         {
+    %         let $\nu$ be an arbitrary distribution with support ${E}_v^{\sigma',\tau'}$ and draw $e=\set{u,v}\sim \nu$\;
+    %         sample $(\sigma_e,\tau_e)$ from an optimal coupilng of $(\mu^{\sigma'}_e,\mu^{\tau'}_e)$\;
+    %         $\sigma' \gets \sigma' \land \sigma_e$ and $\tau'\gets \tau'\land \tau_e$\; 
+    %         \If{ $\sigma_e\neq \tau_e$}
+    %         {
+    %             $L\gets L+1$\;
+    %             $(\sigma,\tau)\gets \!{Couple}(G,\sigma',\tau',u)$; \quad 
+    %             \tcp{The disagreeing vertex has changed}
+                
+    %         }
+    %         % \tcp{The disagreeing vertex remains the same}    
+    %         }
+    %         sample $(\sigma,\tau)$ from an optimal coupling of $(\mu^{\sigma'},\mu^{\tau'})$\;       
+    %     \Return{$(\sigma,\tau )$.}	
+    % \end{algorithm}
+
+    % By similar argument in the proof of~\Cref{lem:decay}, we have the following lemma.
+    % \begin{lemma}\label{lem:random-decay}
+    %     Given any graph $G=(V,E=E_1\cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a vertex $v\in V$ where $e_0\in E_v$, let $\sigma',\tau': \set{e_0}\rightarrow \set{0,1}$ be the partial assignments where $\sigma'(e_0)=0$ and $\tau'(e_0)=1$. For any non-negative integer $\ell$, we have
+    %     \begin{align*}
+    %         \Pr{L\geq \ell}\leq \left(1-{2^{-\Delta}}\right)^{\ell}
+    %     \end{align*}
+    %     in the coupling procedure $\!{RandomCouple}(G,\sigma',\tau',v)$.
+    % \end{lemma}
+    
+
+\subsection{Random process simulating the truncated coupling procedure} \zdtodo{change the initial assignment $\sigma' \to sigma_0$, $\tau' \to \tau_0$.}
+
+    Given any graph $G = (V, E = E_1 \cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b \geq 1$ and a vertex $v_0\in V$ where $e_0\in E_{v_0}$, let $\sigma_0 = e_0 \gets 0$ and $\tau_0 = e_0 \gets 1$. We simulate the random coupling procedure $\!{Couple}(G,\sigma',\tau',v_0)$ with truncation.
+    Given any positive integer $\ell$, we define the truncated random process $P^{\!{cp}}=P^{\!{cp}}_\ell=\set{(\sigma_t,\tau_t,S_t,v_t,L_t)}_{t\geq 0}$, where $S_t$ denote the updated sequence of the edges, starting from the initial state $(\sigma_0,\tau_0,S_0,v_0,L_0)=(\sigma',\tau',\bot, v_0,0)$, where $\bot$ represents the empty sequence, by repeating the following operations:
+    \begin{enumerate}
+        \item if $\abs{L_t}\geq \ell$ or there are no unpinned incident edges of the disagreeing vertex under the partial assignments $\sigma_t$ and $\tau_t$, the process stop and $(\sigma_t,\tau_t,S_t,v_t,L_t)$ is the outcome of the random process. 
+        \item Otherwise, let $e=\set{u,v_{t}}$ be the edge with smallest index satisfying $\mu_{e}^{\sigma_t}(1)\geq \mu_{e}^{\tau_t}(1)$ when ${\!{Ham}\left(\sigma',{E_v}\right)}<{\!{Ham}\left(\tau',{E_v}\right)}$ or $\mu_{e}^{\sigma_t}(1)\leq  \mu_{e}^{\tau_t}(1)$ when ${\!{Ham}\left(\sigma',{E_v}\right)}>{\!{Ham}\left(\tau',{E_v}\right)}$. Sample $(\sigma_e,\tau_e)$ from an optimal coupling of $(\mu_e^{\sigma_t},\mu_e^{\tau_t})$. We update $\sigma_{t+1}\gets \sigma_t\land \sigma_e,\tau_{t+1}\gets \tau_t\land \tau_e$, $S_{t+1}\gets S_t\circ e$ (\qgl{we use $\circ$ to denote the concatenation of the sequences}) and 
+        \begin{itemize}
+            \item if $\sigma_e=\tau_e$, $v_{t+1}\gets v_t$ and $L_{t+1}\gets L_t$;
+            \item otherwise, $v_{t+1}\gets u$ and $L_{t+1}\gets L_t+1$.
+        \end{itemize}
+    \end{enumerate}
+
+    Let $\mu^{\!{cp}}=\mu_\ell^{\!{cp}}$ denote the distribution of the outcome of this process, and let $\+L^{\!{cp}}=\!{supp}(\mu^{\!{cp}})$ be its support. Let $\+L_{\ell}^{\!{cp}}$ be the set of truncated outcomes, i.e.:
+    $$
+        \+L_{\ell}^{\!{cp}}=\set{(\sigma,\tau,S,v,L) \mid (\sigma,\tau,S,v,L)\in \+L^{\!{cp}} \land L=\ell}.
+    $$
+    We also use $\+V^{\!{cp}}$ to denote the set of all possible $(\sigma,\tau,S,v,L)$ with $\Pr{(\sigma,\tau,S,v,L)}>0$ in the random process $P^{\!{cp}}$. \qgl{Let $\+W^{\!{cp}}$ be the set of all $(\sigma,\tau,S,v,L)\in \+V^{\!{cp}}\setminus \+L^{\!{cp}}$ such that the vertex $v$ is the newly updated disagreeing vertex from the previous step. we should define it more clearly later in the new version.}
+
+    
+    Since the random process is equivalent to $\!{Couple}(G,\sigma',\tau',v_0)$, we have the following fact immediately.
+
+    \begin{lemma}\label{lem:random-process-decay}
+        Given any graph $G=(V,E=E_1\cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a vertex $v_0\in V$ where $e_0\in E_{v_0}$, let $\sigma',\tau': \set{e_0}\rightarrow \set{0,1}$ be the partial assignments where $\sigma'(e_0)=0$ and $\tau'(e_0)=1$. For any non-negative integer $\ell$, we have
+        \begin{align*}
+            \mu^{\!{cp}}(\+L_\ell^{\!{cp}})\leq \left(1-{2^{-\Delta}}\right)^{\ell}
+        \end{align*}
+        in the truncated coupling process $P^{\!{cp}}$.
+    \end{lemma}
+
+\subsection{Truncated coupling tree}
+    In this section, we construct a coupling tree including the whole support $\+V^{\!{cp}}$ of the random truncated process $P^{\!{cp}}$. \qgl{add more words here. This is the best we can expect since we can not simulate the random process faithfully.}
+    We define the following recursion tree to mimic the random process $P^{\!{cp}}$.
+
+\begin{definition}[$\ell$-truncated coupling tree]
+    \emph{
+    For any positive integer $\ell$, the $\ell$-truncated coupling tree $\+T=\+T_{\ell}(G,\sigma',\tau',v_0)$ is a rooted tree, with each tree node corresponding to a tuple $(\sigma,\tau,S,v,L)$. We inductively define the tree in the following way:
+    \begin{enumerate}
+        \item The root of $\+T$ corresponds to $(\sigma',\tau',\bot,v_0,0)$ of depth $0$.
+        \item For $i=0,1,\cdots$: for all existing tree nodes $(\sigma,\tau,S,v,L)\in V(\+T)$ of depth $i$ in the current $\+T$:
+        \begin{enumerate}
+            \item If $\abs{L}\geq \ell$ or there are no unpinned incident edges of the disagreeing vertex under $(\sigma,\tau)$, then do nothing and take $(\sigma,\tau,S,v,L)$ as a leaf node in $\+T$;
+            \item Otherwise, for each $e=\set{u,v}\in E_v^{\sigma}$,
+                \begin{enumerate}
+                    \item If ${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$, add the nodes $(\sigma\land e\rightarrow 0, \tau \land e \rightarrow 0,S\circ e,v,L)$, $(\sigma\land e\rightarrow 1, \tau \land e \rightarrow 0,S\circ e,u,L+1)$, and $(\sigma\land e\rightarrow 1, \tau \land e \rightarrow 1,S\circ e,v,L)$ as children of $(\sigma,\tau,S,v,L)$. Update $\+W\gets \+W \cup \set{(\sigma\land e\rightarrow 1, \tau \land e \rightarrow 0,S\circ e,u,L+1)}$;
+                    \item If ${\!{Ham}\left(\sigma,{E_v}\right)}>{\!{Ham}\left(\tau,{E_v}\right)}$, add the nodes $(\sigma\land e\rightarrow 0, \tau \land e \rightarrow 0,S\circ e,v,L)$, $(\sigma\land e\rightarrow 0, \tau \land e \rightarrow 1,S\circ e,u,L+1)$, and $(\sigma\land e\rightarrow 1, \tau \land e \rightarrow 1,S\circ e,v,L)$ as children of $(\sigma,\tau,S,v,L)$. Update $\+W\gets \+W \cup \set{(\sigma\land e\rightarrow 0, \tau \land e \rightarrow 1, S\circ e,u,L+1)}$.
+                \end{enumerate}
+        \end{enumerate}
+    \end{enumerate} 
+    For each node $(\sigma,\tau,S,v,L)\in V(\+T)$, we call it feasible if $\sigma$ and $\tau$ are feasible partial assignments.
+    Define $\+V$ as the set of \emph{feasible} nodes in the coupling tree $\+T$.
+    Let $\+L$ be the set of \emph{feasible} leaf nodes in $\+T$, $\+L_{\!{good}}\triangleq \set{(\sigma,\tau,S,v,L) \mid L<\ell}$, and $\+L_{\!{bad}}\triangleq \+L\setminus \+L_{\!{good}}$. One can verify that $\+V^{\!{cp}}\subseteq \+V$.
+    % We also define:
+    % \begin{itemize}
+    %     \item $\+L_{\!{good}}\triangleq \set{(\sigma,\tau,S,v,L) \mid L<\ell}$;
+    %     \item $\+L_{\!{bad}}\triangleq \+L\setminus \+L_{\!{good}}$;
+    %     \item d
+    % \end{itemize}
+    }
+\end{definition}
+
+
+
+\qgl{We should verify that the tree is well-defined. It suffices to show that there exist no nodes that occur multiple times. We also remark that $\+L^{\!{cp}}\subseteq \+L$ since we could choose each unpinned incident edge of the disagreeing vertex to update instead of the monotonicity edge}.
+
+
+\qgl{fromhere} Note that for any $(\sigma,\tau,S,v,L)\in \+V(\+T)$, the value of $v$ and $L$ are determined by the tuple $(\sigma,\tau,S)$. For convenience, we represent the nodes $(\sigma,\tau,S,v,L)$ by $(\sigma,\tau,S)$, and the value of $v$ and $L$ are denoted by $v(\sigma,\tau,S)$ and $L(\sigma,\tau,S)$, respectively. 
+
+\qgl{we should introduce a lemma here to specify the computational cost for the coupling tree construction. Moreover, we remark that the feasibility of the nodes can be decided in polynomial time.}
+\begin{lemma}
+    coupling tree construction computation cost.
+\end{lemma}
+
+\subsection{The marginal quantities from the coupling procedure}
+    % Given any graph $G=(V,E=E_1\cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a vertex $v_0\in V$ where $e_0\in E_{v_0}$, let $\sigma',\tau': \set{e_0}\rightarrow \set{0,1}$ be the partial assignments where $\sigma'(e_0)=0$ and $\tau'(e_0)=1$.
+    In this section, we shall define a collection of quantities and verify some useful properties among them in the random process $P^{\!{cp}}$. 
+
+    For each node $(\sigma,\tau,S)\in \+V$, define
+    \begin{align}\label{eqn-marginal-all}
+        p^{\sigma}_{\sigma,\tau,S}=\frac{\Pr{(\sigma,\tau,S)}}{\Pr[X\sim \mu]{X\in \sigma \mid X(e_0)=0}}, \quad p^{\tau}_{\sigma,\tau,S}=\frac{\Pr{(\sigma,\tau,S)}}{\Pr[X\sim \mu]{X\in \tau \mid X(e_0)=1}}.
+    \end{align}
+    Moreover, for each node $(\sigma,\tau,S)\in \+V\setminus \+L$, let $R(\sigma,\tau,S)$ represent the edge chosen for the subsequent update. For any $e\in E_{v(\sigma,\tau,S)}^{\sigma}$, define
+    \begin{align}\label{eqn-marginal-inner}
+        p^{\sigma}_{\sigma,\tau,S,e}=\frac{\Pr{(\sigma,\tau,S), R(\sigma,\tau,S)=e}}{\Pr[X\sim \mu]{X\in \sigma \mid X(e_0)=0}}, \quad p^{\tau}_{\sigma,\tau,S,e}=\frac{\Pr{(\sigma,\tau,S), R(\sigma,\tau,S)=e}}{\Pr[X\sim \mu]{X\in \tau \mid X(e_0)=1}}.
+    \end{align}
+    For each infeasible node $(\sigma,\tau,S)$ in $V(\+T)$, we define $ p^{\sigma}_{\sigma,\tau,S}= p^{\tau}_{\sigma,\tau,S}=0$. Furthermore, for each infeasible non-leaf node $(\sigma,\tau,S)$, we define $ p^{\sigma}_{\sigma,\tau,S,e}= p^{\tau}_{\sigma,\tau,S,e}=0$ for each $e\in E_{v(\sigma,\tau,S)}^{\sigma}$.
+    \begin{remark}
+         By definition of the feasible nodes, the quantities for all feasible nodes in the truncated coupling tree $\+{T}$ are well-defined.
+    \end{remark}
+    
+    One can verify that the following holds for the above quantities. 
+
+\hktodo{the notation $S\circ e$ is strange}
+    \begin{proposition}
+    Given any graph $G=(V,E=E_1\cup \set{e_0})$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a vertex $v_0\in V$ where $e_0\in E_{v_0}$, let $\sigma',\tau': \set{e_0}\rightarrow \set{0,1}$ be the partial assignments where $\sigma'(e_0)=0$ and $\tau'(e_0)=1$.
+    For any positive integer $\ell$, the following holds in the random truncated process $P^{\!{cp}}$:
+        \begin{enumerate}
+            \item For each $(\sigma,\tau,S,v,L)\in V(\+T)$, $p^{\sigma}_{\sigma,\tau,S},p^{\tau}_{\sigma,\tau,S}\in [0,1]$. In particular, $p^{\sigma'}_{\sigma',\tau',\bot}=p^{\tau'}_{\sigma',\tau',\bot}=1$.
+            \item For each non-leaf node $(\sigma,\tau,S,v,L)$ in $V(\+T)$, $p^{\sigma}_{\sigma,\tau,S,e},p^{\tau}_{\sigma,\tau,S,e}\in [0,1]$ for each $e\in E_v^{\sigma}$, and 
+            \begin{align}\label{eqn-inter-sum1}
+               p^{\sigma}_{\sigma,\tau,S}=\sum_{e\in  E_v^{\sigma}} p^{\sigma}_{\sigma,\tau,S,e},\quad  p^{\tau}_{\sigma,\tau,S}=\sum_{e\in  E_v^{\sigma}} p^{\tau}_{\sigma,\tau,S,e}.
+            \end{align}
+            Moreover, if {${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$}, for each $e\in E_v^{\sigma}$, we have 
+            \begin{align}\label{eqn-inner-child-sum1}
+                p^{\sigma}_{\sigma,\tau,S,e}=p^{\sigma\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}, \quad  p^{\sigma}_{\sigma,\tau,S,e}=p^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 0,S\circ e} + p^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e},
+            \end{align}
+            and
+            \begin{align}\label{eqn-inner-child-sum2}
+                p^{\tau}_{\sigma,\tau,S,e}=p^{\tau\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}+p^{\tau\land e\gets 0}_{\sigma\land e\gets 1,\tau\land e\gets 0,S\circ e}, \quad  p^{\tau}_{\sigma,\tau,S,e}=p^{\tau\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e}.
+            \end{align}
+            Otherwise, for each $e\in E_v^{\sigma}$, we have
+            \begin{align}\label{eqn-inner-child-sum3}
+                p^{\sigma}_{\sigma,\tau,S,e}=p^{\sigma \land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}+p^{\sigma\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 1,S\circ e}, \quad  p^{\sigma}_{\sigma,\tau,S,e}=p^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e},
+            \end{align}
+            and
+            \begin{align}\label{eqn-inner-child-sum4}
+                p^{\tau}_{\sigma,\tau,S,e}=p^{\tau\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}, \quad  p^{\tau}_{\sigma,\tau,S,e}=p^{\tau\land e\gets 1}_{\sigma\land e\gets 0,\tau\land e\gets 1,S\circ e} + p^{\tau \land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e}.
+            \end{align}
+            \item For each feasible node $(\sigma,\tau,S,v,L)\in \+V$, we have
+            \begin{align}\label{eqn-ratio}             {p^{\sigma}_{\sigma,\tau,S}}=p^{\tau}_{\sigma,\tau,S}\cdot \frac{\Pr[X\sim \mu]{X(e_0)=0}}{\Pr[X\sim \mu]{X(e_0)=1}}\cdot \frac{  \Pr[X\sim \mu]{X\in \tau}}{ \Pr[X\sim \mu]{X\in \sigma}}.
+            \end{align}
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+        \qgl{The above can be checked easily by plugging~\eqref{eqn-marginal-all} and~\eqref{eqn-marginal-inner}.} 
+    \end{proof}
+
+    The next is the most important property for bounding the coupling error.
+
+    \begin{lemma}
+       For each $(\sigma,\tau,S,v,L)\in \+W$, it holds that
+       \begin{align}\label{eqn-error-bound}
+           \sum_{(\sigma_0,\tau_0,S_0)\in U} p^{\sigma_0}_{\sigma_0,\tau_0,S_0}\geq  2^{-\Delta} \cdot p^{\sigma}_{\sigma,\tau,S}, \quad \sum_{(\sigma_0,\tau_0,S_0)\in U} p^{\tau_0}_{\sigma_0,\tau_0,S_0}\geq  2^{-\Delta} \cdot p^{\tau}_{\sigma,\tau,S},
+       \end{align} where $U=\set{(\sigma_0,\tau_0,S_0) \mid \sigma_0=\sigma\land E^{\sigma}_v\gets  \boldsymbol{0},\tau_0=\tau \land E^{\sigma}_v\gets \boldsymbol{0}}$.
+    \end{lemma}
+    \begin{proof}
+        For $(\sigma,\tau,S,v,L)\in \+W\setminus \+W^{\!{cp}}$, the inequality holds immediately since the associated quantity is 0. Therefore, it suffices to show~\eqref{eqn-error-bound} for the nodes $(\sigma,\tau,S,v,L)\in  \+W^{\!{cp}}$. Since the selection of the updated edges involves no randomness, it implies that $\abs{U}=1$. Suppose $U=\set{(\sigma_0,\tau_0,S_0)}$. We have
+        \begin{align*}
+            \frac{p^{\sigma_0}_{\sigma_0,\tau_0,S_0}}{p^{\sigma}_{\sigma,\tau,S}}&=\frac{\Pr{(\sigma_0,\tau_0,S_0)}}{\Pr[X\sim \mu]{X\in \sigma_0 \mid X(e_0)=0}} \cdot \frac{\Pr[X\sim \mu]{X\in \sigma \mid X(e_0)=0}}{\Pr{(\sigma,\tau,S)}}\\
+            &=\frac{\Pr{(\sigma_0,\tau_0,S_0)}}{\Pr{(\sigma,\tau,S)}} \cdot \frac{\Pr[X\sim \mu]{X\in \sigma \mid X(e_0)=0}}{\Pr[X\sim \mu]{X\in \sigma_0 \mid X(e_0)=0}}  \\
+            &\geq  \frac{1}{2^{\Delta}} \cdot \frac{\Pr[X\sim \mu]{X\in \sigma \mid X(e_0)=0}}{\Pr[X\sim \mu]{X\in \sigma_0 \mid X(e_0)=0}} \geq  \frac{1}{2^{\Delta}}. \tag{by \Cref{lem:marginal-bound}}
+        \end{align*}
+    Similarly, we can show that $ p^{\tau_0}_{\sigma_0,\tau_0,S_0}\geq  2^{-\Delta} \cdot p^{\tau}_{\sigma,\tau,S}$. The proof is immediate.
+        
+    \end{proof}
+
+    
+    
+    
+
+    
+   
+    
+\section{Derandomization}
+    Throughout this section, we consider any graph $G=(V,E=E_1\cup \set{e_0})$ of maximum degree $\Delta$ with $b\geq 1$, a vertex $v_0\in V$ where $e_0\in E_{v_0}$, and partial assignments $\sigma',\tau': \set{e_0}\rightarrow \set{0,1}$ where $\sigma'(e_0)=0$ and $\tau'(e_0)=1$.
+    We design an efficient algorithm to compute the marginal ratio $\frac{\Pr[X\sim \mu]{X(e_0)=0}}{\Pr[X\sim \mu]{X(e_0)=1}}$. 
+
+
+
+\subsection{Setting up the linear program}
+
+In this section, we introduce the linear program built on the truncated coupling tree where any node in the coupling tree is associated with variables. Later, we will show that the coupling process ensures the feasibility of a linear program concerning these variables.
+
+\begin{definition}[linear program induced by the coupling]
+\emph{
+    For any positive integer $\ell$, let $\+T=\+T_{\ell}(G,\sigma',\tau',v_0)$ be the $\ell$-truncated coupling tree and $0\leq r^- \leq r^+$ be two parameters satisfying
+    \begin{align*}
+        r^-\leq \frac{\Pr[X\sim \mu]{X(e_0)=0}}{\Pr[X\sim \mu]{X(e_0)=1}} \leq r^+.
+    \end{align*}
+    For each $(\sigma,\tau,S,v,L)\in V(\+T)$, we associate it with variables $\widehat{p}_{\sigma,\tau,S}^{\sigma}$, $\widehat{p}_{\sigma,\tau,S}^{\tau}$; for each non-leaf node $(\sigma,\tau,S,v,L)$ in $V(\+T)$, we associate it with variables $\widehat{p}_{\sigma,\tau,S,e}^{\sigma}$, and $\widehat{p}_{\sigma,\tau,S,e}^{\tau}$ for each $e\in E_v^{\sigma}$. The linear program can be established as follows:
+    \begin{enumerate}
+        \item For each $\widehat{p}^{\sigma}_{\sigma,\tau,S},\widehat{p}^{\tau}_{\sigma,\tau,S},\widehat{p}^{\sigma}_{\sigma,\tau,S,e},\widehat{p}^{\tau}_{\sigma,\tau,S,e}\in [0,1]$. In particular, $\widehat{p}^{\sigma'}_{\sigma',\tau',\bot}=\widehat{p}^{\tau'}_{\sigma',\tau',\bot}=1$.
+        \item For each non-leaf node $(\sigma,\tau,S,v,L)$ in $V(\+T)$, let
+            \begin{align}\label{eqn-hat-inter-sum1}
+               \widehat{p}^{\sigma}_{\sigma,\tau,S}=\sum_{e\in  E_v^{\sigma}} \widehat{p}^{\sigma}_{\sigma,\tau,S,e},\quad  \widehat{p}^{\tau}_{\sigma,\tau,S}=\sum_{e\in  E_v^{\sigma}} \widehat{p}^{\tau}_{\sigma,\tau,S,e}.
+            \end{align}
+            Moreover, if ${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$, for each $e\in E_v^{\sigma}$,
+            \begin{align}\label{eqn-hat-inner-child-sum1}
+                \widehat{p}^{\sigma}_{\sigma,\tau,S,e}=\widehat{p}^{\sigma\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}, \quad  \widehat{p}^{\sigma}_{\sigma,\tau,S,e}=\widehat{p}^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 0,S\circ e} + \widehat{p}^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e},
+            \end{align}
+            and
+            \begin{align}\label{eqn-hat-inner-child-sum2}
+                \widehat{p}^{\tau}_{\sigma,\tau,S,e}=\widehat{p}^{\tau\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}+\widehat{p}^{\tau\land e\gets 0}_{\sigma\land e\gets 1,\tau\land e\gets 0,S\circ e}, \quad  \widehat{p}^{\tau}_{\sigma,\tau,S,e}=\widehat{p}^{\tau\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e}.
+            \end{align}
+            Otherwise, for each $e\in E_v^{\sigma}$,
+            \begin{align}\label{eqn-hat-inner-child-sum3}
+                 \widehat{p}^{\sigma}_{\sigma,\tau,S,e}= \widehat{p}^{\sigma \land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}+ \widehat{p}^{\sigma\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 1,S\circ e}, \quad  \widehat{p}^{\sigma}_{\sigma,\tau,S,e}=\widehat{p}^{\sigma\land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e},
+            \end{align}
+            and
+            \begin{align}\label{eqn-hat-inner-child-sum4}
+                 \widehat{p}^{\tau}_{\sigma,\tau,S,e}= \widehat{p}^{\tau\land e\gets 0}_{\sigma\land e\gets 0,\tau\land e\gets 0,S\circ e}, \quad   \widehat{p}^{\tau}_{\sigma,\tau,S,e}= \widehat{p}^{\tau\land e\gets 1}_{\sigma\land e\gets 0,\tau\land e\gets 1,S\circ e} +  \widehat{p}^{\tau \land e\gets 1}_{\sigma\land e\gets 1,\tau\land e\gets 1,S\circ e}.
+            \end{align}
+        \item For any $(\sigma,\tau,S,v,L)\in \+L_{\!{good}}$,
+            \begin{align}\label{eqn-hat-ratio}
+                r^-\cdot {\widehat{p}^{\tau}_{\sigma,\tau,S}}\leq {\widehat{p}^{\sigma}_{\sigma,\tau,S}}\leq r^+ \cdot{\widehat{p}^{\tau}_{\sigma,\tau,S}}.
+            \end{align}
+        \item For any $(\sigma,\tau,S,v,L)\in \+W $, 
+           \begin{align}\label{eqn-hat-error-bound}
+               \sum_{(\sigma_0,\tau_0,S_0)\in U}  \widehat{p}^{\sigma_0}_{\sigma_0,\tau_0,S_0}\geq  2^{-\Delta} \cdot \widehat{p}^{\sigma}_{\sigma,\tau,S}, \quad \sum_{(\sigma_0,\tau_0,S_0)\in U} \widehat{p}^{\tau_0}_{\sigma_0,\tau_0,S_0}\geq  2^{-\Delta} \cdot \widehat{p}^{\tau}_{\sigma,\tau,S},
+           \end{align}
+            where $U=\set{(\sigma_0,\tau_0,S_0) \mid \sigma_0=\sigma\land E^{\sigma}_v\gets  \boldsymbol{0},\tau_0=\tau \land E^{\sigma}_v\gets \boldsymbol{0}}$.
+        \item  For each infeasible node $(\sigma,\tau,S)$ in $V(\+T)$, we define $ \widehat{p}^{\sigma}_{\sigma,\tau,S}= \widehat{p}^{\tau}_{\sigma,\tau,S}=0$. Furthermore, for each infeasible non-leaf node $(\sigma,\tau,S)$, we define $ \widehat{p}^{\sigma}_{\sigma,\tau,S,e}= \widehat{p}^{\tau}_{\sigma,\tau,S,e}=0$ for each $e\in E_{v(\sigma,\tau,S)}^{\sigma}$.
+    \end{enumerate}
+}
+\end{definition}
+
+
+\begin{lemma}
+    The feasibility of the above LP.
+\end{lemma}
+\begin{proof}
+    \qgl{It suffices to observe that we can embed the quantities induced from $\+V^{\!{cp}}$ and let those not in $\+V^{\!{cp}}$ be zero. Note that $\+L^{\!{cp}}\setminus \+L_{\ell}^{\!{cp}} \subseteq \+L_{\!{good}}$.} 
+\end{proof}
+
+\subsection{The analysis of the linear program}
+
+\begin{lemma} \label{lem:ratio-identity}
+    Given that the constraints~\eqref{eqn-hat-inter-sum1} to \eqref{eqn-hat-inner-child-sum4} are satisfied and all quantities associated with the infeasible nodes are set to 0, we have
+    \begin{align*}
+        \frac{\Pr[X\sim \mu]{X(e_0)=0}}{\Pr[X\sim \mu]{X(e_0)=1}}=\frac{\sum_{(\sigma,\tau,S)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma}}{\sum_{(\sigma,\tau,S)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\tau}\cdot \Pr[X\sim \mu]{X\in \tau}}.
+    \end{align*}
+\end{lemma}
+
+The following lemma is the key ingredient to prove~\Cref{lem:ratio-identity}.
+
+\begin{lemma} \label{lem:ratio-identity-partial}
+    Assuming constraints~\eqref{eqn-hat-inter-sum1} to~\eqref{eqn-hat-inner-child-sum4} and all quantities associated with the infeasible nodes are set to 0, it holds that
+    \begin{align}\label{eqn-sum-leftside}
+        \forall x\in \sigma', \quad \sum_{(\sigma,\tau,S)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,S}=1,
+    \end{align}
+    and
+    \begin{align}\label{eqn-sum-rightside}
+        \forall y\in \tau', \quad \sum_{(\sigma,\tau,S)\in \+L: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau,S}=1.
+    \end{align}
+\end{lemma}
+\begin{proof}
+    We prove~\eqref{eqn-sum-leftside} and~\eqref{eqn-sum-rightside} can be shown in a similar way.
+    The idea of the proof is to contract the coupling tree while maintaining the sum of the weights over the leaves invariant. We shall show that we can contract the tree to include only the coupling node $\wh{p}_{\sigma', \tau', \bot}^{\sigma'}$. Then the proof is immediate.
+
+    We initially define $\+T_1$ as the tree including all nodes in $\+V$. Note that all these nodes are feasible. Let $\+L_1$ be the leaf nodes of $\+T_1$. We repeat the following operation until $\+T_1$ includes a single node: For some $(\sigma,\tau,S )\in \+L_1$ such that $x\in \sigma$, let $(\sigma_1,\tau_1,S_1)$ be the father of $(\sigma,\tau,S)$. We update $\+T_1$ be removing all children of $(\sigma_1,\tau_1,S_1)$.
+
+    By definition, we have $x\in \sigma_1$. For each $e\in E^{\sigma_1}_{v(\sigma_1,\tau_1,S_1)}$, let $\+C_e$ be the children $(\sigma_2,\tau_2,S_2)$ of $(\sigma_1,\tau_1,S_1)$ such that $\sigma_2=\sigma_1\land e\gets x(e)$. According to the assumption that constraints~\eqref{eqn-hat-inter-sum1} to~\eqref{eqn-hat-inner-child-sum4} are satisfied and all quantities associated with the infeasible nodes are set to 0, we have 
+    \begin{align*}
+       \sum_{e\in E^{\sigma_1}_{v(\sigma_1,\tau_1,S_1)}}\sum_{(\sigma_2,\tau_2,S_2)\in \+C_e} \wh{p}^{\sigma_2}_{\sigma_2,\tau_2,S_2}=\sum_{e\in E^{\sigma_1}_{v(\sigma_1,\tau_1,S_1)}}  \wh{p}^{\sigma_1}_{\sigma_1,\tau_1,S_1,e} =\wh{p}^{\sigma_1}_{\sigma_1,\tau_1,S_1},
+    \end{align*} which implies that the sum of the weights over the leaves in the new tree remains invariant. Moreover, since $x\in \sigma'$, one can verify that $\+T_1=\set{(\sigma',\tau',\bot)}$ at the end, and thus
+    \begin{align*}
+        \sum_{(\sigma,\tau,S)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,S} = \wh{p}^{\sigma'}_{\sigma',\tau',\bot}=1.
+    \end{align*}
+
+    
+
+    
+    %For simplicity, we abuse the notation $\widehat{p}_{\sigma, \tau, S}^{\sigma} = 0$ for all infeasible configurations $(\sigma, \tau, S)$ (\IE, $(\sigma, \tau, S, v, L) \notin \+T$ for every $v \in V$ and $L \in \mathbb N$).
+    \iffalse
+    With convention $\wh{p}_{\sigma, \tau, S}^\sigma = 0$ for all invalid configurations $(\sigma, \tau, S)$ (\IE, $(\sigma, \tau, S, v, L) \notin \+T$ for all $v \in V$, $L \in \mathbb N$), we rewrite constraints~\eqref{eqn-hat-inner-child-sum1} and~\eqref{eqn-hat-inner-child-sum3} as: for each $e \in E_v^\sigma$,
+    \begin{align*}
+        \widehat{p}_{\sigma, \tau, S}^{\sigma}(e) = \widehat{p}_{\sigma \wedge e \gets 0, \tau \wedge e \gets 0, S \circ e}^{\sigma \wedge e \gets 0} + \widehat{p}_{\sigma \wedge e \gets 0, \tau \wedge e \gets 1, S \circ e}^{\sigma \wedge e \gets 0}
+    \end{align*}
+    and
+    \begin{align*}
+        \widehat{p}_{\sigma, \tau, S}^{\sigma}(e) = \widehat{p}_{\sigma \wedge e \gets 1, \tau \wedge e \gets 0, S \circ e}^{\sigma \wedge e \gets 1} + \widehat{p}_{\sigma \wedge e \gets 1, \tau \wedge e \gets 1, S \circ e}^{\sigma \wedge e \gets 1}.
+    \end{align*}
+    Then we can generalise that for every $x \in \sigma$,
+    \begin{align} \label{eq:extended-inner-sum-identity}
+        \wh{p}_{\sigma, \tau, S}^{\sigma}(e) = \widehat{p}_{\sigma \wedge e \gets x(e), \tau \wedge e \gets 0, S \circ e}^{\sigma \wedge e \gets x(e)} + \widehat{p}_{\sigma \wedge e \gets x(e), \tau \wedge e \gets 1, S \circ e}^{\sigma \wedge e \gets x(e)}.
+    \end{align}
+
+    To show~\eqref{eqn-sum-leftside}, we prove a stronger version. For a subset of assignment-nodes $\Lambda$, we say that $\Lambda$ is \emph{a boundary on $\+T$} if for every leaf-node $\gamma = (\sigma, \tau, S, v, L) \in \+L$, there is \emph{exactly} one node in $\Lambda$ lying in the path from the root to $\gamma$.
+    For example, the collection of all leaves $\+L$ forms a boundary, and a single root is also a boundary.
+    % Additionally, for two boundaries $\Lambda_1$ and $\Lambda_2$, we say that $\Lambda_1 \preceq \Lambda_2$ if every node in $\Lambda_2$ is the ancestor of some nodes in $\Lambda_1$. \zdtodo{it might be of convenience to define the `expand' operation.}
+    
+    {
+    \color{blue}
+    To state our proof clearly, for a boundary $\Lambda$ on $\+T$ and a node $\alpha = (\sigma, \tau, S, v, L) \in \Lambda$, we define the assignment-node set $\Expand(\Lambda, \alpha)$ expanded from $\Lambda$ and $\alpha$ as:
+    \begin{itemize}
+        \item If $\alpha \in \+L$ is a leaf-node, $\Expand(\Lambda, \alpha) = \Lambda$; otherwise
+        \item Let $\+E \defeq \set{(\sigma, \tau, S, v, L, e) \cmid e \in E_v^\sigma}$ be all children of $\alpha$ in $\+T$, and let $\+C(\Lambda, \alpha)$ be the grandson nodes of $\alpha$ in $\+T$, \IE,
+        $$
+            \+C(\Lambda, \alpha) \defeq \set{\beta = (\wh{\sigma}, \wh{\tau}, \wh{S}, \wh{v}, \wh{L}) \in \+T \cmid \mbox{$\beta$ is the child of $\gamma$ for some $\gamma \in \+E$}}.
+        $$
+        We remark here that $\Lambda \cap \+C(\Lambda, \alpha) = \emptyset$. Let $\Expand(\Lambda, \alpha) = \Lambda \setminus \set{\alpha} \sqcup \+C(\Lambda, \alpha)$.
+    \end{itemize}
+
+    Directly from our construction, it is clear that $\Expand(\Lambda, \alpha)$ is also a boundary on $\+T$, and every boundary can be generated from $\set{(\sigma', \tau', \perp, v_0, 0)}$ after several expanding operations.
+    % For two boundaries $\Lambda_1, \Lambda_2$ on $\+T$, we say that $\Lambda_1 \prec \Lambda_2$ if $\Lambda_1 \neq \Lambda_2$ and $\Lambda_2$ can be generated from $\Lambda_1$ after finite expanding operations.
+    }
+    
+    To show~\eqref{eqn-sum-leftside}, it suffices to show that given $x \in \sigma'$, for every boundary $\Lambda$ on $\+T$, it holds that
+    \begin{align} \label{eq:extend-version-of-identity}
+        \sum_{(\sigma, \tau, S, v, L) \in \Lambda : x \in \sigma} \wh{p}_{\sigma, \tau, S}^{\sigma} = 1.
+    \end{align}
+    We prove it by induction hypothesis.
+    \begin{itemize}
+        \item \textbf{Base Case:} $\Lambda = \set{(\sigma', \tau', \perp, v_0, 0)}$. The identity holds trivially by the constraint $\wh{p}_{\sigma', \tau', \perp}^\sigma = 1$.
+
+        \item \textbf{Induction Steps:} Assume that the identity holds for $\Lambda_1$. For every $\alpha = (\sigma_1, \tau_1, S_1, v_1, L_1) \in \Lambda_1$ with $x \in \sigma_1$, when $\Lambda_2 = \Expand(\Lambda_1, \alpha) \neq \Lambda_1$, by~\eqref{eqn-hat-inter-sum1} and~\eqref{eq:extended-inner-sum-identity}, it holds that
+        \begin{align*}
+            \wh{p}_{\sigma_1, \tau_1, S_1}^{\sigma_1} &= \sum_{e \in E_{v_1}^{\sigma_1}} \wh{p}_{\sigma_1, \tau_1, S_1}^{\sigma_1}(e) \tag{by~\eqref{eqn-hat-inter-sum1}}\\
+            &= \sum_{e \in E_{v_1}^{\sigma_1}} \left(\wh{p}_{\sigma_1 \wedge e \gets x(e), \tau_1 \wedge e \gets 0, S_1 \circ e}^{\sigma_1 \wedge e \gets x(e)} + \widehat{p}_{\sigma_1 \wedge e \gets x(e), \tau_1 \wedge e \gets 1, S_1 \circ e}^{\sigma_1 \wedge e \gets x(e)}\right) \tag{by~\eqref{eq:extended-inner-sum-identity}} \\
+            &= \sum_{(\sigma_2, \tau_2, S_2, v_2, L_2) \in \+C(\Lambda_1, \alpha) : x \in \sigma_2} \wh{p}_{\sigma_2, \tau_2, S_2}^{\sigma_2}
+        \end{align*}
+        Where the last identity holds from the observation that we only need to consider all valid configurations. Hence we conclude that
+        \begin{align*}
+            1 = \sum_{(\sigma, \tau, S, v, L) \in \Lambda_1 : x \in \sigma} \wh{p}_{\sigma, \tau, S}^{\sigma} &= \wh{p}_{\sigma_1, \tau_1, S_1}^{\sigma_1} + \sum_{(\sigma, \tau, S, v, L) \in \Lambda_1 : x \in \sigma \atop (\sigma, \tau, S, v, L) \neq \alpha} \wh{p}_{\sigma, \tau, S}^{\sigma} \\
+            &= \sum_{(\sigma_2, \tau_2, S_2, v_2, L_2) \in \+C(\Lambda_1, \alpha) : x \in \sigma_2} \wh{p}_{\sigma_2, \tau_2, S_2}^{\sigma_2} + \sum_{(\sigma, \tau, S, v, L) \in (\Lambda_1 \setminus \set{\alpha}) : x \in \sigma} \wh{p}_{\sigma, \tau, S}^{\sigma} \\
+            &= \sum_{(\sigma, \tau, S, v, L) \in \Lambda_2 : x \in \sigma} \wh{p}_{\sigma, \tau, S}^{\sigma}. \tag{$\Lambda_2 = \Lambda_1 \setminus \set{\alpha} \sqcup \+C(\Lambda_1, \alpha)$}
+        \end{align*}
+    \end{itemize}
+    Following the principle of induction hypothesis,~\eqref{eq:extend-version-of-identity} holds for every boundary $\Lambda$ on $\+T$. Pick $\Lambda = \+L$ and we conclude what we desire.
+    \fi
+\end{proof}
+
+\begin{proof}[Proof of~\Cref{lem:ratio-identity}]
+    % put it outside
+    % We claim that
+    % \begin{align}\label{eqn-sum-leftside}
+    %     \forall x\in \sigma', \quad \sum_{(\sigma,\tau,S,v,L)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,S}=1,
+    % \end{align} and
+    % \begin{align}\label{eqn-sum-rightside}
+    %     \forall y\in \tau', \quad \sum_{(\sigma,\tau,S,v,L)\in \+L: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau,S}=1.
+    % \end{align}
+    % Next, we only show \eqref{eqn-sum-leftside} holds. We prove it by induction
+
+    
+    % By iterating the equalities from~\eqref{eqn-hat-inter-sum1} to \eqref{eqn-hat-inner-child-sum4}.
+    
+
+    
+    
+
+    % Note that $\mu$ is a uniform distribution. Therefore, we have
+    % \begin{align*}
+    %     \frac{\Pr[X\sim \mu]{X(e_0)=0}}{\Pr[X\sim \mu]{X(e_0)=1}}&=\frac{\abs{\sigma'}}{\abs{\tau'}}=\frac{\sum_{x\in \sigma'}\sum_{(\sigma,\tau,S,v,L)\in \+L: \ x\models \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,S}}{\sum_{y\in \tau'}\sum_{(\sigma,\tau,S,v,L)\in \+L: \ y\models \tau} \widehat{p}^{\tau}_{\sigma,\tau,S}} \tag{plugging \eqref{eqn-sum-leftside} and \eqref{eqn-sum-rightside}}\\
+    %     &=\frac{\sum_{(\sigma,\tau,S,v,L)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot\abs{\sigma}}{\sum_{(\sigma,\tau,S,v,L)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\tau}\cdot \abs{\tau}}\\
+    %     &=\frac{\sum_{(\sigma,\tau,S,v,L)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma}}{\sum_{(\sigma,\tau,S,v,L)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\tau}\cdot \Pr[X\sim \mu]{X\in \tau}}.
+    % \end{align*}
+
+    {
+    % When $\mu$ is not uniform:
+    According to~\Cref{lem:ratio-identity-partial}, we have
+    \begin{align*}
+        \sum_{(\sigma, \tau, S) \in \mathcal L} \widehat{p}_{\sigma, \tau, S}^{\sigma}\cdot  \Pr[X \sim \mu]{X \in \sigma} &= \sum_{(\sigma, \tau, S) \in \mathcal L} \widehat{p}_{\sigma, \tau, S}^{\sigma} \sum_{x \in \sigma} \mu(x) \\
+        &= \sum_{(\sigma, \tau, S) \in \mathcal L} \widehat{p}_{\sigma, \tau, S}^{\sigma} \sum_{x \in \sigma'} \mu(x) \cdot  \id{x \in \sigma} \\
+        &= \sum_{x \in \sigma'} \sum_{(\sigma, \tau, S) \in \mathcal L} \widehat{p}_{\sigma, \tau, S}^{\sigma} \cdot \mu(x) \cdot \id{x \in \sigma} \\
+        &= \sum_{x \in \sigma'} \mu(x) \sum_{(\sigma, \tau, S) \in \mathcal L} \widehat{p}_{\sigma, \tau, S}^{\sigma} \cdot \id{x \in \sigma} \\
+        &= \sum_{x \in \sigma'} \mu(x) \sum_{(\sigma, \tau, S) \in \+L : \ x \in \sigma} \widehat{p}_{\sigma, \tau, S}^{\sigma} \\
+        &= \sum_{x \in \sigma'} \mu(x) \tag{by~\eqref{eqn-sum-leftside}} \\
+        &= \Pr[X \sim \mu]{X(e_0) = 0}.
+    \end{align*}
+    Similarly, by \eqref{eqn-sum-rightside}, we have 
+    \begin{align*}
+        \sum_{(\sigma,\tau,S,v,L)\in \+L}\widehat{p}_{\sigma,\tau,S}^{\tau}\cdot \Pr[X\sim \mu]{X\in \tau}= \Pr[X\sim \mu ]{X(e_0=1)}.
+    \end{align*}
+    Combining all these facts, the proof is complete.
+    }
+\end{proof}
+
+
+% We introduce a random process driven by the coupling tree.
+
+%     \begin{algorithm}[th]
+%         \caption{$\!{PseudoCouple}(G,\sigma',\tau',v)$}
+%         \label{algo:randomCoupletree}
+%         \qgl{$L\gets 0$; \quad \tcp{a global variable}} 
+%         \KwIn{A graph $G=(V,E=E_1\cup \set{e_0})$ with partial assignments $\sigma'$ and $\tau'$ and a unique \qgl{disagreeing} vertex $v\in V$.}
+%         \KwOut{A pair of assignments $\sigma,\tau: E\rightarrow \set{0,1}$ drawn from a coupling between $\mu^{\sigma'}$ and $\mu^{\tau'}$.}	
+           
+%             % \If{$v$ is isolated}
+%             % {
+                
+%             % } 
+%             \While{
+%                 $E_v^{\sigma'}\neq \emptyset$
+%             }
+%             {
+%             let $\nu$ be an arbitrary distribution with support ${E}_v^{\sigma',\tau'}$ and draw $e=\set{u,v}\sim \nu$\;
+%             sample $(\sigma_e,\tau_e)$ from an optimal coupilng of $(\mu^{\sigma'}_e,\mu^{\tau'}_e)$\;
+%             $\sigma' \gets \sigma' \land \sigma_e$ and $\tau'\gets \tau'\land \tau_e$\; 
+%             \If{ $\sigma_e\neq \tau_e$}
+%             {
+%                 $L\gets L+1$\;
+%                 $(\sigma,\tau)\gets \!{Couple}(G,\sigma',\tau',u)$; \quad 
+%                 \tcp{The disagreeing vertex has changed}
+                
+%             }
+%             % \tcp{The disagreeing vertex remains the same}    
+%             }
+%             sample $(\sigma,\tau)$ from an optimal coupling of $(\mu^{\sigma'},\mu^{\tau'})$\;       
+%         \Return{$(\sigma,\tau )$.}	
+%     \end{algorithm}
+
+
+\begin{lemma}
+    Given that the constraints~\eqref{eqn-hat-error-bound} are satisfied, we have 
+    \begin{align}\label{eqn-error1}
+        \sum_{(\sigma,\tau,S,v,L)\in \+L_{\!{bad}}}\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}\leq (1-2^{-2\Delta})^{\ell},
+    \end{align}
+    and 
+    \begin{align}\label{eqn-error2}
+        \sum_{(\sigma,\tau,S,v,L)\in \+L_{\!{bad}}}\widehat{p}_{\sigma,\tau,S}^{\tau}\cdot \Pr[X\sim \mu]{X\in \tau\mid X(e_0)=1}\leq (1-2^{-2\Delta})^{\ell}.
+    \end{align}
+\end{lemma}
+\begin{proof}
+    We prove~\eqref{eqn-error1} and~\eqref{eqn-error2} can be shown in a similar way.
+    We define a random process with the outcome set $\+L$, where the probability of outputting $(\sigma,\tau,S,v,L)\in \+L$ is given by
+    $$\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}.$$ Specifically, our random process $\widehat{P}=\set{(\sigma_t,\tau_t,S_t,v_t,L_t)}_{t\geq 0}$ starting from the root node $(\sigma',\tau',\bot, v_0,0)$ of $\+T$, i.e., $(\sigma_0,\tau_0,S_0,v_0,L_0)=(\sigma',\tau',\bot, v_0,0)$, unfolds by repeating the following operations: 
+    \begin{enumerate}
+        \item If $(\sigma_t,\tau_t,S_t,v_t,L_t)$ is a leaf node in $\+L$, the process stop and $(\sigma_t,\tau_t,S_t,v_t,L_t)$ is the outcome of the random process.
+        \item Otherwise, first sample an edge $e=\set{u,v_t}\in E_{v_t}^{\sigma_t}$ with probability $\frac{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,S_t,e}}{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,S_t}}$. This operation is well-defined by the constraints~\eqref{eqn-hat-inter-sum1}. Then, we sample partial assignment $\sigma_e$ from $\mu^{\sigma_t}_{e}$. Let $\+C$ be the children $(\sigma,\tau,S,v,L)$ of the node $(\sigma_t,\tau_t,S_t,v_t,L_t)$ satisfying $\sigma=\sigma_t\land \sigma_e$. For any $(\sigma,\tau,S,v,L)\in \+C$, let $(\sigma_{t+1},\tau_{t+1},S_{t+1},v_{t+1},L_{t+1})\gets (\sigma,\tau,S,v,L)$ with probability $\frac{\widehat{p}^{\sigma}_{\sigma, \tau, S}}{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,S_t,e}}$. This operation is well-defined by the constraints \eqref{eqn-hat-inner-child-sum1} to \eqref{eqn-hat-inner-child-sum4}.        
+    \end{enumerate}
+
+    \qgl{from here} Let $\widehat{\mu}$ be the distribution of the states in the random process $\widehat{P}$.
+    Consider any $(\sigma,\tau,S,v,L)\in \+V$. We claim that
+    \begin{align}\label{eqn-simulate-outcome-prob}
+        \widehat{\mu}(\sigma,\tau,S,v,L)=\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}.
+    \end{align}
+     Let $(u_0,u_1,\cdots,u_k)$ be the path from the root to $(\sigma,\tau,S,v,L)$ including the assignment-nodes in the coupling tree $\+T$ where $u_i=(\sigma_i,\tau_i,S_i,v_i,L_i)$ for each $i\in [k-1]$, $u_0=(\sigma',\tau',\bot,v_0,0)$, and $u_k=(\sigma,\tau,S,v,L)$. Assume $S=(e_1,e_2,\cdots,e_k)$.
+     By definition, we have
+    \begin{align*}
+         \widehat{\mu}(\sigma,\tau,S,v,L)&=\widehat{p}^{\sigma}_{\sigma',\tau',\bot}\cdot \prod_{i\in [k]}  \left(\frac{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1},S_{i-1},e_{i-1}}}{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1},S_{i-1}}} \cdot \mu_{e_i}^{\sigma_{i-1}}(\sigma(e_i)) \cdot \frac{\widehat{p}^{\sigma_i}_{\sigma_i,\tau_i,S_i}}{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1},S_{i-1},e_{i-1}}}\right) \\
+         &=\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}.
+    \end{align*}
+    Combined with constraints~\eqref{eqn-hat-error-bound}, it implies that for each $(\sigma,\tau,S,v,L)\in \+W\cap \+V$ with $\sigma_0=\sigma\land E^{\sigma}_v\gets \boldsymbol{0}$ and $\tau_0=\tau\land E^{\sigma}_v\gets \boldsymbol{0}$,
+    \begin{align*}
+        \widehat{\mu}((\sigma_0,\tau_0) \ \vert \ (\sigma,\tau,S,v,L) )&=\sum_{S_0: (\sigma_0,\tau_0,S_0)\in \+V}  \widehat{\mu}((\sigma_0,\tau_0,S_0) \ \vert \ (\sigma,\tau,S,v,L) )\\
+        &=\sum_{S_0: (\sigma_0,\tau_0,S_0)\in \+V}  \frac{\widehat{\mu}(\sigma_0,\tau_0,S_0)}{\widehat{\mu}(\sigma,\tau,S,v,L)}\\
+        &=\sum_{S_0: (\sigma_0,\tau_0,S_0)\in \+V}  \frac{\widehat{p}_{\sigma_0,\tau_0,S_0}^{\sigma_0}\cdot \Pr[X\sim \mu]{X\in \sigma_0\mid X(e_0)=0}}{\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}}\\
+        &\geq 2^{-2\Delta}.
+    \end{align*} 
+    
+    By similar argument in the proof of~\Cref{lem:decay}, we have
+    \begin{align*}
+        \widehat{\mu}(\+L_{\!{bad}})\leq (1-2^{-2\Delta})^{\ell},
+    \end{align*} which implies~\eqref{eqn-error1} immediately.
+    
+\end{proof}
+
+\subsection{The deterministic algorithm for computing the marginal ratio}
+
+\end{document}
