@@ -20,6 +20,7 @@
 \usepackage{enumerate}
 \usepackage{thmtools}
 
+% \usepackage{natbib}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -29,6 +30,7 @@
 \newtheorem{definitions}[theorem]{Definitions}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
 \newtheorem{block}[theorem]{}
 \newtheorem*{myclaim}{Claim}
 \newtheorem*{remark}{Remark}
@@ -131,7 +133,7 @@
 Given a graph $G = (V, E)$, let $E_v \defeq \set{e \in E \cmid \mbox{$e$ is incident to $v$}}$ be the collection of all edges incident to $v$ for each $v \in V$. For a positive integer $b \ge 1$, we say that $S \subseteq E$ is a \emph{$b$-matching of $G$} if $\abs{S \cap E_v} \le b$ for every $v \in V$. Let $\Omega = \Omega_{G, b}$ be the set of all $b$-matchings and $\mu = \mu_{G, b}$ be the uniform distribution over $\Omega$. 
 % \qgl{Moreover, we remark here that the definitions above can be safely extended to graphs with dangling edges.}\qtodo{In introduction, it is not necessary to introduce the notion of dangling edges.}
 
-\zdnew{State SOTA of $b$-matchings here, and following is our main result on it.}
+\zdtodo{State SOTA of $b$-matchings here, and following is our main result on it.}
 
 \begin{theorem} \label{thm:counting-b-matchings}
     Given a positive integer $\Delta \ge 1$ and a tolerance error $\varepsilon \in (0, 1/4)$, there is a deterministic algorithm such that for every graph $G = (V, E)$ with maximum degree $\le \Delta$ and every positive integer $b \le \Delta$, in time $\poly\left(\left(\abs{E} \cdot \varepsilon^{-1}\right)^{C_{\ref{thm:counting-b-matchings}}}\right)$, it outputs a number $\wh{Z}$ such that
@@ -141,9 +143,9 @@ Given a graph $G = (V, E)$, let $E_v \defeq \set{e \in E \cmid \mbox{$e$ is inci
     where the coefficients of the polynomial and $C_{\ref{thm:counting-b-matchings}}$ depends only on $\Delta$.
 \end{theorem}
 
-\subsection{Holant problems with positive log-concave signatures}
+\subsection{Holant problems with log-concave signatures}
 
-Beyond counting the number of $b$-matchings, we also consider a family of Holant problems with binary symmetric positive log-concave signatures. Given a function $f$ of arity $d > 0$, we say that $f$ is \emph{binary symmetric} if $f : \set{0, 1}^d \to \mathbb R_{\ge 0}$ and its value only depends on the hamming weight of the input. By symmetry, it is safe to identity $f$ as $f = [f(0), f(1), \ldots, f(d)]$.
+Beyond counting the number of $b$-matchings, we also consider a family of Holant problems with binary symmetric log-concave signatures. Given a function $f$ of arity $d > 0$, we say that $f$ is \emph{binary symmetric} if $f : \set{0, 1}^d \to \mathbb R_{\ge 0}$ and its value only depends on the hamming weight of the input. By symmetry, it is safe to identity $f$ as $f = [f(0), f(1), \ldots, f(d)]$.
 
 For a family of binary symmetric functions $\+F$, the Holant problem, denoted by $\Holant(\+F)$, is a family of counting problems defined on graphs by assigning a signature in $\+F$ to each vertex in the graph. Specifically, an instance of $\Holant(\+F)$ can be specified by $ \Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ where for each $v \in V$, $f_v \in \+F$ is called the \emph{signature at $v$}. \qtodo{We should introduce the external field here?}
 The counting problem is to (approximately) compute the partition function $Z= Z_\Phi$ defined as follows:
@@ -180,7 +182,7 @@ Furthermore, it is natural to induce the probability distribution $\mu=\mu_\Phi$
 \qgl{When $f_v(k) = \id{k \le b}$, it can be shown that the Holant problem becomes an instance of $b$-matchings by regarding any subset of edges $S\subseteq E$ as the binary vector.} \qtodo{maybe add more famous problem here to show the expressibility of the holant.}
 
 %Note that, for a Holant instance $(G = (V, E), \set{f_v}_{v \in V})$, 
-In this paper, we focus on the Holant problems with all signatures being positive and log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{positive and log-concave} if and only if it satisfies: (1) $f(0) > 0$; (2) $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$; (3) If $f(k) > 0$ for some $k \le d$, then for every $0 \le j \le k$, $f(j) > 0$. \qgl{state that the log-concave signature is powerful enough to express many counting problems.}
+In this paper, we focus on a family of Holant problems with signatures being log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{log-concave} if and only if it satisfies: (1) $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$; (2) If $f(k_1) > 0$ and $f(k_2) > 0$ for some $0 \le k_1 \le k_2 \le d$, then for every $k_1 \le j \le k_2$, $f(j) > 0$. We say that $\Phi$ is log-concave if all its signatures are log-concave. \qgl{state that the log-concave signature is powerful enough to express many counting problems.}
 % \begin{itemize}
 % 	\item $f(0) > 0$.
 %     \item $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$.
@@ -188,19 +190,16 @@ In this paper, we focus on the Holant problems with all signatures being positiv
 % \end{itemize}
 % \qgl{Similarly to the $b$-matchings, the concepts are well-defined as well when the underlying graphs contain dangling edges.}\qtodo{also put this in pre.}
 
-\zdnew{
 We consider a family of Holant instances satisfying the following conditions.
 \begin{condition} \label{cond:Holant-condition}
     The following holds for the instance $(\Phi = (G, \vecf), \Delta, r)$:
     \begin{itemize}
         \item $G = (V, E)$ is a graph of maximum degree $\Delta$.
-        \item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric positive log-concave signatures and $f_v(1) \le r \cdot f_v(0)$ for every $v \in V$.
+        \item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric log-concave signatures and $f_v(1) \le r \cdot f_v(0), f_v(0) > 0$ for every $v \in V$.
     \end{itemize}
 \end{condition}
-\zdtodo{put the family of instances we focus on here.}
-}
 
-\zdnew{State SOTA of Holant problems with log-concave signatures here, and following is our main result on it.}
+\zdtodo{State SOTA of Holant problems with log-concave signatures here, and following is our main result on it.}
 
 \begin{theorem} \label{thm:counting-Holant}
     Given a positive integer $\Delta > 0$, a positive real $r > 0$ and a tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm such that for every instance $(\Phi = (G = (V, E), \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition}, with running time $\poly\left(\left(\abs{E} \cdot \varepsilon^{-1}\right)^{C_{\ref{thm:counting-Holant}}}\right)$, it outputs a number $\wh{Z}$ such that
@@ -292,8 +291,6 @@ Furthermore, given any partial assignment $\sigma$ where $S\subseteq \Lambda(\si
 
 
 
-
-
 \iffalse
 \subsection{$b$-matchings and notations}
     Consider a graph $G=(V,E)$ with an integer $b\geq 1$. A $b$-matching of $G$ is a subset of edges $S\subseteq E$ such that for each $v\in V$, we have $\abs{S\cap E_v}\leq b$ where $E_v\triangleq \set{e\in E \mid v\in e}$ is the collection of incident edges of $v$. Let $\Omega=\Omega_{G,b}$ be the set of all $b$-matchings of $G$ and $\mu=\mu_{G,b}$ be the uniform distribution over $\Omega$. 
@@ -333,7 +330,7 @@ Note that, for a Holant instance $(G = (V, E), \set{f_v}_{v \in V})$, it is natu
     \mu(\sigma) = \mu\left(G,\set{f_v}_{v\in V};\sigma\right)\triangleq \frac{1}{\Holant(G, \set{f_v}_{v \in V})} \prod_{v \in V} f_v\left(\abs{\sigma_{E_v}}\right).
 \end{align*}
 
-In this paper, we put our attention on the Holant problems with all signatures being positive and log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{positive and log-concave} if and only if it satisfies:
+In this paper, we focus on the Holant problems with all signatures being positive and log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{positive and log-concave} if and only if it satisfies:
 \begin{itemize}
 	\item $f(0) > 0$.
     \item $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$.
@@ -363,7 +360,7 @@ In this paper, we put our attention on the Holant problems with all signatures b
 % \end{align}
 % We state here the following marginal lower bound established in~\zd{[CG23]}, which is of great significance in our analysis.
 
-Now we state some properties of Holant instances here. Given a binary symmetric Holant instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ with positive log-concave signatures and its Gibbs distribution $\mu = \mu_\Phi$, for every edge $e \in E$, define its \emph{marginal ratio} as
+Now we state some properties of Holant instances here. Let $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ be a binary symmetric log-concave Holant instance with $f_v(0) > 0$ for all $v \in V$ and $\mu = \mu_{\Phi}$ be its Gibbs distribution. For every edge $e \in E$, define its \emph{marginal ratio} as
 \begin{align*}
     R_{\Phi}(e) \defeq \frac{\Pr[X \sim \mu]{X(e) = 1}}{\Pr[X \sim \mu]{X(e) = 0}} = \frac{\mu_e(1)}{\mu_e(0)}.
 \end{align*}
@@ -373,9 +370,9 @@ For $e \in E$ and $c \in \set{0, 1}$, we use $Z_{\Phi}^{(e \gets c)}$ to denote 
 \end{align*}
 Then it holds that $R_{\Phi}(e) = Z_{\Phi}^{(e \gets 1)} / Z_{\Phi}^{(e \gets 0)}$. The following lemma shows that we can efficiently check the feasibility of a partial assignment.
 
-\begin{lemma} \label{lem:partial-assignment-feasibility}
+\begin{restatable}{lemma}{PartialFeasibility}\label{lem:partial-assignment-feasibility}
     Given any instance $\left(\Phi = (G = (V, E), \vecf = \set{f_v}_{v \in V}\right), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and any partial assignment $\sigma$, there is an algorithm determining whether $\sigma$ is feasible in time $O(\abs{\Lambda(\sigma)})$.
-\end{lemma}
+\end{restatable}
 
 We postpone the proof of~\Cref{lem:partial-assignment-feasibility} in~\Cref{sec:proof-Holant-properties}.
 
@@ -385,16 +382,16 @@ To bound the marginal probability and ratio, we associate with $\Phi$ the follow
 $$
     B_{\min} = B_{\min}(\Phi) \defeq (1 + r_{\max}^2)^{-\Delta(G)}
 $$
-where $r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}$. The following lemma in \zd{[CG23]} bounds the marginal probability of $\mu$.
+where $r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}$. The following lemma in~\cite{CG24bMatching} bounds the marginal probability of $\mu$.
 
 % \hktodo{check the lemma, $\mu_{E_v^\sigma}^{\sigma}(\zero)$ is unrelated to $\sigma$ }
 
-\begin{lemma}[Lemma 18 and Proposition 20 in~\zd{[CG23]}] \label{lem:marginal-bound}
-    Given a binary symmetric Holant instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ with positive log-concave signatures, for every feasible partial assignment $\sigma$ and $v \in V$, it holds that
+\begin{restatable}[Lemma 18 and Proposition 20 in~\cite{CG24bMatching}]{lemma}{MarginalBound} \label{lem:marginal-bound}
+    Given a binary symmetric log-concave Holant instance $\Phi = \left(G = (V, E = E_1), \vecf = \set{f_v}_{v \in V}\right)$ with $f_v(0) > 0$ for every $v \in V$, for every feasible partial assignment $\sigma$ and $v \in V$, it holds that
     \begin{align} \label{eq:marginal-bound}
         \mu_{E_v^\sigma}^{\sigma}(\zero) \ge B_{\min}(\Phi).
     \end{align}
-\end{lemma}
+\end{restatable}
 
 % \zdnew{For completeness, we prove~\Cref{lem:marginal-bound} in appendix.}
 %For the sake of simplicity, we use $B_{\min} = B_{\min}(\Phi) \defeq (r_{\max}^2 + 1)^{-\Delta(G)}$ to denote the lower bound in~\Cref{lem:marginal-bound}.
@@ -420,15 +417,14 @@ where $r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}$. T
 %     \end{align*}
 % \end{lemma}
 The following upper bound for the marginal ratio of a half-edge is useful in our design.
-\begin{lemma} \label{lem:marginal-ratio-upper-bound}
-    Given a binary symmetric Holant instance $\Phi = \left(G = (V, E = E_1 \cup E_2), \vecf = \set{f_v}_{v \in V}\right)$ with positive log-concave signatures, for each half-edge $e \in E_2$, it holds that
+\begin{restatable}{lemma}{MarginalRatioBound} \label{lem:marginal-ratio-upper-bound}
+     Given a binary symmetric log-concave Holant instance $\Phi = \left(G = (V, E = E_1 \cup E_2), \vecf = \set{f_v}_{v \in V}\right)$ with $f_v(0) > 0$ for every $v \in V$, for each half-edge $e \in E_2$, it holds that
     \begin{align*}
         R_{\Phi}(e) \le r_{\max}(\Phi).
     \end{align*}
-\end{lemma}
+\end{restatable}
 % \zdtodo{merge these two lemmas.}
-
-For completeness, we prove~\Cref{lem:marginal-bound,lem:marginal-ratio-upper-bound} in~\Cref{sec:proof-Holant-properties}.
+For completeness, we prove~\Cref{lem:marginal-ratio-upper-bound} in~\Cref{sec:proof-Holant-properties}.
 
 \section{The Coupling Process}
 
@@ -437,12 +433,13 @@ In the subsequent discussion, we consider instances satisfying the following con
     The following holds for the tuple $\left(\Phi = (G, \vecf),  \sigma_\bot, \tau_\bot,v_{\bot}\right)$:
     \begin{itemize}
 		\item $G = (V, E = E_1 \cup \set{e_\bot})$ is a graph with a unique half edge $e_\bot = (v_{\bot})$ where $v_\bot \in V$;
-		\item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric positive log-concave signatures;
+		\item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric log-concave signatures and $f_v(0) > 0$ for every $v \in V$;
 		\item $\sigma_\bot = (e_\bot \gets 1)$ and $\tau_\bot = (e_\bot \gets 0)$.
     \end{itemize}
 \end{condition}
-
-% \zdtodo{we should interpret instances satisfying Condition 2 are equivalent to instances satisfying Condition 1.}
+\begin{remark}
+    Conditional on $\sigma_\bot$ or $\tau_\bot$, if the assignment on $E_{v_\bot} \setminus \set{e_\bot}$ is determined, we can safely remove the vertex $v_\bot$ and edges incident to it from the graph. Then it follows directly from the definition that the instances conditional on $\sigma_\bot$ and $\tau_\bot$ after necessary removal satisfy~\Cref{cond:Holant-condition} with parameters $\Delta(G)$ and $r_{\max}(\Phi)$.
+\end{remark}
     
 For an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, recall that an arbitrary order is assumed over all the edges in $E_1$.
 Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-holant-mu}.
@@ -454,7 +451,7 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
     We say that $(\sigma, \tau)$ is a pair of \emph{1-discrepancy partial assignments} if there is a unique disagreeing vertex $v \in V$ and $v$ is 1-disagreeing.
 
     Given a pair of 1-discrepancy partial assignments $(\sigma,\tau)$,
-    the following algorithm from \qgl{[CG23]} defines a 
+    the following algorithm from \cite{CG24bMatching} defines a 
     coupling of $\mu^{\sigma}$ and $\mu^{\tau}$.
     
     % We first review the coupling process for the marginal distribution of the $b$-matchings conditioned on the 1-discrepancy partial assignments $\sigma$ and $\tau$ designed by \qgl{[CG23]} in Algorithm~\ref{algo:Couple}. For our subsequent analysis, we state the description of the coupling process in the following equivalent way.
@@ -463,7 +460,7 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
 		\caption{$\!{Couple}(\Phi, \sigma, \tau, v)$}
 		\label{algo:Couple}
              % \qgl{$L\gets 0$; \quad \tcp{a global variable. I don't know how to write this appropriately in latex.} }
-             \KwIn{A binary symmetric Holant instance $\Phi = \left(G = (V, E = E_1\cup \set{e_\bot}), \vecf = \set{f_v}_{v \in V}\right)$ with positive log-concave signatures, a pair of 1-discrepancy partial assignments $(\sigma, \tau)$ of $G$ where $\sigma(e_\bot) = 1, \tau(e_\bot) = 0$, and the unique {disagreeing} vertex $v \in V$ under $(\sigma, \tau)$.}
+             \KwIn{A Holant instance $\Phi = \left(G = (V, E = E_1\cup \set{e_\bot}), \vecf = \set{f_v}_{v \in V}\right)$, a pair of 1-discrepancy partial assignments $(\sigma, \tau)$ of $G$ where $\sigma(e_\bot) = 1, \tau(e_\bot) = 0$, and the unique {disagreeing} vertex $v \in V$ under $(\sigma, \tau)$.}
 		% \KwIn{A graph $G=(V,E=E_1\cup \set{e_0})$ where the edges are labeled by an arbitrary order with partial assignments $\sigma'$ and $\tau'$ and a unique \qgl{disagreeing} vertex $v\in V$.}
 		  \KwOut{A pair of assignments drawn from a coupling between $\mu^{\sigma}$ and $\mu^{\tau}$.}	
            
@@ -505,11 +502,9 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
     %     Here we should introduce the lemma concerning the marginal dominance phenomenon.
     % \end{lemma}
 
-\zdnew{
-The following proposition demonstrates the correctness of the coupling process, which has been proved in~\zd{[CG23].
+The following proposition demonstrates the correctness of the coupling process, which has been proved in~\cite{CG24bMatching}.
 % Now we show some properties of the coupling process and the correctness of the coupling process follows immediately. The following proposition has been shown in~\zd{[CG23]. For completeness, we state it here.
-}
-\begin{proposition}[Proposition 16 in \zd{[CG23]}] \label{prop:coupling-correctness}
+\begin{proposition}[Proposition 16 in~\cite{CG24bMatching}] \label{prop:coupling-correctness}
     The procedure $\!{Couple}(\Phi, \sigma, \tau, v)$ 
     satisfies the following properties:
     \begin{enumerate}
@@ -519,11 +514,10 @@ The following proposition demonstrates the correctness of the coupling process, 
         
         \item \textbf{(Existence of edges satisfying monotonicity)} When $E_v^\sigma \neq \emptyset$ in Line \ref{line-while}, if $\!Ham(\sigma, E_v) < \!Ham(\tau, E_v)$, then there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \ge \mu^\tau_e(1)$; otherwise, there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \le \mu^\tau_e(1)$.
         
-        \item \textbf{(Correctness of the Coupling)} The outcome of $\!{Couple}(\Phi, \sigma, \tau, v)$ is a coupling of $(\mu^{\sigma}, \mu^{\tau})$.
+        \item \textbf{(Correctness of the coupling)} The outcome of $\!{Couple}(\Phi, \sigma, \tau, v)$ is a coupling of $(\mu^{\sigma}, \mu^{\tau})$.
     \end{enumerate}
 \end{proposition}
 \zdtodo{if necessary, prove it in appendix}
-}
 
 
 %\hktodo{the following statement is strange}
@@ -747,15 +741,13 @@ Formally, for each $(\sigma, \tau, \seqS, v, L)$  where  $\abs{\seqS}=t$,
 \begin{align}\label{eq-def-pro-stsvl}
     \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} \triangleq \Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)}.
 \end{align}
-For each $(\sigma, \tau, \seqS)$, 
-let $\Pr[\!{cp}]{(\sigma, \tau, \seqS)}$ denote $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v(\sigma,\tau), L(\sigma,\tau))}$.
-% let $\Pr[\!{cp}]{(\sigma, \tau, \seqS)}$ denote $\max_{v,L}\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}$.\qtodo{semms strange? is there a unique pair $(v,L)$ meaningful?}
+
 \item For any $(\sigma, \tau, \seqS, v, L)$ and $e\in E(G)$, let $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}$ denote the probability that $(\sigma, \tau, \seqS, v, L)$ is a state in the random process $P^{\!{cp}}$ and $e$ is the chosen edge at that state.
 Formally, for each $(\sigma, \tau, \seqS, v, L)$  where  $\abs{\seqS}=t$ and each $e\in E(G)$,
 {\begin{align}\label{eq-def-pro-stsvle}
 \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)} \triangleq \Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }.
 \end{align}}
-For each $(\sigma, \tau, \seqS)$ and each $e\in E(G)$, let $\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}$ denote $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v(\sigma,\tau), L(\sigma,\tau),e)}$.
+
 \item Let $\+L^{\!{cp}}$ and $\+V^{\!{cp}}$ denote all possible outcomes and states of $P^{\!{cp}}$, respectively. Formally, 
 $$
     \+L^{\!{cp}} = \set{(\sigma, \tau, \seqS, v, L) \mid \mu_\ell^{\!{cp}}((\sigma, \tau, \seqS, v, L))>0},\quad  \+V^{\!{cp}} = \set{(\sigma, \tau, \seqS, v, L) \mid \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}>0}.
@@ -771,21 +763,15 @@ $$
 \end{itemize}
 \end{definition}
 
-% \hktodo{check here}  \qgl{check the definiotion of $\+W^{\!{cp}}$.}
-
-% Let $\+W^{\!{cp}} \subseteq \+V^{\!{cp}} \setminus \+L^{\!{cp}}$ denote all possible states $(\sigma_t, \tau_t, \seqS_t, v_t, L_t)$ of $P^{\!{cp}}$ where $0\leq t \leq \rho$ and $v_t\neq v_{t-1}$. Formally,
-% % $$
-% %     \+W_{\ell}^{\!{cp}} = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t) \mid (t>0)\land (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\in \+V^{\!{cp}} \setminus \+L^{\!{cp}} \land L = \ell}.
-
-By \Cref{def-notation-trp}, for any $(\sigma, \tau, \seqS, v, L)$ we have 
-\begin{align}\label{eq-pr-sts-eq-pr-stsvl}
-\Pr[\!{cp}]{(\sigma, \tau, \seqS)} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v(\sigma,\tau), L(\sigma,\tau))} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)},
-\end{align}
-where the last equality is by \Cref{condition-sigma-tau}.
-Similarly, for any $(\sigma, \tau, \seqS, v, L,e)$ we have 
-\begin{align}\label{eq-pr-stse-eq-pr-stsvle}
-\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)},
-\end{align}
+% By \Cref{def-notation-trp}, for any $(\sigma, \tau, \seqS, v, L)$ we have 
+% \begin{align}\label{eq-pr-sts-eq-pr-stsvl}
+% \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v(\sigma,\tau), L(\sigma,\tau))} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)},
+% \end{align}
+% where the last equality is by \Cref{condition-sigma-tau}.
+% Similarly, for any $(\sigma, \tau, \seqS, v, L,e)$ we have 
+% \begin{align}\label{eq-pr-stse-eq-pr-stsvle}
+% \Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)},
+% \end{align}
 
 The following property on the random process $P^{\!{cp}}$ will be used in its analysis. For completeness, we provide its proof in~\Cref{sec:omitted Proofs}.
 
@@ -795,11 +781,11 @@ In \Cref{def:truncated-random-process}, the following properties hold:
 \begin{enumerate}
 \item For each $(\sigma, \tau, \seqS, v, L)$, we have 
 \begin{align}\label{eq-def-trp-perperty-sigma}
-\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma), \quad \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
+\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma), \quad \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
 \end{align}
-\item For each $(\sigma, \tau, \seqS, v, L,e)$, we have 
+\item For each $(\sigma, \tau, \seqS,v,L)$ and $e\in E(G)$, we have 
 \begin{align}\label{eq-def-trp-perperty-sigma-e}
-\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma),\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
+\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L,e)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma),\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L, e)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
 \end{align}
 \end{enumerate}
 \end{restatable}
@@ -845,7 +831,7 @@ In \Cref{def:truncated-random-process}, the following properties hold:
                 \end{enumerate} \label{item:construction-expanding-step}
         \end{enumerate}
     \end{enumerate} 
-    \qgl{For simplicity, let $V(\+T)$ denote the set of nodes in $\+T$.}\qtodo{seems not necessary, $\+T$ is a graph, an we have define the notation $V()$ for graphs.}    
+    {For simplicity, let $V(\+T)$ denote the set of nodes in $\+T$.}
     }
 \end{definition}
 
@@ -961,33 +947,36 @@ Each node $(\sigma, \tau, \seqS, v, L)\in V(\+T)$ satisfies \Cref{condition-sigm
 
 The following notations related to the $\ell$-truncated coupling tree $\+T_{\ell}$ will be used in its analysis.
 \begin{definition}\label{def-notation-v-tct}
-For each $\ell\geq 0$, define the sets $\+V,\+L,\+L_{\!{good}}$, the function $\+D(\cdot)$ as follows:
+For each $\ell\geq 0$, define the sets $\+V,\+L,\+L_{\!{good}}$ and the function $\+D(\cdot)$ as follows:
 \begin{itemize}
 \item Let $\+V\triangleq \+V(\ell)$ denote the set of \emph{feasible} nodes in $V(\+T_{\ell})$;
 \item Let $\+L\triangleq \+L(\ell)$ denote the set of leaf nodes in $V(\+T_{\ell})$;
 \item Define $\+L_{\!{good}}\triangleq \+L_{\!{good}}(\ell) = \set{(\sigma,\tau, \seqS,v,L) \in \+L\mid L<\ell}$ and $\+L_{\!{bad}}\triangleq \+L_{\!{bad}}(\ell) = \+L\setminus \+L_{\!{good}}$.
 \item Given any $(\sigma,\tau,\seqS,v,L)\in V(\+T)$, define 
 \[
-\+D(\sigma,\tau,\seqS,v,L)\triangleq \+D_{\ell}(\sigma,\tau,\seqS,v,L) = \left\{(\sigma',\tau',\seqS',v',L')\in V(\+T) \mid \sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})\right\}.
+\+D(\sigma,\tau,\seqS,v,L)\triangleq \+D_{\ell}((\sigma,\tau,\seqS,v,L)) = \left\{(\sigma',\tau',\seqS',v',L')\in V(\+T) \mid \sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})\right\}.
 \]
 \end{itemize}
 \end{definition}
-We remark the following facts about $\+D(\sigma,\tau,\seqS,v,L)$:
+\hktodo{
+Intuitively, $\+L_{\!{good}}$ is the set of leafs where 
+and $\+L_{\!{good}}$ is the set of leafs where .
+$\+D(\sigma,\tau,\seqS,v,L)$ is the set of }
+
+
+The following facts about $\+D(\cdot)$ are immediate by Definitions \ref{def:truncated-coupling-tree} and \ref{def-notation-v-tct}.
+\begin{lemma}\label{lemma-fact-D}
+Given any $(\sigma,\tau,\seqS,v,L)\in V(\+T)$ where $L<\ell$, 
 \begin{itemize}
-\item if $E^{\sigma}_v = \emptyset$, then $\+D(\sigma,\tau,\seqS,v,L) = \{(\sigma,\tau,\seqS,v,L)\}$;
-\item if $(\sigma,\tau,\seqS,v,L)$ is infeasible and $E^{\sigma}_v \neq \emptyset$, then 
-$\+D(\sigma,\tau,\seqS,v,L) =\emptyset$; 
-\item if $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
+\item $\+D(\sigma,\tau,\seqS,v,L) =\emptyset$ if and only if 
+$(\sigma,\tau,\seqS,v,L)$ is infeasible;
+\item if $(\sigma,\tau,\seqS,v,L)$ is feasible and $E^{\sigma}_v = \emptyset$, then $\+D(\sigma,\tau,\seqS,v,L) = \{(\sigma,\tau,\seqS,v,L)\}$;
 \end{itemize}
+\end{lemma}
 
-% that if $E^{\sigma}_v = \emptyset$, then $\+D(\sigma,\tau,\seqS,v,L) = \{(\sigma,\tau,\seqS,v,L)\}$.
-% Moreover, if $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
+We remark that if $(\sigma,\tau,\seqS,v,L)$ is feasible and $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
 
 
-
-% Given any $(\sigma, \tau, \seqS, v, L)\in V(\+T)$, by \Cref{lemma-property-tct-vl},
-% we have $v,L$ are uniquely determined by $\sigma$ and $ \tau$.
-% Thus, we may omit $v$ and $L$ from the notations when they are clear from the context.
 
 Recall that $\+V^{\!{cp}}$ denotes all possible states of $P^{\!{cp}}$. The following proposition provides some useful properties of the $\ell$-truncated coupling tree.
 
@@ -1036,26 +1025,32 @@ Moreover, we have $\+V^{\cp} \subseteq V(\+T)$, and each non-leaf node in $\+T$ 
 In this section, we shall define a collection of quantities and verify some useful properties among them in the random process $P^{\!{cp}}$. 
 
 
-We define the following quantities:
+
+For simplification, we will use $(\sigma,\tau,\seqS)$ to denote $(\sigma,\tau,\seqS,v(\sigma,\tau),L(\sigma,\tau))$.
+Specifically, we will use $\Pr[\!{cp}]{(\sigma, \tau, \seqS)},\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}$ to denote $\Pr[\!{cp}]{(\sigma, \tau, \seqS,v(\sigma,\tau),L(\sigma,\tau))},\Pr[\!{cp}]{(\sigma, \tau, \seqS, v(\sigma,\tau),L(\sigma,\tau),e)}$, respectively.
+
+\begin{definition}\label{def-key-quantity}
+Define the following quantities related to \Cref{def:truncated-random-process}:
 \begin{itemize}
-\item For each node $(\sigma, \tau, \seqS,v,L) \in \+V$, define
+\item For each node $(\sigma, \tau, \seqS) \in \+V$, define
     \begin{align}\label{eqn-marginal-all}
         p^{\sigma}_{\sigma, \tau, \seqS} \defeq \Pr[\!{cp}]{(\sigma,\tau, \seqS)}/ \mu^{\sigma_{\bot}}_{\seqS}(\sigma), \quad p^{\tau}_{\sigma, \tau, \seqS} \defeq 
         \Pr[\!{cp}]{(\sigma, \tau, \seqS)}/\mu^{\tau_{\bot}}_{\seqS}(\tau).
     \end{align}
-\item  For each node $(\sigma, \tau, \seqS, v, L) \in \+V \setminus \+L$ and $e\in E_{v}^{\sigma}$, define
+\item  For each node $(\sigma, \tau, \seqS) \in \+V \setminus \+L$ and $e\in E_{v}^{\sigma}$, define
 \begin{align}\label{eqn-marginal-inner}
     p^{\sigma}_{\sigma, \tau, \seqS, e} \triangleq 
     \Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}/\mu^{\sigma_{\bot}}_{\seqS}(\sigma),
      \quad p^{\tau}_{\sigma, \tau, \seqS, e} \triangleq 
      \Pr[\!{cp}]{(\sigma, \tau, \seqS,e) }/\mu^{\tau_{\bot}}_{\seqS}(\tau).
 \end{align}
-\item For each infeasible node $(\sigma, \tau, \seqS,v,L)$ in $V(\+T)$, define $ p^{\sigma}_{\sigma, \tau, \seqS}= p^{\tau}_{\sigma, \tau, \seqS} = 0$. 
+\item For each node $(\sigma, \tau, \seqS)\in V(\+T)\setminus \+V$, define $ p^{\sigma}_{\sigma, \tau, \seqS}= p^{\tau}_{\sigma, \tau, \seqS} = 0$. 
 % \item For each infeasible non-leaf node $(\sigma, \tau, \seqS, v, L) \in V(\+T)$ and each $e \in E_{v}^{\sigma}$,  define $p^{\sigma}_{\sigma, \tau, \seqS, e} = p^{\tau}_{\sigma,\tau, \seqS, e} = 0$.
 \end{itemize}
+\end{definition}
 
 \begin{remark}
-For each $(\sigma, \tau, \seqS,v,L) \in \+V\setminus \+L$ and $e\in E_{v}^{\sigma}$, by the definition of $\+V$, we have $\sigma$ is feasible. Thus, $\mu(\sigma)>0$.
+For each $(\sigma, \tau, \seqS) \in \+V\setminus \+L$ and $e\in E_{v}^{\sigma}$, by the definition of $\+V$, we have $\sigma$ is feasible. Thus, $\mu(\sigma)>0$.
 In addition, recall that $\sigma(e_{\bot}) = 1$, $\sigma_{\bot} = (e_{\bot}\leftarrow 1)$.
 We have  
 $\mu^{\sigma_{\bot}}_{\seqS}(\sigma) \geq \mu(\sigma)>0$.
@@ -1065,10 +1060,11 @@ Similarly, we also have $p^{\tau}_{\sigma, \tau, \seqS}$ and $p^{\tau}_{\sigma, 
 \end{remark}
 
 In the following, when we use the notations $p^{\sigma}_{\sigma, \tau, \seqS}$ and $p^{\tau}_{\sigma, \tau, \seqS}$,
-we always assume  $(\sigma,\tau,\seqS,v(\sigma,\tau),L(\sigma,\tau))\in V(\+T)$.
-Similarly, when we use the notations $p^{\sigma}_{\sigma, \tau, \seqS, e}$ and $p^{\tau}_{\sigma, \tau, \seqS, e}$, we always assume  $(\sigma,\tau,\seqS,v(\sigma,\tau),L(\sigma,\tau))\in \+V \setminus \+L$ and $e\in E_{v}^{\sigma}$.
+we always assume  $(\sigma,\tau,\seqS)\in V(\+T)$.
+Similarly, when we use the notations $p^{\sigma}_{\sigma, \tau, \seqS, e}$ and $p^{\tau}_{\sigma, \tau, \seqS, e}$, we always assume  $(\sigma,\tau,\seqS)\in \+V \setminus \+L$ and $e\in E_{v}^{\sigma}$.
+
     
-One can verify that the following holds for the above quantities. The proof of the statement is deferred to~\Cref{sec:omitted Proofs}.
+One can verify that the following proposition holds for the above quantities. The proof of the proposition is deferred to~\Cref{sec:omitted Proofs}.
 
 
     \begin{restatable}{proposition}{LinearConstraints}\label{prop:coupling-linear-constraint}
@@ -1076,11 +1072,11 @@ One can verify that the following holds for the above quantities. The proof of t
         \begin{enumerate}[(1)]
             \item All $p^{\sigma}_{\sigma, \tau, \seqS}, p^{\tau}_{\sigma, \tau, \seqS},p^{\sigma}_{\sigma, \tau, \seqS,e}, p^{\tau}_{\sigma, \tau, \seqS,e}$ are in $[0, 1]$. 
             In particular, $p^{\sigma_\bot}_{\sigma_\bot, \tau_\bot, \varnothing} = p^{\tau_\bot}_{\sigma_\bot, \tau_\bot, \varnothing} = 1$.
-            \item For each $(\sigma, \tau, \seqS, v, L)\in \+V\setminus\+L$, 
+            \item For each $(\sigma, \tau, \seqS)\in \+V\setminus\+L$, 
             \begin{align}\label{eqn-inter-sum1}
                p^{\sigma}_{\sigma,\tau,\seqS} = \sum_{e \in E_v^{\sigma}} p^{\sigma}_{\sigma, \tau, \seqS, e}, \quad  p^{\tau}_{\sigma,\tau,\seqS}=\sum_{e \in  E_v^{\sigma}} p^{\tau}_{\sigma,\tau, \seqS, e}.
             \end{align}
-            \item For each $(\sigma, \tau, \seqS, v, L)\in \+V\setminus\+L$ and each $e\in E_v^{\sigma}$, if {${\!{Ham}\left(\sigma, {E_v}\right)} < {\!{Ham}\left(\tau,{E_v}\right)}$}, we have 
+            \item For each $(\sigma, \tau, \seqS)\in \+V\setminus\+L$ and each $e\in E_v^{\sigma}$, if {${\!{Ham}\left(\sigma, {E_v}\right)} < {\!{Ham}\left(\tau,{E_v}\right)}$}, we have 
             \begin{align}\label{eqn-inner-child-sum1}
                 p^{\sigma}_{\sigma,\tau, \seqS,e} = p^{\sigma \land (e\gets 0)}_{\sigma \land (e\gets 0),\tau\land (e\gets 0), \seqS \circ e}, \quad  p^{\sigma}_{\sigma, \tau, \seqS, e}=p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 0), \seqS\circ e} + p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 1),\seqS \circ e},
             \end{align}
@@ -1094,56 +1090,129 @@ One can verify that the following holds for the above quantities. The proof of t
             \begin{align}\label{eqn-inner-child-sum4}
                 p^{\tau}_{\sigma,\tau, \seqS,e}=p^{\tau\land (e\gets 0)}_{\sigma\land (e\gets 0),\tau\land (e\gets 0), \seqS\circ e}, \quad  p^{\tau}_{\sigma,\tau,S,e}=p^{\tau\land (e\gets 1)}_{\sigma\land (e\gets 0),\tau\land (e\gets 1), \seqS \circ e} + p^{\tau \land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 1), \seqS\circ e}.
             \end{align}
-            \item For each $(\sigma, \tau, S, v, L) \in \+V$, we have
+            \item For each $(\sigma, \tau, \seqS) \in \+V$, we have
             \begin{align}\label{eqn-ratio}
             	{p^{\sigma}_{\sigma,\tau, \seqS}} = p^{\tau}_{\sigma,\tau, \seqS} \cdot \frac{\mu_{e_{\bot}}(1)}{\mu_{e_{\bot}}(0)}\cdot \frac{ \mu(\tau)}{ \mu(\sigma)}.
             \end{align}
         \end{enumerate}
     \end{restatable}
     
-
-
-    \hktodo{polish this paragraph}
-    The next lemma provides the key property for bounding the coupling error.
-    Recall the definition of $\+D(\cdot)$ in \Cref{def-notation-v-tct}.
+    Recall the definition of $\+D(\cdot)$ in \Cref{def-notation-v-tct}. The next lemma provides the key property for bounding \hktodo{the coupling error}.
 
     \begin{lemma} \label{lem:coupling-error}
-       For each $(\sigma, \tau, \seqS, v, L) \in V(\+T)$,
-       let $\+D \triangleq \+D(\sigma, \tau, \seqS, v, L)$.
-       Then we have
+       For each $(\sigma, \tau, \seqS) \in V(\+T)$ where $L(\sigma,\tau)<\ell$,
+       let $\+D \triangleq \+D(\sigma, \tau, \seqS)$.
+       We have
        \begin{align}\label{eqn-error-bound}
-           \sum_{(\sigma', \tau', \seqS',v',L') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}, \quad \sum_{(\sigma',\tau', \seqS',v',L') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.
+           \sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}, \quad \sum_{(\sigma',\tau', \seqS') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.
        \end{align}
     \end{lemma}
     \begin{proof}
-    We prove this lemma by considering three separate cases.
+    To prove this lemma, it is sufficient to prove \begin{align}\label{eqn-error-bound-sigma}
+           \sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.
+       \end{align}
+    Similarly, one can also prove 
+    \[\sum_{(\sigma',\tau', \seqS') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.\] 
+    Then the lemma is immediate.
+    In the following, we prove \eqref{eqn-error-bound-sigma}.
+    Given any $(\sigma, \tau, \seqS)$, let $v = v(\sigma,\tau)$. 
+    There are only three possibilities for $\+D$.
     \begin{itemize}
-    \item $(\sigma,\tau,\seqS,v,L)$ is infeasible.
-    If $E^{\sigma}_v = \emptyset$, then we have $\+D = \{(\sigma,\tau,\seqS,v,L)\}$.
-    Thus, we have 
-    \[\sum_{(\sigma', \tau', \seqS',v',L') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} = p^{\sigma}_{\sigma, \tau, \seqS} \geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS},\]
-    where the last equality holds since $B_{\min}\leq 1$.
+    \item $(\sigma,\tau,\seqS)$ is infeasible. Thus, we have $(\sigma,\tau,\seqS)\in V(\+T)\setminus \+V$.
+    By \Cref{def-key-quantity}, we have $p^{\sigma}_{\sigma, \tau, \seqS} = 0$.
+    In addition, by \Cref{lemma-fact-D} we have $\+D = \emptyset$.
+    Thus, we have
+    \[\sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} = 0 =  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.\]
+    Therefore, \eqref{eqn-error-bound-sigma} is proved.
    
-    \item If $(\sigma,\tau,\seqS,v,L)$ is infeasible and $E^{\sigma}_v \neq \emptyset$, then 
-    $\+D =\emptyset$.
+    \item $(\sigma,\tau,\seqS)$ is feasible and $E^{\sigma}_{v} = \emptyset$. By \Cref{lemma-fact-D}, we have 
+    $\+D =\{(\sigma,\tau,\seqS)\}$.
     Thus, we have 
-    \[\left(\sum_{(\sigma', \tau', \seqS',v',L') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\right) = 0 = p^{\sigma}_{\sigma, \tau, \seqS} =  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.\]
-    \item $(\sigma,\tau,\seqS,v,L)$ is feasible. Since the selection of the updated edges involves no randomness, there is a unique tuple $(\sigma',\tau',\seqS',v',L')\in \+D$ such that $p^{\sigma'}_{\sigma', \tau', \seqS'}\neq 0$. By definition, we have
-    \begin{align*}
-            \frac{p^{\sigma'}_{\sigma', \tau', \seqS'}}{p^{\sigma}_{\sigma, \tau,\seqS}} &= \frac{\Pr[\!{cp}]{(\sigma', \tau', \seqS')}}{\mu^{\sigma_{\bot}}(\sigma')} \cdot \frac{\mu^{\sigma_{\bot}}(\sigma)}{\Pr[\!{cp}]{(\sigma, \tau, S)}}\geq  B_{\min} \cdot \frac{\mu^{\sigma_{\bot}}(\sigma)}{\mu^{\sigma_{\bot}}(\sigma')} \geq  B_{\min},
-        \end{align*}
-        where the first inequality follows from the fact that the selection of the updated edges involves no randomness and \Cref{lem:marginal-bound}.
-    \end{itemize}
+    \[\sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} =p^{\sigma}_{\sigma, \tau, \seqS} \geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS},\]
+    where the last inequality is by $B_{\min} \leq 1$.
+    Therefore, \eqref{eqn-error-bound-sigma} is proved.
     
-     %    For $(\sigma, \tau, \seqS, v, L) \in \+W \setminus \+W^{\!{cp}}$, the inequality holds immediately since the associated quantity is $0$. Therefore, it suffices to show~\eqref{eqn-error-bound} for the nodes $(\sigma, \tau, \seqS, v, L)\in  \+W^{\!{cp}}$. Since the selection of the updated edges involves no randomness, it implies that $\abs{U} = 1$. Suppose $U = \set{(\sigma', \tau', \seqS')}$. We have
-     %    \begin{align*}
-     %        \frac{p^{\sigma'}_{\sigma', \tau', \seqS'}}{p^{\sigma}_{\sigma, \tau,\seqS}} &= \frac{\Pr{(\sigma', \tau', \seqS')}}{\Pr[X \sim \mu]{X \in \sigma' \mid X(e_\bot) = 1}} \cdot \frac{\Pr[X \sim \mu]{X \in \sigma \mid X(e_\bot) = 1}}{\Pr{(\sigma, \tau, S)}}\\
-     %        &=\frac{\Pr{(\sigma', \tau', \seqS')}}{\Pr{(\sigma, \tau, S)}} \cdot \frac{\Pr[X \sim \mu]{X \in \sigma \mid X(e_\bot) = 1}}{\Pr[X \sim \mu]{X\in \sigma' \mid X(e_\bot) = 1}}  \\
-     %        &\geq  B_{\min} \cdot \frac{\Pr[X\sim \mu]{X\in \sigma \mid X(e_\bot) = 1}}{\Pr[X\sim \mu]{X\in \sigma' \mid X(e_\bot) = 1}} \geq  B_{\min}. \tag{by \Cref{lem:marginal-bound}}
-     %    \end{align*}
-    	% Similarly, we can show that $ p^{\tau'}_{\sigma',\tau',\seqS'} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau,\seqS}$. 
-     Combining these facts, the proof is immediate.
-    \end{proof}
+    \item $(\sigma,\tau,\seqS)$ is feasible and $E^{\sigma}_v \neq \emptyset$. 
+    Assume $\emph{w.l.o.g.}$ ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
+    Let $\ell$ denote $\abs{E_v^\sigma}$. 
+    Let $e$ be the first edge in $E_{v}^{\sigma}$ with $\mu^{\sigma}_e(1) \geq \mu^{\tau}_e(1)$.
+
+    Let $t$ denote $\abs{\seqS}$ and $r$ denote $\abs{E^{\sigma}_v}$. 
+    Define a sequence of edges $e_1,e_2,\cdots,e_r\in E^{\sigma}_v$ recursively as follows.
+    For each $0\leq i<r$, let $e_{i+1}$ be the first edge in $E_{v}^{\sigma^{i}}$ with $\mu^{\sigma^{i}}_{e_{i+1}}(1) \geq \mu^{\tau^{i}}_{e_{i+1}}(1)$ where 
+    \[\sigma^i \triangleq \sigma\land(e_1\leftarrow 0)\land \cdots\land (e_{i}\leftarrow 0), \quad \tau^i \triangleq \tau\land(e_1\leftarrow 0)\land \cdots\land (e_{i}\leftarrow 0).\]
+    Specifically, we have $\sigma^0 = \sigma$ and $\tau^0 = \tau$.
+    We remark that there must be an edge $e\in E_{v}^{\sigma^{i}}$ with $\mu^{\sigma^{i}}_{e}(1) \geq \mu^{\tau^{i}}_{e}(1)$, by 
+    $\!{Ham}\left(\sigma^i, {E_v}\right) = \!{Ham}\left(\sigma, {E_v}\right) < \!{Ham}\left(\tau, {E_v}\right) = \!{Ham}\left(\tau^i, {E_v}\right)$,
+    $\abs{E_{v}^{\sigma^{i}}} = \abs{E_{v}^{\sigma}} - i = r - i>0$ and the third item of \Cref{prop:coupling-correctness}. 
+    Thus, $e_{i+1}$ is well-defined.
+    For each $0\leq i<r$, Define 
+    \[\seqS^i \triangleq \seqS\circ e_1\circ\cdots\circ e_{i-1}.\]
+    Specifically, we have $\seqS^0 = \seqS$.
+    Recall the $\ell$-truncated 
+    random process $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$.
+    Let $\+E_i$ denote the event $(T\geq t+i)\land \left((\sigma_{t+i},\tau_{i+i}, \seqS_{t+i})= (\sigma^i,\tau^i,\seqS^i)\right)$.
+    Assume $\+E_i$ happens.
+    We have 
+    $L(\sigma_{t+i},\tau_{t+i}) = L(\sigma^i,\tau^i) = L(\sigma,\tau)<\ell$, where the last inequality is the condition of this lemma.
+    Meanwhile, recalling that $\abs{E_{v}^{\sigma^{i}}}>0$,
+    we have $E_{v}^{\sigma_{t+i}} = E_{v}^{\sigma^{i}} \neq \emptyset$.
+    Combining $L(\sigma_{t+i},\tau_{t+i})<\ell, E_{v}^{\sigma_{t+i}}  \neq \emptyset$ with  \Cref{def:truncated-random-process}, 
+    we have $T>t+i$,    
+    $e_{i+1}$ is the selected edge at the state $(\sigma_{t+i},\tau_{t+i},\seqS_{t+i})= (\sigma^i,\tau^i,\seqS^i)$,
+    and $(\sigma_{t+i+1}(e_{i+1}),\tau_{t+i+1}(e_{i+1}))$ is sampled from an optimal coupling of $(\sigma_{t+i},\tau_{t+i}) =(\sigma^i,\tau^i)$. 
+    Thus, 
+    \begin{align*}
+    \Pr{(T\geq t+i+1)\land \left((\sigma_{t+i+1},\tau_{t+i+1},\seqS_{t+i+1}) = (\sigma^{i+1},\tau^{i+1},\seqS^{i+1})\right)} 
+    =& \Pr{(\sigma_{t+i+1}(e_{i+1})=\tau_{t+i+1}(e_{i+1}) = 0)} 
+    \\=& \min\left\{\mu^{\sigma^{i}}_{e_{i+1}}(0), \mu^{\sigma^{i}}_{e_{i+1}}(0)\right\} = \mu^{\sigma^{i}}_{e_{i+1}}(0)
+    \end{align*}
+    where the last inequality is by $\mu^{\sigma^{i}}_{e_{i+1}}(1) \geq \mu^{\tau^{i}}_{e_{i+1}}(1)$.
+    Formally, we have 
+    \begin{align*}
+    \Pr{\+E_{i+1}\mid \+E_{i}} 
+    =& \mu^{\sigma^{i}}_{e_{i+1}}(0).
+    \end{align*}
+Thus, we have 
+\begin{align*}
+     \Pr{\+E_{r}} = \Pr{\+E_{0}} \cdot\prod_{i=0}^{r-1}\Pr{\+E_{i+1}\mid \+E_{i}}
+    =& \Pr{\+E_{0}} \cdot \prod_{i=0}^{r-1}\mu^{\sigma^{i}}_{e_{i+1}}(0)= \Pr{\+E_{0}} \cdot  \mu_{E_v^\sigma}^{\sigma}(\zero)
+\geq \Pr{\+E_{0}}\cdot B_{\min}(\Phi),
+    \end{align*}
+where the last inequality is by \Cref{lem:marginal-bound}.
+In addition, by \Cref{def-notation-trp} we have 
+    \begin{align*}
+    \Pr[\!{cp}]{(\sigma, \tau, \seqS)} \triangleq \Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)} = \Pr{\+E_{0}},
+    \end{align*}
+    \begin{align*}
+    \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} \triangleq \Pr{\left(T\geq t+r\right)\land \left((\sigma_r, \tau_r, \seqS_r) = (\sigma_{t+r}, \tau_{t+r}, \seqS_{t+r})\right)} = \Pr{\+E_{r}}.
+    \end{align*}
+Therefore, we have
+\begin{align*}
+     \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} 
+\geq \Pr[\!{cp}]{(\sigma, \tau, \seqS)}\cdot B_{\min}(\Phi).
+    \end{align*}
+Meanwhile, by $(\sigma,\tau,\seqS)$ is feasible and $(\sigma,\tau,\seqS)\in V(\+T)$, we have $(\sigma,\tau,\seqS)\in \+V$. 
+In addition, by $(\sigma,\tau,\seqS)$ is feasible and \Cref{lem:marginal-bound}, one can also verify that 
+$(\sigma^r, \tau^r, \seqS^r)$ is also feasible.
+By $(\sigma,\tau,\seqS)\in V(\+T)$, $L(\sigma, \tau)<r$ and \Cref{def:truncated-coupling-tree},
+one can also verify that $(\sigma^r, \tau^r, \seqS^r)\in V(\+T)$
+through induction.
+Therefore, we also have $(\sigma^r, \tau^r, \seqS^r)\in \+V$.
+Combing $(\sigma,\tau,\seqS)\in \+V$, $(\sigma^r, \tau^r, \seqS^r)\in \+V$ with \eqref{eqn-marginal-all}, we have 
+\begin{align}
+        p^{\sigma^r}_{\sigma^r, \tau^r, \seqS^r} = \Pr[\!{cp}]{(\sigma^r,\tau^r, \seqS^r)}/ \mu^{\sigma_{\bot}}_{\seqS^r}(\sigma^r) \geq \Pr[\!{cp}]{(\sigma,\tau, \seqS)}/ \mu^{\sigma_{\bot}}_{\seqS}(\sigma) = p^{\sigma}_{\sigma, \tau, \seqS}
+    \end{align}
+
+
+
+
+    
+    
+    
+    
+    \end{itemize}
+\end{proof}
 
 
     
@@ -1160,23 +1229,41 @@ In this section, we show how to design a deterministic algorithm to efficiently 
 
 \subsection{Setting up the linear program}
 
-In this section, we introduce a linear program built on the truncated coupling tree where any node in the coupling tree is associated with variables.
+This section introduces a linear program induced by the coupling process described in \Cref{def:truncated-random-process}.
+In the coupling process, for each possible state $(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$, if ${\!{Ham}\left(\sigma_t, {E_{v_t}}\right)} < {\!{Ham}\left(\tau_t, {E_{v_t}}\right)}$,
+only one edge $e$ in $E_{v_t}^{\sigma_t}$ satisfying $\mu^{\sigma_t}_e(1) \geq \mu^{\tau_t}_e(1)$ is selected to be assigned at this state.
+Otherwise, only one edge $e$ in $E_{v_t}^{\sigma_t}$ satisfying $\mu^{\sigma_t}_e(1) \leq \mu^{\tau_t}_e(1)$ is selected.
+However, determining whether $\mu^{\sigma_t}_e(1) \geq \mu^{\tau_t}_e(1)$ is challenging 
+because we do \emph{not} know how to estimate the marginal probability.
+Therefore, rather than constructing an LP where the selected edge at each state is predetermined,
+we build our LP on the $\ell$-truncated coupling tree in \Cref{def:truncated-coupling-tree},
+where all the edges in $E_{v_t}^{\sigma_t}$ can be selected with undetermined probabilities.
+The selected probability for each edge in $E_{v_t}^{\sigma_t}$
+can then be determined by solving the LP.
+
 % Later, we will show that the coupling process ensures the feasibility of a linear program concerning these variables.
 
 \begin{definition}[Linear Program Induced by the Coupling] \label{def:induced-LP}
 \emph{
-    For any positive integer $\ell$, let $\+T = \+T_{\ell}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ be the $\ell$-truncated coupling tree and $0 \leq r^- \leq r^+\leq r_{\max}(\Phi)$ be two parameters satisfying
+    For any instance $\left(\Phi = (G, \vecf),  \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying \Cref{cond-instancepair} and  any positive integer $\ell$, 
+    let $\+T = \+T_{\ell}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ be the $\ell$-truncated coupling tree in \Cref{def:truncated-coupling-tree} and $0 \leq r^- \leq r^+\leq r_{\max}(\Phi)$ be two parameters satisfying
     \begin{align*}
         r^- \leq \frac{\mu_{e_{\bot}}(1)}{\mu_{e_{\bot}}(0)} \leq r^+.
     \end{align*}
-    For each $(\sigma, \tau, \seqS, v, L) \in V(\+T)$, we associate it with variables $\widehat{p}_{\sigma, \tau, \seqS}^{\sigma}$, $\widehat{p}_{\sigma,\tau, \seqS}^{\tau}$; for each non-leaf node $(\sigma,\tau,\seqS,v,L)$ in $V(\+T)$, we associate it with variables $\widehat{p}_{\sigma,\tau,\seqS,e}^{\sigma}$, and $\widehat{p}_{\sigma,\tau,\seqS,e}^{\tau}$ for each $e\in E_v^{\sigma}$. The linear program can be established as follows:
+    The LP induced by the $\ell$-truncated random process in \Cref{def:truncated-random-process} is as follows.
+    The variables of the LP are:
+    \begin{itemize}
+    \item For each $(\sigma, \tau, \seqS) \in V(\+T)$, there are two variables $\widehat{p}_{\sigma, \tau, \seqS}^{\sigma}$, $\widehat{p}_{\sigma,\tau, \seqS}^{\tau}$.
+    \item For each $(\sigma,\tau,\seqS)$ in $\+V\setminus \+L$ and each $e\in E_v^{\sigma}$, there are two variables $\widehat{p}_{\sigma,\tau,\seqS,e}^{\sigma}$, and $\widehat{p}_{\sigma,\tau,\seqS,e}^{\tau}$.
+    \end{itemize}
+    The constraints of the LP are:
     \begin{enumerate}
         \item All $p^{\sigma}_{\sigma, \tau, \seqS}, p^{\tau}_{\sigma, \tau, \seqS},p^{\sigma}_{\sigma, \tau, \seqS,e}, p^{\tau}_{\sigma, \tau, \seqS,e}$ are in $[0, 1]$. In particular, $\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing}=\widehat{p}^{\tau_\bot}_{\sigma_\bot,\tau_\bot,\varnothing} = 1$.
-        \item For each $(\sigma, \tau, \seqS, v, L)\in \+V\setminus\+L$, 
+        \item For each $(\sigma, \tau, \seqS)\in \+V\setminus\+L$, 
             \begin{align}\label{eqn-hat-inter-sum1}
                \widehat{p}^{\sigma}_{\sigma, \tau, \seqS} = \sum_{e \in  E_v^{\sigma}} \widehat{p}^{\sigma}_{\sigma, \tau, \seqS, e}, \quad  \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=\sum_{e\in  E_v^{\sigma}} \widehat{p}^{\tau}_{\sigma,\tau, \seqS,e}.
             \end{align}
-        \item For each $(\sigma, \tau, \seqS, v, L)\in \+V\setminus\+L$ and each $e\in E_v^{\sigma}$,
+        \item For each $(\sigma, \tau, \seqS)\in \+V\setminus\+L$ and each $e\in E_v^{\sigma}$,
             if ${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$, 
             \begin{align}\label{eqn-hat-inner-child-sum1}
                 \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}=\widehat{p}^{\sigma\land (e\gets 0)}_{\sigma\land (e\gets 0),\tau\land (e\gets 0), \seqS \circ e}, \quad  \widehat{p}^{\sigma}_{\sigma,\tau, \seqS,e}=\widehat{p}^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 0), \seqS \circ e} + \widehat{p}^{\sigma \land (e\gets 1)}_{\sigma\land (e\gets 1),\tau \land (e\gets 1), \seqS \circ e},
@@ -1191,15 +1278,15 @@ In this section, we introduce a linear program built on the truncated coupling t
             \begin{align}\label{eqn-hat-inner-child-sum4}
                  \widehat{p}^{\tau}_{\sigma,\tau,\seqS,e}= \widehat{p}^{\tau\land (e\gets 0)}_{\sigma\land (e\gets 0),\tau\land (e\gets 0),\seqS\circ e}, \quad   \widehat{p}^{\tau}_{\sigma,\tau,\seqS,e}= \widehat{p}^{\tau\land (e\gets 1)}_{\sigma\land (e\gets 0),\tau\land (e\gets 1),\seqS\circ e} +  \widehat{p}^{\tau \land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 1),\seqS\circ e}.
             \end{align}
-        \item For any $(\sigma,\tau,\seqS,v,L)\in \+L_{\!{good}}\cap \+V$,
+        \item For any $(\sigma,\tau,\seqS)\in \+L_{\!{good}}\cap \+V$,
             \begin{align}\label{eqn-hat-ratio}
                  \frac{ \mu(\tau)}{ \mu(\sigma)}\cdot r^-\cdot {\widehat{p}^{\tau}_{\sigma,\tau, \seqS}}\leq {\widehat{p}^{\sigma}_{\sigma,\tau, \seqS}}\leq  \frac{ \mu(\tau)}{ \mu(\sigma)}\cdot  r^+ \cdot{\widehat{p}^{\tau}_{\sigma,\tau, \seqS}}.
             \end{align}
-        \item For any $(\sigma,\tau, \seqS,v,L)\in V(\+T)$ and $\+D \triangleq \+D(\sigma,\tau, \seqS,v,L)$,
+        \item For any $(\sigma,\tau, \seqS)\in V(\+T)$ where $L< \ell$ and $\+D \triangleq \+D(\sigma,\tau, \seqS,v,L)$,
            \begin{align}\label{eqn-hat-error-bound}
-               \sum_{(\sigma',\tau',\seqS',v',L')\in \+D}\widehat{p}^{\sigma'}_{\sigma',\tau', \seqS'} \geq  B_{\min} \cdot \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}, \quad \sum_{(\sigma',\tau',\seqS',v',L')\in \+D}\widehat{p}^{\tau'}_{\sigma',\tau',\seqS'}\geq  B_{\min} \cdot \widehat{p}^{\tau}_{\sigma,\tau,\seqS}.
+               \sum_{(\sigma',\tau',\seqS')\in \+D}\widehat{p}^{\sigma'}_{\sigma',\tau', \seqS'} \geq  B_{\min} \cdot \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}, \quad \sum_{(\sigma',\tau',\seqS')\in \+D}\widehat{p}^{\tau'}_{\sigma',\tau',\seqS'}\geq  B_{\min} \cdot \widehat{p}^{\tau}_{\sigma,\tau,\seqS}.
            \end{align}
-        \item  For each infeasible node $(\sigma, \tau, \seqS, v, L)$ in $V(\+T)$, $ \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}= \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=0$. 
+        \item  For each node $(\sigma, \tau, \seqS)$ in $V(\+T)\setminus \+V$, $ \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}= \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=0$. 
     \end{enumerate}
 }
 \end{definition}
@@ -1211,7 +1298,7 @@ In this section, we introduce a linear program built on the truncated coupling t
 %     \qgl{It suffices to observe that we can embed the quantities induced from $\+V^{\!{cp}}$ and let those not in $\+V^{\!{cp}}$ be zero. Note that $\+L^{\!{cp}}\setminus \+L_{\ell}^{\!{cp}} \subseteq \+L_{\!{good}}$.} 
 % \end{proof}
 
-\subsection{The analysis of the linear program} \zdtodo{change notations in simpler ones}
+\subsection{The analysis of the linear program}
 
 We put some properties of the linear program in~\Cref{def:induced-LP} here. Firstly we show that the linear program can be built efficiently.
 
@@ -1231,9 +1318,9 @@ We put some properties of the linear program in~\Cref{def:induced-LP} here. Firs
 
     For $(\sigma, \tau, \seqS, v, L) \in V(\+T)$, by~\Cref{lem:partial-assignment-feasibility,lemma-property-tct-vl}, we can check the feasibility of $\sigma, \tau$ in time $O(\abs{\Lambda(\sigma)}) = O(\abs{\seqS})$. By~\Cref{prop:property-of-truncated-tree}, it holds that $\abs{\seqS} \le \Delta \ell$, meaning that the time for checking feasibility is $O(\Delta \ell)$.
     
-    For a node $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}$, to compute $\frac{\Pr[X \sim \mu_\Phi]{X \in \tau}}{\Pr[X \sim \mu_\Phi]{X \in \sigma}}$, we have
+    For a node $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}$, to compute $\frac{\mu(\tau)}{\mu(\sigma)}$, we have
     \begin{align*}
-        \frac{\Pr[X \sim \mu_\Phi]{X \in \tau}}{\Pr[X \sim \mu_\Phi]{X \in \sigma}} &= \frac{\sum_{x : E \to \set{0, 1} : x \in \tau} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}{\sum_{x : E \to \set{0, 1} : x \in \sigma} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}.
+        \frac{\mu(\tau)}{\mu(\sigma)} &= \frac{\sum_{x : E \to \set{0, 1} : x \in \tau} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}{\sum_{x : E \to \set{0, 1} : x \in \sigma} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}.
     \end{align*}
     Since $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}$, it holds that $E_v^{\sigma} = \emptyset$ and for every $u \in V \setminus \set{v}$, $\Ham(\sigma, E_u) = \Ham(\tau, E_u)$. For every $x : E \to \set{0, 1}$ where $x \in \tau$, let $y : E \to \set{0, 1}$ be defined as
     \begin{align*}
@@ -1248,9 +1335,10 @@ We put some properties of the linear program in~\Cref{def:induced-LP} here. Firs
     \end{align*}
     Hence we conclude that
     $$
-        \frac{\Pr[X \sim \mu_\Phi]{X \in \tau}}{\Pr[X \sim \mu_\Phi]{X \in \sigma}} = \frac{f_v\left(\abs{\tau \vert_{E_v}}\right)}{f_v\left(\abs{\sigma \vert_{E_v}}\right)}.
+        \frac{\mu(\tau)}{\mu(\sigma)} = \frac{f_v\left(\abs{\tau \vert_{E_v}}\right)}{f_v\left(\abs{\sigma \vert_{E_v}}\right)}.
     $$
-    Since the ratio can be computed in time $O(\Delta)$, for every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, we can build constraints in time $O(\Delta)$.
+    Since each ratio can be calculated in time $O(\Delta)$, we can build the constraints on all good leaves in time $\poly\left(\Delta^{\Delta\ell}\right)$.
+    % Since the ratio can be computed in time $O(\Delta)$, for every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, we can build constraints in time $O(\Delta)$.
 
     Combining all together, we can build the LP and check its feasibility in time $\poly\left(\Delta^{\Delta\ell}\right)$.
 \end{proof}
@@ -1262,11 +1350,11 @@ The following lemma ensures the feasibility of the LP by the coupling process.
 \begin{proof}
     Recall the quantities associated with the random process $P^{\cp} = P_{\ell}^{\cp}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$. We show how to induce a solution to the LP from them.
 
-    For every $(\sigma, \tau, \seqS) \in V(\+T)$, if $(\sigma, \tau, \seqS) \in \+V^{\cp}$\zdtodo{clarify this symbol in the above section}, we let
+    For every $(\sigma, \tau, \seqS) \in V(\+T)$, if there exists some state in $\+V^{\cp}$ with label $(\sigma, \tau, \seqS)$, we let
     $$
         \wh{p}_{\sigma, \tau, \seqS}^{\sigma} = p_{\sigma, \tau, \seqS}^{\sigma}, \quad \wh{p}_{\sigma, \tau, \seqS}^{\tau} = p_{\sigma, \tau, \seqS}^{\tau}
     $$
-    and if additionally $(\sigma, \tau, \seqS) \in \+V^{\cp} \setminus \+L^{\cp}$, for every $e \in E_v^{\sigma}$,
+    and if additionally the state $(\sigma, \tau, \seqS) \in \+V^{\cp} \setminus \+L^{\cp}$ is not a possible outcome, for every $e \in E_v^{\sigma}$,
     $$
         \wh{p}_{\sigma, \tau, \seqS, e}^{\sigma} = p_{\sigma, \tau, \seqS}^{\sigma, e}, \quad \wh{p}_{\sigma, \tau, \seqS, e}^{\tau} = p_{\sigma, \tau, \seqS, e}^{\tau};
     $$
@@ -1288,15 +1376,15 @@ Lastly, we show that a feasible solution to the LP gives both upper and lower bo
 %     $$
 % \end{remark}
 
-To prove~\Cref{thm:ratio-bound-by-LP}, we show some properties of the feasible solution to the linear program.
+To prove~\Cref{thm:ratio-bound-by-LP}, we show some properties of the feasible solution to the LP.
 
 \begin{lemma} \label{lem:ratio-identity}
-    The following inequalities hold:
+    The following identities hold:
     \begin{align*}
-        \mu_{e_{\bot}}(1) = \sum_{(\sigma, \tau, \seqS,v,L) \in \+L}\mu(\sigma)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\sigma},
+        \mu_{e_{\bot}}(1) = \sum_{(\sigma, \tau, \seqS) \in \+L}\mu(\sigma)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\sigma},
     \end{align*}
     \begin{align*}
-        \mu_{e_{\bot}}(0)  = \sum_{(\sigma, \tau, \seqS,v,L) \in \+L}\mu(\tau)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\tau}.
+        \mu_{e_{\bot}}(0)  = \sum_{(\sigma, \tau, \seqS) \in \+L}\mu(\tau)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\tau}.
     \end{align*}
 \end{lemma}
 
@@ -1305,10 +1393,10 @@ The following lemma is the key ingredient to prove~\Cref{lem:ratio-identity}.
 \begin{lemma} \label{lem:ratio-identity-partial}
 The following identities hold:
     \begin{align}\label{eqn-sum-leftside}
-        \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=1,
+        \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=1,
     \end{align}
     \begin{align}\label{eqn-sum-rightside}
-        \forall y\in \tau_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=1.
+        \forall y\in \tau_\bot, \quad \sum_{(\sigma,\tau, \seqS)\in \+L: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=1.
     \end{align}
 \end{lemma}
 
@@ -1320,100 +1408,102 @@ The following identities hold:
     and $\+L^{i}$ be the leaf nodes of $\+T^{i}$.
     We will prove 
     \begin{align}\label{eqn-subtree-l-tct}
-        \forall x\in \sigma_\bot,0\leq i\leq \ell, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L^i: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=1,
+        \forall x\in \sigma_\bot,0\leq i\leq \ell, \quad \sum_{(\sigma,\tau, \seqS)\in \+L^i: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=1,
     \end{align}
     Then \eqref{eqn-sum-leftside} is immediate.    
     We prove \eqref{eqn-subtree-l-tct} by induction on $i$.
     The induction basis is when $i = 0$.
-    In this case, by \Cref{def:truncated-coupling-tree} we have $\+T^0$ is a tree with a unique node $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)$.
+    In this case, by \Cref{def:truncated-coupling-tree} we have $\+T^0$ is a tree with a unique node $(\sigma_\bot, \tau_\bot, \varnothing)$.
     In addition, by \Cref{def:induced-LP}, we have 
     $\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing} = 1$.
     Therefore, 
      \begin{align*}
-        \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L^0: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot. \varnothing} = 1.
+        \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS)\in \+L^0: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing} = 1.
     \end{align*}
     The base case is proved. For the induction step, we fix an $x\in \sigma_\bot$.    
-    For each node $(\sigma,\tau,\seqS,v,L)\in \+L^i$,
-    let $\+C \triangleq \+C((\sigma,\tau,\seqS,v,L))$ be the children of $(\sigma,\tau,\seqS,v,L)$ in $\+T^{i+1}$. 
-    By $(\sigma,\tau,\seqS,v,L) \in \+L^{i}$, we have 
+    For each node $(\sigma,\tau,\seqS)\in \+L^i$,
+    let $\+C \triangleq \+C((\sigma,\tau,\seqS))$ be the children of $(\sigma,\tau,\seqS)$ in $\+T^{i+1}$. 
+    By $(\sigma,\tau,\seqS) \in \+L^{i}$, we have 
     $\+C\subseteq \+L^{i+1}$.
     Define 
     \begin{align}\label{def-cplus}
-    \+C^{+} \triangleq \+C^{+}((\sigma,\tau,\seqS,v,L)) = \left(\+C\cup \{(\sigma,\tau,\seqS,v,L)\}\right)\cap \+L^{i+1}.
+    \+C^{+} \triangleq \+C^{+}((\sigma,\tau,\seqS)) = \left(\+C\cup \{(\sigma,\tau,\seqS)\}\right)\cap \+L^{i+1}.
     \end{align}
     We claim that 
     \begin{align}\label{eq-extension-sum}
-    \forall (\sigma,\tau,\seqS,v,L)\in \+L^i,\quad \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma} = \sum_{(\sigma',\tau', \seqS',v',L')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{\ x\in \sigma'}.
+    \forall (\sigma,\tau,\seqS)\in \+L^i,\quad \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma} = \sum_{(\sigma',\tau', \seqS')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{\ x\in \sigma'}.
     \end{align}
     Thus, we have 
     \begin{align*}
-        \sum_{(\sigma,\tau, \seqS,v,L)\in \+L^{i+1}} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{\ x\in \sigma}&=\sum_{u = (\sigma,\tau, \seqS,v,L)\in \+L^{i}}\sum_{(\sigma',\tau', \seqS',v',L')\in \+C^{+}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{ x\in \sigma'}\\
-        &=\sum_{(\sigma,\tau, \seqS,v,L)\in \+L^{i}}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}\\
-        &=\sum_{(\sigma,\tau, \seqS,v,L)\in \+L^i:\  x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\\
+        \sum_{(\sigma,\tau, \seqS)\in \+L^{i+1}} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{\ x\in \sigma}&=\sum_{u \in \+L^{i}}\sum_{(\sigma',\tau', \seqS')\in \+C^{+}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{ x\in \sigma'}\\
+        &=\sum_{(\sigma,\tau, \seqS)\in \+L^{i}}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}\\
+        &=\sum_{(\sigma,\tau, \seqS)\in \+L^i:\  x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\\
         &=1,
     \end{align*}
     where the second equality is by \eqref{eq-extension-sum} and the last equality is by the induction hypothesis.
     This completes the induction step and \eqref{eqn-subtree-l-tct} is immediate.
 
-    In the following, we prove \eqref{eq-extension-sum}, which completes the proofs of \eqref{eqn-subtree-l-tct} and the lemma. Fix a $(\sigma,\tau,\seqS,v,L)\in \+L^i$.  
-    If $x\not \in \sigma$, we have $x\not\in \sigma'$ for each $(\sigma',\tau',\seqS',v',L')\in \+C$.
+    In the following, we prove \eqref{eq-extension-sum}, which completes the proofs of \eqref{eqn-subtree-l-tct} and the lemma. Fix a $(\sigma,\tau,\seqS)\in \+L^i$.  
+    If $x\not \in \sigma$, we have $x\not\in \sigma'$ for each $(\sigma',\tau',\seqS')\in \+C$.
     Thus, 
     \begin{align*}
-    \sum_{(\sigma',\tau', \seqS',v',L')\in \+C^{+} } \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{x\in \sigma'}=\sum_{(\sigma',\tau', \seqS',v',L')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'} =0 = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}.
+    \sum_{(\sigma',\tau', \seqS')\in \+C^{+} } \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{x\in \sigma'}=\sum_{(\sigma',\tau', \seqS')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'} =0 = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}.
     \end{align*}
     Then \eqref{eq-extension-sum} is proved.
     Otherwise, $x \in \sigma$.     
     By \Cref{def:truncated-coupling-tree},
     there are only two possibilities.
     \begin{itemize}
-    \item If $L\geq \ell$ or $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS, v, L)$ is infeasible, then $(\sigma,\tau,\seqS,v,L)$ is a leaf node in $\+T$.
-    Therefore, we have $(\sigma,\tau,\seqS,v,L)\in \+L^{i+1}$ and $\+C = \emptyset$.
-    Thus, $\+C^+ = (\sigma, \tau, \seqS, v, L)$.
+    \item If $L\geq \ell$ or $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS)$ is infeasible, then $(\sigma,\tau,\seqS)$ is a leaf node in $\+T$.
+    Therefore, we have $(\sigma,\tau,\seqS)\in \+L^{i+1}$ and $\+C = \emptyset$.
+    Thus, $\+C^+ = (\sigma, \tau, \seqS)$.
     We have 
     \begin{align*}
-    \sum_{(\sigma',\tau', \seqS',v',L')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{x\in \sigma'} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}.
+    \sum_{(\sigma',\tau', \seqS')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \id{x\in \sigma'} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \id{x \in \sigma}.
     \end{align*}
     Then \eqref{eq-extension-sum} is proved.    
-    \item Otherwise, $(\sigma,\tau,\seqS,v,L)$ is not a leaf node in $\+T$. Combining with $(\sigma,\tau,\seqS,v,L) \in \+L^{i}$, we have 
-    $(\sigma,\tau,\seqS,v,L)\\ \not\in \+L^{i+1}$.
-    Thus, by \eqref{def-cplus}, we have $(\sigma,\tau,\seqS,v,L) \not\in \+C^{+}$.
+    \item Otherwise, $(\sigma,\tau,\seqS)$ is not a leaf node in $\+T$. Combining with $(\sigma,\tau,\seqS) \in \+L^{i}$, we have 
+    $(\sigma,\tau,\seqS) \not\in \+L^{i+1}$.
+    Thus, by \eqref{def-cplus} we have $(\sigma,\tau,\seqS) \not\in \+C^{+}$.
     We claim that 
     \begin{align}\label{eq-extension-sum-edge}
-     \forall e = \set{u,v} \in E_v^{\sigma}, \quad \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \sum_{(\sigma',\tau', \seqS\circ e,v',L')\in \+C } \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{x\in \sigma'}.
+     \forall e = \set{u,v} \in E_v^{\sigma}, \quad \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \sum_{(\sigma',\tau', \seqS\circ e)\in \+C } \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{x\in \sigma'}.
     \end{align}
-    In addition, by $(\sigma,\tau,\seqS,v,L)$ is not a leaf node in $\+T$ and \Cref{prop:property-of-truncated-tree}, we have 
-    $(\sigma,\tau,\seqS,v,L)\in \+V\setminus \+L$.
-    Moreover, by \Cref{def:truncated-coupling-tree}, we have each $(\sigma',\tau', \seqS',v',L')\in \+C$ satisfies $\seqS' = \seqS \circ e$ for some $e \in E_v^{\sigma}$. Formally,
+    In addition, by $(\sigma,\tau,\seqS)$ is not a leaf node in $\+T$ and \Cref{prop:property-of-truncated-tree}, we have 
+    $(\sigma,\tau,\seqS)\in \+V\setminus \+L$.
+    Moreover, by \Cref{def:truncated-coupling-tree}, we have each $(\sigma',\tau', \seqS')\in \+C$ satisfies $\seqS' = \seqS \circ e$ for some $e \in E_v^{\sigma}$. Formally,
     \begin{align}\label{eq-c-ce}
-    \+C = \left\{(\sigma',\tau', \seqS\circ e,v',L')\mid (\sigma',\tau', \seqS\circ e,v',L')\in \+C,e\in E_v^{\sigma}\right\}.
+    \+C = \left\{(\sigma',\tau', \seqS\circ e)\mid (\sigma',\tau', \seqS\circ e)\in \+C,e\in E_v^{\sigma}\right\}.
     \end{align}
     Thus, we have 
     \begin{align*}
        &\widehat{p}^{\sigma}_{\sigma, \tau, \seqS} \cdot \id{x \in \sigma} \\
-       (\text{by $(\sigma,\tau,\seqS,v,L)\in \+V\setminus \+L$ and \eqref{eqn-hat-inter-sum1}})\quad = &\sum_{e \in  E_v^{\sigma}} \left(\widehat{p}^{\sigma}_{\sigma, \tau, \seqS, e}\cdot \id{x \in \sigma}\right)\\ 
-       (\text{by \eqref{eq-extension-sum-edge}})\quad = &\sum_{e \in  E_v^{\sigma}}\sum_{(\sigma',\tau', \seqS\circ e,v',L')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot\id{ x\in \sigma'}\\
-       (\text{by \eqref{eq-c-ce}})\quad  =&\sum_{(\sigma',\tau', \seqS',v',L')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'}\\
-(\text{by $(\sigma,\tau,\seqS,v,L) \not\in \+C^{+}$})\quad =&\sum_{(\sigma',\tau', \seqS',v',L')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'}.
+       (\text{by $(\sigma,\tau,\seqS)\in \+V\setminus \+L$ and \eqref{eqn-hat-inter-sum1}})\quad = &\sum_{e \in  E_v^{\sigma}} \left(\widehat{p}^{\sigma}_{\sigma, \tau, \seqS, e}\cdot \id{x \in \sigma}\right)\\ 
+       (\text{by \eqref{eq-extension-sum-edge}})\quad = &\sum_{e \in  E_v^{\sigma}}\sum_{(\sigma',\tau', \seqS\circ e)\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot\id{ x\in \sigma'}\\
+       (\text{by \eqref{eq-c-ce}})\quad  =&\sum_{(\sigma',\tau', \seqS')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'}\\
+(\text{by $(\sigma,\tau,\seqS) \not\in \+C^{+}$})\quad =&\sum_{(\sigma',\tau', \seqS')\in \+C^{+}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot\id{ x\in \sigma'}.
     \end{align*}
     Then \eqref{eq-extension-sum} is immediate.
+    
     In the following, we prove \eqref{eq-extension-sum-edge}, which completes the proof of \eqref{eq-extension-sum}.
+    Recall that $x\in \sigma$, $(\sigma,\tau,\seqS)$ is not a leaf node in $\+T$ and $(\sigma,\tau,\seqS) \in \+L^{i}$.
     Fix an edge $ e = \set{u,v} \in E_v^{\sigma}$.
     Let $\sigma^{a} = \sigma \land (e \gets a)$ and $\tau^{a} = \tau \land (e \gets a)$ for each $a\in \{0,1\}$.    
     We prove \eqref{eq-extension-sum-edge} by considering two separate cases. 
         \begin{enumerate}[(i)]
-            \item ${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$. In this case, by \Cref{def:truncated-coupling-tree}, $(\sigma,\tau,\seqS,v,L)$ has three children related to $e$ in $\+L^{i+1}$, i.e., $(\sigma^0, \tau^0, \seqS \circ e, v, L)$, $(\sigma^1, \tau^0, \seqS \circ e, u, L+1)$, and $(\sigma^1, \tau^1, \seqS \circ e, v, L)$ . Assume \emph{w.l.o.g.} $x(e) = 0$.
+            \item ${\!{Ham}\left(\sigma,{E_v}\right)}<{\!{Ham}\left(\tau,{E_v}\right)}$. In this case, by \Cref{def:truncated-coupling-tree}, $(\sigma,\tau,\seqS)$ has three children related to $e$ in $\+L^{i+1}$, i.e., $(\sigma^0, \tau^0, \seqS \circ e)$, $(\sigma^1, \tau^0, \seqS \circ e)$, and $(\sigma^1, \tau^1, \seqS \circ e)$ . Assume \emph{w.l.o.g.} $x(e) = 0$.
             We have 
-            \[\left\{(\sigma',\tau', \seqS\circ e,v',L')\mid (\sigma',\tau', \seqS\circ e,v',L')\in \+C^{+},x\in \sigma'\right\} = \{ (\sigma^0, \tau^0, \seqS \circ e, v, L)\}.\]          
+            \[\left\{(\sigma',\tau', \seqS\circ e)\mid (\sigma',\tau', \seqS\circ e)\in \+C,x\in \sigma'\right\} = \{ (\sigma^0, \tau^0, \seqS \circ e)\}.\]          
             Combining with \eqref{eqn-hat-inner-child-sum1}, we have 
              \begin{align*}
-            \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}=\widehat{p}^{\sigma^0}_{\sigma^0,\tau^0, \seqS \circ e} = \sum_{(\sigma',\tau', \seqS\circ e,v',L')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{ x\in \sigma'}. 
+            \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}=\widehat{p}^{\sigma^0}_{\sigma^0,\tau^0, \seqS \circ e} = \sum_{(\sigma',\tau', \seqS\circ e)\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{ x\in \sigma'}. 
             \end{align*}
-            Then \eqref{eq-extension-sum-edge} is proved. \item ${\!{Ham}\left(\sigma,{E_v}\right)}\geq{\!{Ham}\left(\tau,{E_v}\right)}$. In this case, by \Cref{def:truncated-coupling-tree},  $(\sigma,\tau,\seqS,v,L)$ has three children related to $e$ in $\+L^{i+1}$, i.e., $(\sigma^0, \tau^0, \seqS \circ e,v,L)$, $(\sigma^0, \tau^1, \seqS \circ e, u, L + 1)$, and $(\sigma^1, \tau^1, \seqS\circ e,v,L)$. Assume \emph{w.l.o.g.} $x(e) = 0$.
+            Then \eqref{eq-extension-sum-edge} is proved. \item ${\!{Ham}\left(\sigma,{E_v}\right)}\geq{\!{Ham}\left(\tau,{E_v}\right)}$. In this case, by \Cref{def:truncated-coupling-tree},  $(\sigma,\tau,\seqS)$ has three children related to $e$ in $\+L^{i+1}$, i.e., $(\sigma^0, \tau^0, \seqS \circ e)$, $(\sigma^0, \tau^1, \seqS \circ e)$, and $(\sigma^1, \tau^1, \seqS\circ e)$. Assume \emph{w.l.o.g.} $x(e) = 0$.
             We have 
-            \[\left\{(\sigma',\tau', \seqS\circ e,v',L')\mid (\sigma',\tau', \seqS\circ e,v',L')\in \+C^{+},x\in \sigma'\right\} = \{ (\sigma^0, \tau^0, \seqS \circ e, v, L),(\sigma^0, \tau^1, \seqS \circ e, u, L+1)\}.\]          
+            \[\left\{(\sigma',\tau', \seqS\circ e)\mid (\sigma',\tau', \seqS\circ e)\in \+C,x\in \sigma'\right\} = \{ (\sigma^0, \tau^0, \seqS \circ e),(\sigma^0, \tau^1, \seqS \circ e)\}.\]          
             Combining with \eqref{eqn-hat-inner-child-sum3}, we have 
              \begin{align*}
-            \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}=\widehat{p}^{\sigma^0}_{\sigma^0,\tau^0, \seqS \circ e} +\widehat{p}^{\sigma^0}_{\sigma^0,\tau^1, \seqS \circ e} = \sum_{(\sigma',\tau', \seqS\circ e,v',L')\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{ x\in \sigma'}.  
+            \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}\cdot \id{x \in \sigma} = \widehat{p}^{\sigma}_{\sigma,\tau,\seqS,e}=\widehat{p}^{\sigma^0}_{\sigma^0,\tau^0, \seqS \circ e} +\widehat{p}^{\sigma^0}_{\sigma^0,\tau^1, \seqS \circ e} = \sum_{(\sigma',\tau', \seqS\circ e)\in \+C} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS\circ e}\cdot \id{ x\in \sigma'}.  
             \end{align*}
             Then \eqref{eq-extension-sum-edge} is proved.
         \end{enumerate} 
@@ -1517,16 +1607,16 @@ The following identities hold:
     % When $\mu$ is not uniform:
    We have
     \begin{align*}
-        \sum_{(\sigma, \tau, \seqS,v,L) \in \mathcal L} \mu(\sigma)\cdot \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} &= \sum_{(\sigma, \tau, \seqS,v,L) \in \mathcal L} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \sum_{x \in \sigma} \mu(x) \\
-        &= \sum_{(\sigma, \tau, \seqS,v,L) \in \mathcal L} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \sum_{x \in \sigma_\bot} \left(\mu(x) \cdot  \id{x \in \sigma}\right) \\
-        &= \sum_{x \in \sigma_\bot} \mu(x) \sum_{(\sigma, \tau, \seqS,v,L) \in \mathcal L} \left(\widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \cdot \id{x \in \sigma}\right) \\
-        &= \sum_{x \in \sigma_\bot} \mu(x) \sum_{(\sigma, \tau, \seqS,v,L) \in \+L : \ x \in \sigma} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \\
+        \sum_{(\sigma, \tau, \seqS) \in \mathcal L} \mu(\sigma)\cdot \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} &= \sum_{(\sigma, \tau, \seqS) \in \mathcal L} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \sum_{x \in \sigma} \mu(x) \\
+        &= \sum_{(\sigma, \tau, \seqS) \in \mathcal L} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \sum_{x \in \sigma_\bot} \left(\mu(x) \cdot  \id{x \in \sigma}\right) \\
+        &= \sum_{x \in \sigma_\bot} \mu(x) \sum_{(\sigma, \tau, \seqS) \in \mathcal L} \left(\widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \cdot \id{x \in \sigma}\right) \\
+        &= \sum_{x \in \sigma_\bot} \mu(x) \sum_{(\sigma, \tau, \seqS) \in \+L : \ x \in \sigma} \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \\
         &= \sum_{x \in \sigma_\bot} \mu(x) \tag{by~\eqref{eqn-sum-leftside}} \\
         &= \mu_{e_\bot}(1).
     \end{align*}
     Similarly, by \eqref{eqn-sum-rightside}, we also have 
     \begin{align*}
-    \sum_{(\sigma, \tau, \seqS,v,L) \in \+L}\mu(\tau)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\tau} = \mu_{e_{\bot}}(0).
+    \sum_{(\sigma, \tau, \seqS) \in \+L}\mu(\tau)\cdot\widehat{p}_{\sigma, \tau, \seqS}^{\tau} = \mu_{e_{\bot}}(0).
     \end{align*}
     The lemma is proved.
     }
@@ -1568,123 +1658,133 @@ The following identities hold:
 
 
 \qgl{check from here}
-Given a feasible solution to the LP, by~\Cref{lem:ratio-identity}, to estimate the marginal ratio, it suffices to bound $\left(\mu(\sigma)\cdot \wh{p}_{\sigma, \tau, \seqS}^{\sigma}\right)/\left(\mu(\tau)\cdot\wh{p}_{\sigma, \tau, \seqS}^{\tau}\right)$ for every $(\sigma, \tau, \seqS,v,L) \in \+L$. For every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, the bounds are clear by~\eqref{eqn-hat-ratio}. However, for $(\sigma, \tau, \seqS) \in \+L_{\!{bad}}$, the cost to compute the ratio might be exponential in the size of the instance. The following lemma shows that we can truncate all bad leaves with a small error.
+Given a feasible solution to the LP, by~\Cref{lem:ratio-identity}, to estimate the marginal ratio, it suffices to bound $\left(\mu(\sigma)\cdot \wh{p}_{\sigma, \tau, \seqS}^{\sigma}\right)/\left(\mu(\tau)\cdot\wh{p}_{\sigma, \tau, \seqS}^{\tau}\right)$ for every $(\sigma, \tau, \seqS) \in \+L$. For every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, the bounds are clear by~\eqref{eqn-hat-ratio}. However, for $(\sigma, \tau, \seqS) \in \+L_{\!{bad}}$, the cost to compute the ratio might be exponential in the size of the instance. The following lemma shows that we can truncate all bad leaves with a small error.
 
 \begin{lemma} \label{lem:LP-truncated-error}
     The following inequalities hold:
     \begin{align}\label{eqn-error1}
-        \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}} \widehat{p}_{\sigma,\tau, \seqS}^{\sigma}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\leq (1 - B_{\min}^2)^{\ell},
+        \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}} \widehat{p}_{\sigma,\tau, \seqS}^{\sigma}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\leq (1 - B_{\min}^2)^{\ell},
     \end{align}
     \begin{align}\label{eqn-error2}
-        \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}}\widehat{p}_{\sigma,\tau, \seqS}^{\tau}\cdot \mu^{\tau_{\bot}}_{\seqS}(\tau)\leq (1- B_{\min}^2)^{\ell}.
+        \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}}\widehat{p}_{\sigma,\tau, \seqS}^{\tau}\cdot \mu^{\tau_{\bot}}_{\seqS}(\tau)\leq (1- B_{\min}^2)^{\ell}.
     \end{align}
 \end{lemma}
 
-The following lemma is the key ingredient to prove~\Cref{lem:LP-truncated-error}.
 
-\begin{lemma} \label{lem:ratio-truncated-error}
-The following inequalities hold:
-    \begin{align}\label{eqn-sum-leftside-error}
-        \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\leq (1 - B_{\min}^2)^{\ell},
-    \end{align}
-    \begin{align}\label{eqn-sum-rightside-error}
-        \forall y\in \tau_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau, \seqS}\leq (1 - B_{\min}^2)^{\ell}.
-    \end{align}
-\end{lemma}
 \begin{proof}
-To prove this lemma, it is sufficient to prove \eqref{eqn-sum-leftside-error}.
-Similarly, one can also prove \eqref{eqn-sum-leftside-error}.
-In the following, we prove $\eqref{eqn-sum-leftside-error}$.
+To prove this lemma, it is sufficient to prove \eqref{eqn-error1}.
+Similarly, one can also prove \eqref{eqn-error2}.
+In the following, we prove $\eqref{eqn-error1}$.
 Recall that $\+T_{\ell}$ is the $\ell$-truncated coupling tree, $\+L(\ell)$ is the set of leaf nodes in $\+T_{\ell}$, 
-$\+L_{\!{good}}(\ell)\triangleq \set{(\sigma,\tau, \seqS,v,L) \in \+L\mid L<\ell}$, $\+L_{\!{bad}}(\ell)\triangleq \+L(\ell)\setminus \+L_{\!{good}}(\ell)$.
-To prove $\eqref{eqn-sum-leftside-error}$,
+$\+L_{\!{good}}(\ell)\triangleq \set{(\sigma,\tau, \seqS) \in \+L\mid L<\ell}$, $\+L_{\!{bad}}(\ell)\triangleq \+L(\ell)\setminus \+L_{\!{good}}(\ell)$.
+To prove $\eqref{eqn-error1}$,
 it is equivalent to prove
 \begin{align}\label{eqn-sum-leftside-error-induction}
-    \forall x\in \sigma_\bot, \ell\geq 0, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}(\ell): \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS} \leq (1 - B_{\min}^2)^{\ell}.
+    \forall \ell\geq 0, \quad \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS} \cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\leq (1 - B_{\min}^2)^{\ell}.
 \end{align}
 In the following, we prove \eqref{eqn-sum-leftside-error-induction} by induction on $\ell$.
 The induction basis is when $\ell = 0$.
-In this case, by \Cref{def:truncated-coupling-tree} we have $\+T_{0}$ is a tree with a unique node $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)$.
+In this case, by \Cref{def:truncated-coupling-tree} we have $\+T_{0}$ is a tree with a unique node $(\sigma_\bot, \tau_\bot, \varnothing)$.
 In addition, by \Cref{def:induced-LP}, we have 
 $\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing} = 1$.
 Therefore, 
  \begin{align*}
-    \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS,v,L)\in \+L_{\!{bad}}(\ell): \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot. \varnothing} = 1 = (1- B_{\min}^2)^{0}.
+    \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot\mu^{\sigma_{\bot}}_{\seqS}(\sigma)=\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing} = 1 = (1- B_{\min}^2)^{0}.
 \end{align*}
-The base case is proved. For the induction step, we fix an $x\in \sigma_\bot$. For each node $(\sigma,\tau,\seqS,v,L)\in \+L(\ell)$, if $(\sigma,\tau,\seqS,v,L) \in \+L_{\!{good}}(\ell)$, we have $L<\ell$.
-By \Cref{def:truncated-coupling-tree},
-we have either $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS, v, L)$ is infeasible.
-Again by 
+The base case is proved. For the induction step, we fix an $x\in \sigma_\bot$. For each node $(\sigma,\tau,\seqS)\in \+L(\ell)$, 
 there are only two possibilities.
 \begin{itemize}
-\item If $L\geq \ell$ or $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS, v, L)$ is infeasible, then $(\sigma,\tau,\seqS,v,L)$ is a leaf node in $\+T$.
-Therefore, we have $(\sigma,\tau,\seqS,v,L)\in \+L^{i+1}$ and $\+C = \emptyset$.
-Thus, $\+C^+ = (\sigma, \tau, \seqS, v, L)$.
-We have 
+\item $(\sigma,\tau,\seqS) \in \+L_{\!{good}}(\ell)$. We have $L<\ell$.
+Combined with \Cref{def:truncated-coupling-tree},
+we have either $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS)$ is infeasible.
+Again by \Cref{def:truncated-coupling-tree},
+we have $(\sigma, \tau, \seqS)$ is also a leaf node in $\+T_{\ell+1}$.
+Formally, $(\sigma,\tau,\seqS)\in \+L(\ell+1)$.
+Combined with $L<\ell$, 
+we have 
+\begin{align}\label{eq-lgoogl-subset}
+(\sigma, \tau, \seqS)\in \+L_{\!{good}}(\ell+1).
+\end{align}
+\item $(\sigma,\tau,\seqS) \in \+L_{\!{bad}}(\ell)$. We have $L=\ell$.
+Recall $\+D_{\ell+1}(\cdot)$  in \Cref{def-notation-v-tct}.
+For simplicity, let $\+D_{\ell+1}$ denote $\+D_{\ell+1}((\sigma,\tau,\seqS))$.
+We claim that 
+\begin{align}\label{eq-d-subset}
+\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1),
+\end{align}
+\begin{align}\label{eq-d-sum-pro}
+\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \geq B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+\end{align}
+\end{itemize}
+Thus, combining \eqref{eq-lgoogl-subset}, \eqref{eq-d-subset} and \eqref{eq-d-sum-pro} with the induction hypothesis (I.H.), we have 
+\begin{equation}\label{eq-sum-good-leaf}
+\begin{aligned}
+    &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by \eqref{eq-lgoogl-subset} and \eqref{eq-d-subset}}\right) \quad   \geq &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) + \sum_{u\in \+L_{\!{bad}}(\ell)}\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma')\\
+\left(\text{by \eqref{eq-d-sum-pro}}\right) \quad    \geq & \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) + \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+    \geq & \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+    = & \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+ \left(\text{by \Cref{lem:ratio-identity}}\right) \quad = & 1 - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by I.H.}\right)\quad \geq & 1 - \left(1-B_{\min}^2\right)^{\ell+1}.
+\end{aligned}
+\end{equation}
+Therefore, we have
+\begin{align*}
+    &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\\\
+    =&\sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) \\
+    =&\sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by \Cref{lem:ratio-identity}}\right) \quad    =&1 - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by \eqref{eq-sum-good-leaf}}\right) \quad   \leq &\left(1-B_{\min}^2\right)^{\ell+1}.
+\end{align*}
+This completes the induction step and \eqref{eqn-sum-leftside-error-induction} is immediate.
+
+In the following, we prove \eqref{eq-d-subset} and \eqref{eq-d-sum-pro}, which completes the proofs of \eqref{eqn-sum-leftside-error-induction} and the lemma. 
+Fix a $(\sigma,\tau,\seqS) \in \+L_{\!{bad}}(\ell)$. We have $L=\ell$.
+At first, we prove \eqref{eq-d-subset} by considering two separate cases.
+\begin{itemize}
+\item $(\sigma,\tau,\seqS)$ is infeasible. By $L =\ell<\ell+1$ and \Cref{lemma-fact-D}, we have $\+D_{\ell+1} = \emptyset \subseteq \+L_{\!{good}}(\ell+1)$.
+\item $(\sigma,\tau,\seqS)$ is feasible.
+By $L =\ell\leq \ell+1$ and \Cref{lemma-fact-D}, we have $\+D_{\ell+1}\neq \emptyset$.
+Fix an arbitrary $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$.
+By \Cref{def-notation-v-tct}, we have 
+$E^{\sigma'}_v = \emptyset$.
+Combined with \Cref{def:truncated-coupling-tree},
+we have $(\sigma',\tau',\seqS')$ is a leaf node in $\+T_{\ell+1}$.
+Formally, $(\sigma',\tau',\seqS')\in \+L(\ell+1)$.
+In addition, by \Cref{condition-sigma-tau}
+we have 
+\[L' = \abs{\{e\in \Lambda(\sigma')\mid (e\neq e_{\bot})\land (\sigma'(e)\neq \tau'(e))\}} = \abs{\{e\in \Lambda(\sigma)\mid (e\neq e_{\bot})\land (\sigma(e)\neq \tau(e))\}} = L = \ell,\]
+where the second equality is due to $\sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})$
+by \Cref{def-notation-v-tct}.
+Combining $(\sigma',\tau',\seqS')\in \+L(\ell+1)$ with $L'=\ell$, we have 
+$(\sigma',\tau',\seqS') \in \+L_{\!{good}}(\ell+1)$.
+Recall that $(\sigma',\tau',\seqS')$ is an arbitrary node in $\+D_{\ell+1}$.
+Thus, we have $\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)$.
+\end{itemize}
+In summary, we always have $\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)$ and \eqref{eq-d-subset} is proved.
+
+At last, we prove \eqref{eq-d-sum-pro} by considering two separate cases.
+\begin{itemize}
+\item $(\sigma,\tau,\seqS)$ is infeasible. 
+By \Cref{def:induced-LP}, we have $\widehat{p}^{\sigma}_{\sigma,\tau,\seqS} = 0$.
+Therefore, 
+\begin{align*}
+\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \geq 0 = B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+\end{align*}
+Thus, \eqref{eq-d-sum-pro} is proved.
+\item $(\sigma,\tau,\seqS)$ is feasible. Recall that $\+D_{\ell+1}\neq \emptyset$ in this case. Fix an arbitrary $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$. By $(\sigma,\tau,\seqS)$ is feasible and \Cref{lem:marginal-bound},
+we have 
+$\mu^{\sigma_{\bot}}_{\seqS'}(\sigma') = \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\cdot \mu_{E_v^\sigma}^{\sigma}(\zero) \ge B_{\min}\cdot\mu^{\sigma_{\bot}}_{\seqS}(\sigma)$.
+Therefore, we have 
+\begin{align*}
+\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') 
+\geq \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} B_{\min}\cdot\widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) \geq B_{\min}^2 \cdot \widehat{p}^{\tau}_{\sigma,\tau,\seqS}\mu^{\sigma_{\bot}}_{\seqS}(\sigma),
+\end{align*}
+where the last inequality is by $L=\ell<\ell+1$ and \eqref{eqn-hat-error-bound}. Thus, \eqref{eq-d-sum-pro} is proved.
 \end{itemize}
 \end{proof}
 
-
-
-
-\begin{proof}[Proof of \Cref{lem:LP-truncated-error}]
-To prove this lemma, it is sufficient to prove ~\eqref{eqn-error1}.
-Similarly, one can also prove~\eqref{eqn-error2}.
-In the following, we prove ~\eqref{eqn-error1}.
-
-    
-    We define a random process with the outcome set $\+L$, where the probability of outputting $(\sigma, \tau, \seqS, v, L)\in \+L$ is given by
-    $$
-        \widehat{p}_{\sigma,\tau, \seqS}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_\bot) = 1}.
-    $$
-    Specifically, our random process $\widehat{P} = \set{(\sigma_t,\tau_t, \seqS_t,v_t,L_t)}_{0 \le t \le T}$ starting from the root node $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot,0)$ of $\+T$, i.e., $(\sigma_0, \tau_0, \seqS_0, v_0, L_0) = (\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)$, unfolds by repeating the following operations: 
-    \begin{enumerate}
-        \item If $(\sigma_t,\tau_t, \seqS_t, v_t, L_t)$ is a leaf node in $\+L$, the process stops and $(\sigma_t,\tau_t, \seqS_t, v_t, L_t)$ is the outcome $\+O$ of the random process.
-        \item Otherwise, first sample an edge $e = \set{u, v_t}\in E_{v_t}^{\sigma_t}$ with probability $\frac{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,\seqS_t,e}}{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,\seqS_t}}$. This operation is well-defined by the constraints~\eqref{eqn-hat-inter-sum1}. Then, we sample partial assignment $\sigma_e$ from $\mu^{\sigma_t}_{e}$. Let $\+C$ be the children $(\sigma,\tau,\seqS,v,L)$ of the node $(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$ satisfying $\sigma = \sigma_t\land \sigma_e$. For any $(\sigma,\tau, \seqS, v, L)\in \+C$, let $(\sigma_{t+1},\tau_{t+1}, \seqS_{t+1},v_{t+1},L_{t+1})\gets (\sigma,\tau, \seqS,v,L)$ with probability $\frac{\widehat{p}^{\sigma}_{\sigma, \tau, \seqS}}{\widehat{p}^{\sigma_t}_{\sigma_t,\tau_t,\seqS_t,e}}$. This operation is well-defined by the constraints \eqref{eqn-hat-inner-child-sum1} to \eqref{eqn-hat-inner-child-sum4}.        
-    \end{enumerate}
-    For $(\sigma, \tau, \seqS, v, L) \in V(\+T)$, let $t = \abs{\seqS}$. Define
-    $$
-        \Pr[\wh{P}]{(\sigma, \tau, \seqS)} \defeq \Pr{(T \ge t) \land (\sigma_t, \tau_t, \seqS_t, v_t, L_t) = (\sigma, \tau, \seqS, v, L)}
-    $$
-    where the randomness on the right sides relies on the random process $\wh{P}$. Similarly for two partial assignments $\sigma, \tau$ with $\Lambda(\sigma) = \Lambda(\tau)$, define:
-    $$
-        \Pr[\wh{P}]{(\sigma, \tau)} \defeq \Pr{\exists \seqS, v, L, 0 \le t \le T: (\sigma_t, \tau_t, \seqS_t, v_t, L_t) = (\sigma, \tau, \seqS, v, L)}.
-    $$
-
-    % \qgl{from here} Let $\widehat{\mu}$ be the distribution of the states in the random process $\widehat{P}$.
-    % For simplicity, we abuse the notation $(\sigma, \tau, \seqS)$ to denote the event that the random process $\wh{P}$ reaches the node $(\sigma, \tau, \seqS) \in V(\+T)$, and $(\sigma, \tau)$ to denote the event that $\wh{P}$ reaches $(\sigma, \tau, \seqS) \in V(\+T)$ for some edge sequence $\seqS$. Then it holds that 
-    % Consider any $(\sigma,\tau, \seqS, v,L )\in V(\+T)$. We claim that
-    % \begin{align}\label{eqn-simulate-outcome-prob}
-    %     \widehat{\mu}(\sigma,\tau,S,v,L)=\widehat{p}_{\sigma,\tau,S}^{\sigma}\cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_0)=0}.
-    % \end{align}
-    We claim that:
-    \begin{align}\label{eqn-simulate-outcome-prob}
-        \Pr[\wh{P}]{(\sigma, \tau, \seqS)} = \widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_\bot)=1}.
-    \end{align}
-    % where the randomness on the left side depends on the process $\wh{P}$.
-    In fact, let $(u_0, u_1, \cdots, u_k)$ be the path from the root to $(\sigma, \tau, \seqS, v, L)$ including the assignment-nodes in the coupling tree $\+T$ where $u_i = (\sigma_i, \tau_i, \seqS_i, v_i, L_i)$ for each $1 \le i \le k - 1$, $u_0 = (\sigma_\bot,\tau_\bot,\varnothing,v_\bot,0)$, and $u_k=(\sigma,\tau, \seqS,v,L)$. Assume that $\seqS=(e_1, e_2, \cdots, e_k)$. By definition, we have
-    \begin{align*}
-         \Pr[\wh{P}]{(\sigma, \tau, \seqS)} &= \widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot,\varnothing}\cdot \prod_{i = 1}^{k}  \left(\frac{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1}, \seqS_{i-1},e_{i}}}{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1}, \seqS_{i-1}}} \cdot \mu_{e_i}^{\sigma_{i - 1}}(\sigma_{i - 1}(e_i)) \cdot \frac{\widehat{p}^{\sigma_i}_{\sigma_i,\tau_i,\seqS_i}}{\widehat{p}^{\sigma_{i-1}}_{\sigma_{i-1},\tau_{i-1},\seqS_{i-1},e_{i}}}\right) \\
-         &=\widehat{p}_{\sigma,\tau, \seqS}^{\sigma}\cdot \Pr[X \sim \mu]{X\in \sigma\mid X(e_\bot) = 1}.
-    \end{align*}
-    Combined with constraints~\eqref{eqn-hat-error-bound}, it implies that for each $(\sigma, \tau, \seqS, v, L) \in \+W \cap V(\+T)$ with $\sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0})$ and $\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})$,
-    \begin{align*}
-        \Pr[\wh{P}]{(\sigma',\tau') \mid (\sigma, \tau, \seqS, v, L)} &= \sum_{\seqS': (\sigma', \tau', S') \in V(\+T)}  \Pr[\wh{P}]{(\sigma', \tau', \seqS') \mid (\sigma,\tau, \seqS,v,L) }\\
-        &=\sum_{\seqS' : (\sigma', \tau', \seqS')\in V(\+T)}  \frac{\Pr[\wh{P}]{(\sigma', \tau', \seqS')}}{\Pr[\wh{P}]{(\sigma, \tau, \seqS, v, L)}}\\
-        &=\sum_{\seqS' : (\sigma', \tau', \seqS) \in V(\+T)}  \frac{\widehat{p}_{\sigma', \tau', \seqS'}^{\sigma'} \cdot \Pr[X \sim \mu]{X\in \sigma' \mid X(e_\bot) = 1}}{\widehat{p}_{\sigma, \tau, \seqS}^{\sigma} \cdot \Pr[X\sim \mu]{X\in \sigma\mid X(e_\bot) = 1}}\\
-        &\geq B_{\min}^2.
-    \end{align*} 
-    
-    By similar argument in the proof of~\Cref{lem:decay}, we have
-    \begin{align*}
-        \Pr{\+O \in \+L_{\!{bad}}} \leq (1 - B_{\min}^2)^{\ell},
-    \end{align*}
-    which implies~\eqref{eqn-error1} immediately.
-\end{proof}
-
-Now we prove~\Cref{thm:ratio-bound-by-LP} with the above properties.
-
-\hktodo{use $(\sigma,\tau,\seqS)$ or use $(\sigma,\tau,\seqS,v,L)$}
+Now we prove~\Cref{thm:ratio-bound-by-LP} with the above lemmas.
 
 \begin{proof}[Proof of~\Cref{thm:ratio-bound-by-LP}]
     By~\Cref{lem:ratio-identity}, it holds that
@@ -1703,7 +1803,7 @@ Now we prove~\Cref{thm:ratio-bound-by-LP} with the above properties.
     $$
         \sum_{(\sigma, \tau, \seqS) \in \+L_{\good}} \wh{p}_{\sigma, \tau, \seqS}^{\tau} \cdot\mu(\tau)\le \mu_{e_\bot}(0) \le \frac{1}{1 - \left(1 - B_{\min}^2\right)^{\ell}} \sum_{(\sigma, \tau, \seqS) \in \+L_{\good}} \wh{p}_{\sigma, \tau, \seqS}^{\tau} \cdot \mu(\tau).
     $$
-    Hence we have
+    Hence, by \eqref{eqn-hat-ratio} we have
     \begin{align*}
         \frac{\mu_{e_\bot}(1)}{\mu_{e_\bot}(0)} \le \frac{1}{1 - \left(1 - B_{\min}^2\right)^{\ell}} \frac{\sum_{(\sigma, \tau, \seqS) \in \+L_{\good}} \wh{p}_{\sigma, \tau, \seqS}^{\sigma} \cdot \mu(\sigma)}{\sum_{(\sigma, \tau, \seqS) \in \+L_{\good}} \wh{p}_{\sigma, \tau, \seqS}^{\tau} \cdot \mu(\tau)} 
         \le \frac{r^+}{1 - \left(1 - B_{\min}^2\right)^{\ell}},
@@ -1716,23 +1816,16 @@ Now we prove~\Cref{thm:ratio-bound-by-LP} with the above properties.
 \end{proof}
 
 \subsection{The marginal ratio estimator}
+In this section, we design a marginal ratio estimator for instances satisfying~\Cref{cond:Holant-condition} using the linear program in \Cref{def:induced-LP}.
 
-Now we design a marginal ratio estimator for instances satisfying~\Cref{cond:Holant-condition} using the above linear program.
-
-% \begin{theorem} \label{thm:Holant-marginal-estimator}
-%     Given a positive integer $\Delta > 0$, a positive real $r > 0$ and a small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A$ such that for every instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and $e \in E(G)$, within time $\poly\left(\left(\frac{1}{\varepsilon}\right)^{C_{\ref{thm:Holant-marginal-estimator}}(\Delta, r)}\right)$, $\+A$ outputs a number $\wh{P}$ such that
-%     $$
-%         (1 - \varepsilon) \Pr[X \sim \mu_\Phi]{X(e) = 0} \le \wh{P} \le (1 + \varepsilon) \Pr[X \sim \mu_\Phi]{X(e) = 0}
-%     $$
-%     where $C_{\ref{thm:Holant-marginal-estimator}}(\Delta, r)$ and coefficients in the polynomial depend only on $\Delta$ and $r$.
-% \end{theorem}
+\hktodo{polish this paragraph}
 
 \begin{theorem} \label{thm:Holant-marginal-ratio-estimator}
-    Given a positive integer $\Delta > 0$, a positive real $r > 0$ and a small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A$ such that for every instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and $e \in E(G)$, within time $\poly\left((\varepsilon^{-1})^{C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)}\right)$, $\+A$ outputs a number $\wh{R}$ such that
+    Given any positive integer $\Delta > 0$, any positive real $r > 0$ and any small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A$ such that for every instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and each $e \in E(G)$, within time $\poly\left((\varepsilon^{-1})^{C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)}\right)$, $\+A$ outputs a number $\wh{R}$ such that
     $$
-        (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e)
+        (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e),
     $$
-    where $C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)$ and coefficients in the polynomial depend only on $\Delta$ and $r$.
+    where $C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)$ and the coefficients in the polynomial depend only on $\Delta$ and $r$.
 \end{theorem}
 
 The key ingredient is the following estimator for the marginal ratio of a half-edge via linear programming.
@@ -1844,7 +1937,7 @@ The key ingredient is the following estimator for the marginal ratio of a half-e
         \item $\Phi^{(1)} = \left(G^{(1)}, \vecf^{(1)}\right)$ where $\vecf^{(1)} = \set{f_w^{(1)}}_{w \in V}$ is constructed as $f_w^{(1)} = f_w$ for $w \neq u$ and $f_u^{(1)}(i) = f_u(i + 1)$ for every $0 \le i < \deg_G(u)$.
         \item $\Phi^{(2)} = \left(G^{(2)}, \vecf\right)$.
     \end{itemize}
-    Note that $f_u^{(1)}(1)$ might be $0$. In this case $f_u^{(1)}(i) = 0$ for every $1 \le i < \deg_G(u)$ since $f_u$ is positive log-concave. And we can safely remove $u$ and edges incident to $u$ from $G^{(1)}$ and the marginal ratio in $\Phi^{(1)}$ keeps invariant.
+    Note that $f_u^{(1)}(1)$ might be $0$. In this case $f_u^{(1)}(i) = 0$ for every $1 \le i < \deg_G(u)$ since $f_u$ is log-concave. And we can safely remove $u$ and edges incident to $u$ from $G^{(1)}$ and the marginal ratio in $\Phi^{(1)}$ keeps invariant.
     Assume that $\Phi^{(1)}$ is the Holant instance after necessary removal. By definition, we have $\Phi^{(1)}$ and $\Phi^{(2)}$ both satisfy~\Cref{cond-instancepair} and $r_{\max}(\Phi^{(1)}) \le r$, $r_{\max}(\Phi^{(2)}) \le r$. By computation,
     \begin{align*}
         R_{\Phi}(e) &= \frac{\Pr[X \sim \mu_{\Phi}]{X(e) = 1}}{\Pr[X \sim \mu_{\Phi}]{X(e) = 0}} \\
@@ -2099,14 +2192,19 @@ meaning that there exists an instance $(\Phi, \sigma, \tau, v)$ and an edge $e \
 %     \mu^{e_\bot = 1}_{e_2}(1) = \frac{t^4 + 3t^2 + 1}{2t^4 + 4t^3 + 6t^2 + 2t + 2}.
 % $$
 
+\bibliographystyle{alpha}
+\bibliography{refs}
 
 \appendix
 
 \section{Proofs for Properties of Holant Instances} \label{sec:proof-Holant-properties}
 
-Now we complete the deferred proofs for properties of Holant instances. Recall that $\Phi = (G = (V, E), \vecf = \set{f_v})$ is a binary symmetric Holant instance with positive log-concave signatures and $\mu = \mu_\Phi$ is its Gibbs distribution.
+Now we complete the deferred proofs for properties of Holant instances. Recall that $\Phi = (G = (V, E), \vecf = \set{f_v})$ is a binary symmetric log-concave Holant instance with $f_v(0) > 0$ for all $v \in V$ and $\mu = \mu_\Phi$ is its Gibbs distribution.
 
 \subsection{Feasibility of partial assignments}
+
+We recall the theorem for the feasibility of partial assignments.
+\PartialFeasibility*
 
 To show the feasibility of a partial assignment $\sigma$, we first make the following claim.
 \begin{claim} \label{claim:partial-assignment-feasibility}
@@ -2119,16 +2217,28 @@ To show the feasibility of a partial assignment $\sigma$, we first make the foll
     \end{align}
 \end{claim}
 \begin{proof}
-    When $\sigma'$ is feasible, obviously $\sigma$ is feasible since $\sigma' \in \sigma$. To see the other side, when $\sigma$ is feasible, there exists $\tau : E \to \set{0, 1}$, $\tau \in \sigma$ such that $\mu(\tau) > 0$. Hence we have $\prod_{v \in V} f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ meaning that $f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ for every $v \in V$. Since $f_v$ is positive log-concave and $\abs{\sigma' \vert_{E_v}} \le \abs{\tau \vert_{E_v}}$, it holds that $f_v\left(\abs{\sigma' \vert_{E_v}}\right) > 0$. Therefore we obtain that $\mu(\sigma') > 0$ by the definition of $\mu(\sigma')$.
+    When $\sigma'$ is feasible, obviously $\sigma$ is feasible since $\sigma' \in \sigma$. To see the other side, when $\sigma$ is feasible, there exists $\tau : E \to \set{0, 1}$, $\tau \in \sigma$ such that $\mu(\tau) > 0$. Hence we have $\prod_{v \in V} f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ meaning that $f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ for every $v \in V$. Since $f_v$ is log-concave, $f_v(0) > 0$ and $\abs{\sigma' \vert_{E_v}} \le \abs{\tau \vert_{E_v}}$, it holds that $f_v\left(\abs{\sigma' \vert_{E_v}}\right) > 0$. Therefore we obtain that $\mu(\sigma') > 0$ by the definition of $\mu(\sigma')$.
 \end{proof}
 
 \begin{proof}[Proof of~\Cref{lem:partial-assignment-feasibility}]
     By~\Cref{claim:partial-assignment-feasibility}, we check the feasibility of $\sigma'$ defined as~\eqref{eq:0-assignment}. In other words, we check whether $f\left(\abs{\sigma'\vert_{E_v}}\right) > 0$ for every $v \in V$. By definition, for every $v \in V$, $\abs{\sigma' \vert_{E_v}} = \abs{\sigma \vert_{E_v}}$ and thus $f\left(\abs{\sigma' \vert_{E_v}}\right) = f\left(\abs{\sigma \vert_{E_v}}\right)$. When $\sigma \vert_{E_v} = \emptyset$, nothing needs to do from the assumption $f_v(0) > 0$. Let $V(\sigma) \defeq \set{v \in V \cmid \sigma_{E_v} \neq \emptyset}$. It is not hard to see that we can find $V(\sigma)$ and compute $\sigma \vert_{E_v}$ for every $v \in V(\sigma)$ in time $O(\abs{\Lambda(\sigma)})$ by enumerating all edges in $\Lambda(\sigma)$. Hence we can check the feasibility of a partial assignment $\sigma$ in time $O(\abs{\Lambda(\sigma)})$. 
 \end{proof}
 
-\subsection{Marginal and ratio bounds}
+\subsection{Marginal ratio bounds}
 
-\zdtodo{prove the marginal and ratio bounds here.}
+In this part, we prove the upper bound for marginal ratios.
+
+% \MarginalBound*
+\MarginalRatioBound*
+\begin{proof}
+    Let $v$ be the unique vertex incident to $e$. Since $f_v$ is log-concave and $f_v(0) > 0$, it holds that $f_v(i + 1) \le r_{\max}(\Phi) f_v(i)$. Hence we have, for every $\sigma \in \set{0, 1}^E$ with $\sigma(e) = 1$, $\prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right) \le r_{\max}(\Phi) \prod_{u \in V} f_u\left(\abs{\sigma' \vert_{E_u}}\right)$ where $\sigma'(e') = \sigma(e')$ for every $e' \in E \setminus \set{e}$ and $\sigma'(e) = 0$. Then by direct calculation,
+    \begin{align*}
+        R_{\Phi}(e) &= \frac{Z_{\Phi}^{(e \gets 1)}}{Z_{\Phi}^{(e \gets 0)}} \\
+        &= \frac{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 1} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)} \\
+        &\le \frac{r_{\max}(\Phi) \sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)} \le r_{\max}(\Phi).
+    \end{align*}
+    Then we conclude the upper bound.
+\end{proof}
 
 \section{Omitted proofs}\label{sec:omitted Proofs}
 
@@ -2161,8 +2271,9 @@ we have
 $(\sigma_{e_i}, \tau_{e_i})$ is sampled from an optimal coupling of $(\mu^{\sigma_i}_{e_i}, \mu^{\tau_i}_{e_i})$.
 Thus, we have 
 \begin{align*}
-&\Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
-\\=& \min\left\{\mu^{\sigma_i}_e(0), \mu^{\tau_i}_e(0)\right\} = \mu^{\tau_i}_e(0),
+&\symbolwidth \Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
+\\
+&= \min\left\{\mu^{\sigma_i}_e(0), \mu^{\tau_i}_e(0)\right\} = \mu^{\tau_i}_e(0),
 \end{align*}
 where the last inequality is by $\mu^{\sigma_i}_e(0) \geq \mu^{\tau_i}_e(0)$.
 Similarly, one can also prove that 
@@ -2172,8 +2283,9 @@ Similarly, one can also prove that
 Therefore, we have 
 \begin{equation*}
 \begin{aligned}
-&\Pr{\+E} = \prod_{i\in [\ell]}\Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
-\\= &\prod_{i\in [\ell]}\mu^{\tau_i}_{e_i}(0)
+&\symbolwidth \Pr{\+E} = \prod_{i\in [\ell]}\Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
+\\
+&= \prod_{i\in [\ell]}\mu^{\tau_i}_{e_i}(0)
 =\mu^{\tau}_{e_1}(0)\cdot \mu^{\tau\land (e_1\leftarrow 0)}_{e_2}(0)\cdots \mu^{\tau\land (e_1\leftarrow 0)\cdots\land (e_{\ell-1}\leftarrow 0)}_{e_{\ell}}(0)
 = \mu_{E_v^\tau}^{\tau}(\zero)
 \geq  B_{\min}(\Phi),
@@ -2184,10 +2296,10 @@ In addition, we claim that if $\+E$ happens, then $\!{Couple}(\cdot)$ is not cal
 Thus, we have 
 \begin{equation*}
 \begin{aligned}
-&\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
-\\=&1-\Pr{\!{Couple}(\cdot) \text{ is never called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
-\\\leq & 1- \Pr{\+E}
-\\\leq &1- B_{\min}(\Phi).
+&\symbolwidth\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
+\\&=1-\Pr{\!{Couple}(\cdot) \text{ is never called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
+\\&\leq 1- \Pr{\+E}
+\\&\leq 1- B_{\min}(\Phi).
 \end{aligned}
 \end{equation*}
 
@@ -2208,14 +2320,26 @@ The claim is proved, which finishes the proof of the lemma.
 
 \PropertyDefrpc*
 \begin{proof}
-To prove this lemma, it is sufficient to prove 
-\eqref{eq-def-trp-perperty-sigma}.
-Then \eqref{eq-def-trp-perperty-sigma-e} can be proved similarly and the lemma is immediate.
-In the following, we prove \eqref{eq-def-trp-perperty-sigma} by induction on the length of $\seqS$.
+To prove this lemma, it is sufficient to prove that for each $(\sigma, \tau, \seqS,v,t)$,
+\begin{align}\label{eq-def-trp-perperty-sigma-delete-vt}
+\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,t)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+\end{align}
+Similarly, one can also prove that $\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq \mu^{\tau_{\bot}}_{\seqS}(\tau)$.
+Thus, \eqref{eq-def-trp-perperty-sigma} is proved.
+Meanwhile, for each $e\in E(G)$,
+by \Cref{def-notation-trp} and \eqref{eq-def-trp-perperty-sigma-delete-vt}, 
+we have
+\begin{align*}
+\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L,e)} \leq  \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)} \leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+\end{align*}
+Similarly, one can also prove that $\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L,e)}\leq \mu^{\tau_{\bot}}_{\seqS}(\tau)$.
+Thus, \eqref{eq-def-trp-perperty-sigma-e} is also proved and the lemma is immediate.
+
+In the following, we prove \eqref{eq-def-trp-perperty-sigma-delete-vt} by induction on the length of $\seqS$.
 The induction basis is when $\seqS = \varnothing$.
 In this case, by \eqref{eq-def-pro-stsvl} we have 
 \begin{align*}
- \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} = \Pr{\left(T\geq 0\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)\right)}\leq 1 = \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+ \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)} = \Pr{\left(T\geq 0\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)\right)}\leq 1 = \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
 \end{align*}
 % If $\sigma = \sigma_\bot$, we have 
 % \begin{align*}
@@ -2239,7 +2363,7 @@ we have the event $\left(T\geq t\right)\land \left((\sigma, \tau, \seqS, v, L) =
 \end{itemize}
 Thus, we have
 \begin{align*}
- &\quad\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\\ 
+ &\symbolwidth \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\\ 
  &= \Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)}\\
 &\leq 
 \Pr{\+E}\cdot\Pr{(\sigma_e,\tau_e) =(a,b)\mid \+E}
@@ -2261,9 +2385,8 @@ Therefore, we have
 \begin{align*}
 \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\leq \mu^{\sigma_{\bot}}_{\seqS'}(\sigma')\cdot \mu_e^{\sigma'}(a) = \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
 \end{align*}
-Similarly, one can also prove that 
-$\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}\leq \mu^{\tau_{\bot}}_{\seqS}(\tau)$.
-Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
+This completes the induction step.
+Then \eqref{eq-def-trp-perperty-sigma-delete-vt} is proved and the lemma is immediate.
 \end{proof}
 
 \LinearConstraints*
@@ -2271,20 +2394,19 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
 \underline{Proof of (1).} 
     We prove $p^{\sigma}_{\sigma, \tau, \seqS}\in [0,1]$ by considering two separate cases:
     \begin{itemize}
-    \item $(\sigma, \tau, \seqS, v, L)$ is feasible. By \eqref{eqn-marginal-all} and \eqref{eq-def-trp-perperty-sigma}, we have 
+    \item $(\sigma, \tau, \seqS)\in \+V$. By \eqref{eqn-marginal-all} and \eqref{eq-def-trp-perperty-sigma}, we have 
     \begin{align*}
-        p^{\sigma}_{\sigma, \tau, \seqS} = \frac{\Pr[\!{cp}]{(\sigma,\tau, \seqS)}}{\mu^{\sigma_{\bot}}_{\seqS}(\sigma)} =       
-       \frac{\Pr[\!{cp}]{(\sigma,\tau, \seqS,v,L)}}{\mu^{\sigma_{\bot}}_{\seqS}(\sigma)}\leq 1.
+        p^{\sigma}_{\sigma, \tau, \seqS} = \frac{\Pr[\!{cp}]{(\sigma,\tau, \seqS)}}{\mu^{\sigma_{\bot}}_{\seqS}(\sigma)}\leq 1.
     \end{align*}
-    Moreover, by $\Pr[\!{cp}]{(\sigma,\tau, \seqS,v,L)}\geq 0$ and $\mu^{\sigma_{\bot}}_{\seqS}(\sigma)>0$,
+    Moreover, by $\Pr[\!{cp}]{(\sigma,\tau, \seqS)}\geq 0$ and $\mu^{\sigma_{\bot}}_{\seqS}(\sigma)>0$,
     we also have $p^{\sigma}_{\sigma, \tau, \seqS}\geq 0$.
     Therefore, we have $p^{\sigma}_{\sigma, \tau, \seqS} \in [0,1]$.  Similarly, we also have $p^{\tau}_{\sigma, \tau, \seqS} \in [0,1]$. 
-    \item $(\sigma, \tau, \seqS, v, L)$ is infeasible.  we have $p^{\sigma}_{\sigma, \tau, \seqS} =  p^{\tau}_{\sigma, \tau, \seqS} = 0$.
+    \item $(\sigma, \tau, \seqS)\in V(\+T)\setminus \+V$.  we have $p^{\sigma}_{\sigma, \tau, \seqS} =  p^{\tau}_{\sigma, \tau, \seqS} = 0$.
     \end{itemize}
     In summary, we always have $p^{\sigma}_{\sigma, \tau, \seqS} \in [0,1]$. Similarly, one can also prove that 
     $p^{\tau}_{\sigma, \tau, \seqS},p^{\sigma}_{\sigma, \tau, \seqS,e},p^{\tau}_{\sigma, \tau, \seqS,e}\in [0,1]$.
-    Moreover, by \eqref{eq-pr-sts-eq-pr-stsvl}, we also  have
-    $\Pr[\!{cp}]{(\sigma_\bot, \tau_\bot, \varnothing)} = \Pr[\!{cp}]{(\sigma_\bot, \tau_\bot, \varnothing,v_\bot,0)} = 1$.
+    Moreover, note that
+    $\Pr[\!{cp}]{(\sigma_\bot, \tau_\bot, \varnothing)} = 1$.
     Combining with $\mu^{\sigma_{\bot}}_{\varnothing}(\sigma_\bot)$ = 1,
     we have 
     \[p^{\sigma_\bot}_{\sigma_\bot, \tau_\bot, \varnothing} = \frac{\Pr[\!{cp}]{(\sigma_\bot, \tau_\bot, \varnothing)}}{\mu^{\sigma_{\bot}}_{\varnothing}(\sigma_\bot)} = \frac{1}{1} = 1 .\]
@@ -2303,27 +2425,29 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
     \]
     Then \eqref{eqn-inter-sum1} is immediate.
     In the following, we prove \eqref{eqn-inter-sum1-first}.
-    For each $(\sigma, \tau, \seqS, v, L)$ in $\+V\setminus \+L$ and each $e \in E_v^{\sigma}$, we claim that 
+    For each $(\sigma, \tau, \seqS)$ in $\+V\setminus \+L$ and each $e \in E_v^{\sigma}$, we claim that 
     \begin{align}\label{eq-pr-stsvl-sum-stsvle}
-    \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}.
-    \end{align}
-    Combining with \eqref{eq-pr-sts-eq-pr-stsvl} and \eqref{eq-pr-stse-eq-pr-stsvle}, we have
-    \[\Pr[\!{cp}]{(\sigma, \tau, \seqS)} = \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L,e)} = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS, e)}.\]     
+    \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}.
+    \end{align}  
     Combining with \eqref{eqn-marginal-all} and \eqref{eqn-marginal-inner}, \eqref{eqn-inter-sum1-first} is immediate. 
-    At last, we prove \eqref{eq-pr-stsvl-sum-stsvle}, which finishes the proof of \eqref{eqn-inter-sum1}.
+    At last, we prove \eqref{eq-pr-stsvl-sum-stsvle}, which completes the proof of \eqref{eqn-inter-sum1-first}.
      We prove \eqref{eq-pr-stsvl-sum-stsvle} by considering two separate cases.
     \begin{itemize}
-    \item $(\sigma, \tau, \seqS, v, L)\not\in \+V^{\!{cp}}$.
-    We have $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} = 0$.
-    Therefore, by \eqref{eq-def-pro-stsvl} and \eqref{eq-def-pro-stsvle} we have
-    \[\forall e\in E_v^{\sigma},\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}\leq \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} = 0 .\]
+    \item $(\sigma, \tau, \seqS)\not\in \+V^{\!{cp}}$.
+    We have $\Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0$.
+    Thus, by \eqref{eq-def-pro-stsvl} and \eqref{eq-def-pro-stsvle} we have
+    \[\forall e\in E_v^{\sigma},\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS, e)}\leq \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0 .\]
+    Therefore,
+    \begin{align*}
+    \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0 = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}.
+    \end{align*}  
     Thus, \eqref{eq-pr-stsvl-sum-stsvle} is immediate.
-    \item $(\sigma, \tau, \seqS, v, L)\in \+V^{\!{cp}}$. Assume \emph{w.l.o.g.} that ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
+    \item $(\sigma, \tau, \seqS)\in \+V^{\!{cp}}$. Assume \emph{w.l.o.g.} that ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
     By \Cref{def:truncated-random-process},
     if $e$ is the first edge in $E_{v}^{\sigma}$ with 
             $\mu^{\sigma}_e(1) \geq \mu^{\tau}_e(1)$,
-    then $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)} =\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}$.
-    Otherwise, $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)} = 0$.
+    then $\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} =\Pr[\!{cp}]{(\sigma, \tau, \seqS)}$.
+    Otherwise, $\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} = 0$.
     Thus, \eqref{eq-pr-stsvl-sum-stsvle} is immediate.
     \end{itemize}
 
@@ -2335,24 +2459,24 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
    Let $\sigma^0 = \sigma \land (e\gets 0)$, 
    $\sigma^1 = \sigma \land (e\gets 1)$, $\tau^0 = \tau \land (e\gets 0)$, 
    $\tau^1 = \tau \land (e\gets 1)$, $\seqS'=\seqS\circ e$.
-   By \Cref{def:truncated-random-process}, under the condition that $(\sigma_t,\tau_t,\seqS_t,v_t,L_t) = (\sigma,\tau,\seqS,v,L)$ and the chosen edge at this state is $e$, we have $\mu^{\sigma_t}_e(1) \geq \mu^{\tau_t}_e(1)$.
+   By \Cref{def:truncated-random-process}, under the condition that $(\sigma_t,\tau_t,\seqS_t) = (\sigma,\tau,\seqS)$ and the chosen edge at this state is $e$, we have $\mu^{\sigma_t}_e(1) \geq \mu^{\tau_t}_e(1)$.
    Thus, for each $(\sigma_e,\tau_e)$ sampling from an optimal coupling of $(\mu_e^{\sigma_t},\mu_e^{\tau_t})$,
    we have 
    \[\Pr{\sigma_e = \tau_e = 0} = \mu^{\sigma_t}_e(0) = \mu^{\sigma}_e(0),\quad \Pr{(\sigma_e = \tau_e = 1)\lor(\sigma_e = 1,\tau_e = 0)} = \mu^{\sigma_t}_e(1) = \mu^{\sigma}_e(1).\]
    Formally,
-   \[\Pr{(\sigma_{t+1},\tau_{t+1}) = (\sigma^0,  \tau^0)\mid \left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) } = \mu^{\sigma}_e(0),\]
-   \[\Pr{(\sigma_{t+1},\tau_{t+1}) \text{ is } (\sigma^1,  \tau^1)  \text{ or } (\sigma^1,  \tau^0) \mid \left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) } = \mu^{\sigma}_e(1).\]
+   \[\Pr{(\sigma_{t+1},\tau_{t+1}) = (\sigma^0,  \tau^0)\mid \left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) } = \mu^{\sigma}_e(0),\]
+   \[\Pr{(\sigma_{t+1},\tau_{t+1}) \text{ is } (\sigma^1,  \tau^1)  \text{ or } (\sigma^1,  \tau^0) \mid \left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) } = \mu^{\sigma}_e(1).\]
    Therefore, we have 
    \begin{equation}\label{eq-expansion-tplus1-te}
    \begin{aligned}
-   &\Pr{\left(T> t\right)\land \left((\sigma^0, \tau^0, \seqS', v(\sigma^0,\tau^0), L(\sigma^0,\tau^0)) = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}, v_{t+1}, L_{t+1})\right)} \\
-   =&\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(0),
+   &\symbolwidth \Pr{\left(T> t\right)\land \left((\sigma^0, \tau^0, \seqS') = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1})\right)} \\
+   &=\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(0),
    \end{aligned}
    \end{equation}
     \begin{equation}\label{eq-expansion-tplus1-te-one}
    \begin{aligned}
-   &\Pr{\left(T> t\right)\land \left( (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}, v_{t+1}, L_{t+1}) \text{ is } (\sigma^1, \tau^1, \seqS', v(\sigma^1,\tau^1), L(\sigma^1,\tau^1)) \text{ or } (\sigma^1, \tau^0, \seqS', v(\sigma^1,\tau^0), L(\sigma^1,\tau^0))\right)} \\
-   =&\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(1),
+   &\symbolwidth \Pr{\left(T> t\right)\land \left( (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}) \text{ is } (\sigma^1, \tau^1, \seqS') \text{ or } (\sigma^1, \tau^0, \seqS'\right)} \\
+   &=\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(1),
    \end{aligned}
    \end{equation}
 
@@ -2361,12 +2485,10 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
    Note that 
    \begin{equation}\label{eq-pr-stsprime-pr-stse}
     \begin{aligned}
-   &\Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS')}\\
-  (\text{by \eqref{eq-pr-sts-eq-pr-stsvl}})\quad= &\Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS',v(\sigma^0, \tau^0),L(\sigma^0, \tau^0)}\\
-   (\text{by \eqref{eq-def-pro-stsvl}})\quad= &\Pr{\left(T\geq t+1\right)\land \left((\sigma^0, \tau^0, \seqS', v(\sigma^0,\tau^0), L(\sigma^0,\tau^0)) = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}, v_{t+1}, L_{t+1})\right)}\\
-   (\text{by \eqref{eq-expansion-tplus1-te}})\quad= &\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(0)\\
-   (\text{by \eqref{eq-def-pro-stsvle}})\quad   =&\Pr[\!{cp}]{(\sigma, \tau, \seqS,e,v,L)}\cdot \mu^{\sigma}_e(0)\\
-   (\text{by \eqref{eqn-marginal-inner}})\quad   =&\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}\cdot \mu^{\sigma}_e(0).
+   &\symbolwidth \Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS')}\\
+   (\text{by \eqref{eq-def-pro-stsvl}})\quad&= \Pr{\left(T\geq t+1\right)\land \left((\sigma^0, \tau^0, \seqS') = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1})\right)}\\
+   (\text{by \eqref{eq-expansion-tplus1-te}})\quad&= \Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(0)\\
+   (\text{by \eqref{eq-def-pro-stsvle}})\quad   &=\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}\cdot \mu^{\sigma}_e(0).
    \end{aligned}
    \end{equation}
    Moreover, we also have 
@@ -2375,9 +2497,10 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
    \end{align}
    Thus, we have 
    \begin{align*}
-    &\quad p^{\sigma}_{\sigma,\tau, \seqS,e} \\
+    &\symbolwidth p^{\sigma}_{\sigma,\tau, \seqS,e} \\
 (\text{by \eqref{eqn-marginal-inner}})\quad    &= \Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}/\mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
- (\text{by \eqref{eq-pr-stsprime-pr-stse} and \eqref{eq-xsimmu-sigmaprime-sigma}})\quad&= \Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS')}/\mu^{\sigma_{\bot}}_{\seqS'}(\sigma^0) 
+ (\text{by \eqref{eq-pr-stsprime-pr-stse}})\quad&= \Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS')}/\left(\mu^{\sigma_{\bot}}_{\seqS}(\sigma^0)\cdot \mu^{\sigma}_e(0)\right) \\
+ (\text{by \eqref{eq-xsimmu-sigmaprime-sigma}})\quad&= \Pr[\!{cp}]{(\sigma^0, \tau^0, \seqS')}/\mu^{\sigma_{\bot}}_{\seqS'}(\sigma^0) 
  \\(\text{by \eqref{eqn-marginal-all}})\quad&= p^{\sigma^0}_{\sigma^0,\tau^0, \seqS'}\\
  &= p^{\sigma \land (e\gets 0)}_{\sigma \land (e\gets 0),\tau\land (e\gets 0), \seqS \circ e}.
    \end{align*}
@@ -2385,28 +2508,25 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
     In the next, we prove 
     \[
     p^{\sigma}_{\sigma, \tau, \seqS, e}=p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 0), \seqS\circ e} + p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 1),\seqS \circ e}.\]
-    Note that 
+    By \eqref{eq-def-pro-stsvl}, we have
     \begin{equation}\label{eq-pr-stsprime-pr-stse-11}
     \begin{aligned}
-   &\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')}\\
-  (\text{by \eqref{eq-pr-sts-eq-pr-stsvl}})\quad= &\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS',v(\sigma^1, \tau^1),L(\sigma^1, \tau^1)}\\
-   (\text{by \eqref{eq-def-pro-stsvl}})\quad= &\Pr{\left(T\geq t+1\right)\land \left((\sigma^1, \tau^1, \seqS', v(\sigma^1,\tau^1), L(\sigma^1,\tau^1)) = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}, v_{t+1}, L_{t+1})\right)}
+    \Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')}= \Pr{\left(T\geq t+1\right)\land \left((\sigma^1, \tau^1, \seqS') = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1})\right)}
    \end{aligned}
    \end{equation}
    Similarly, we also have 
      \begin{equation}\label{eq-pr-stsprime-pr-stse-10}
     \begin{aligned}
    \Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}
-   = \Pr{\left(T\geq t+1\right)\land \left((\sigma^1, \tau^0, \seqS', v(\sigma^1,\tau^0), L(\sigma^1,\tau^0)) = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1}, v_{t+1}, L_{t+1})\right)}
+   = \Pr{\left(T\geq t+1\right)\land \left((\sigma^1, \tau^0, \seqS') = (\sigma_{t+1}, \tau_{t+1}, \seqS_{t+1})\right)}
    \end{aligned}
    \end{equation}
    Thus, we have
      \begin{equation}\label{eq-pr-stsprime-pr-stse-11-10}
     \begin{aligned}
-   &\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')} + \Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}\\
-   (\text{by \eqref{eq-pr-stsprime-pr-stse-11}, \eqref{eq-pr-stsprime-pr-stse-10} and \eqref{eq-expansion-tplus1-te-one}})\quad= &\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(1)\\
-   (\text{by \eqref{eq-def-pro-stsvle}})\quad   =&\Pr[\!{cp}]{(\sigma, \tau, \seqS,e,v,L)}\cdot \mu^{\sigma}_e(1)\\
-   (\text{by \eqref{eqn-marginal-inner}})\quad   =&\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}\cdot \mu^{\sigma}_e(1).
+   &\symbolwidth \Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')} + \Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}\\
+   (\text{by \eqref{eq-pr-stsprime-pr-stse-11}, \eqref{eq-pr-stsprime-pr-stse-10} and \eqref{eq-expansion-tplus1-te-one}})\quad&= \Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\cdot \mu^{\sigma}_e(1)\\
+   (\text{by \eqref{eq-def-pro-stsvle}})\quad   &=\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}\cdot \mu^{\sigma}_e(1).
    \end{aligned}
    \end{equation}
    Moreover, we also have 
@@ -2416,9 +2536,11 @@ Then \eqref{eq-def-trp-perperty-sigma} is proved and the lemma is immediate.
    \end{align}
    Thus, we have 
    \begin{align*}
-    &\quad p^{\sigma}_{\sigma,\tau, \seqS,e} \\
+    &\symbolwidth p^{\sigma}_{\sigma,\tau, \seqS,e} \\
 (\text{by \eqref{eqn-marginal-inner}})\quad    &= \Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}/\mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
- (\text{by \eqref{eq-pr-stsprime-pr-stse-11-10} and \eqref{eq-xsimmu-sigmaprime-sigma-1}})\quad&= \left(\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')}+\Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}\right)/\mu^{\sigma_{\bot}}_{\seqS'}(\sigma^1)
+ (\text{by \eqref{eq-pr-stsprime-pr-stse-11-10}})\quad&= \left(\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')}+\Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}\right)/\left(\mu^{\sigma_{\bot}}_{\seqS}(\sigma) \cdot \mu^{\sigma}_e(1)
+ \right)\\
+ (\text{by \eqref{eq-xsimmu-sigmaprime-sigma-1}})\quad&= \left(\Pr[\!{cp}]{(\sigma^1, \tau^1, \seqS')}+\Pr[\!{cp}]{(\sigma^1, \tau^0, \seqS')}\right)/\mu^{\sigma_{\bot}}_{\seqS'}(\sigma^1)
  \\(\text{by \eqref{eqn-marginal-all}})\quad&= p^{\sigma^1}_{\sigma^1,\tau^1, \seqS'}+p^{\sigma^1}_{\sigma^1,\tau^0, \seqS'}\\
  &=p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 0), \seqS\circ e} + p^{\sigma\land (e\gets 1)}_{\sigma\land (e\gets 1),\tau\land (e\gets 1),\seqS \circ e}.
    \end{align*}
