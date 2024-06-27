@@ -361,12 +361,12 @@ In this paper, we focus on the Holant problems with all signatures being positiv
 % We state here the following marginal lower bound established in~\zd{[CG23]}, which is of great significance in our analysis.
 
 Now we state some properties of Holant instances here. Let $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ be a binary symmetric log-concave Holant instance with $f_v(0) > 0$ for all $v \in V$ and $\mu = \mu_{\Phi}$ be its Gibbs distribution. For every edge $e \in E$, define its \emph{marginal ratio} as
-\begin{align*}
+\begin{align}\label{def-rphie}
     R_{\Phi}(e) \defeq \frac{\Pr[X \sim \mu]{X(e) = 1}}{\Pr[X \sim \mu]{X(e) = 0}} = \frac{\mu_e(1)}{\mu_e(0)}.
-\end{align*}
+\end{align}
 For $e \in E$ and $c \in \set{0, 1}$, we use $Z_{\Phi}^{(e \gets c)}$ to denote the partition function conditional on assigning $c$ to $e$, \IE,
 \begin{align*}
-    Z_{\Phi}^{(e \gets c)} \defeq \sum_{\sigma \in \set{0, 1}^E : \sigma(e) = c} \prod_{v \in V} f_v\left(\abs{\sigma \vert_{E_v}}\right).
+    Z_{\Phi}^{(e \gets c)} \defeq \sum_{\sigma \in \set{0, 1}^E :  \sigma(e) = c} \prod_{v \in V} f_v\left(\abs{\sigma \vert_{E_v}}\right).
 \end{align*}
 Then it holds that $R_{\Phi}(e) = Z_{\Phi}^{(e \gets 1)} / Z_{\Phi}^{(e \gets 0)}$. The following lemma shows that we can efficiently check the feasibility of a partial assignment.
 
@@ -379,9 +379,9 @@ We postpone the proof of~\Cref{lem:partial-assignment-feasibility} in~\Cref{sec:
 \subsubsection{Marginal and ratio bounds}
 
 To bound the marginal probability and ratio, we associate with $\Phi$ the following quantity
-$$
+\begin{align}\label{eq-def-bmin}
     B_{\min} = B_{\min}(\Phi) \defeq (1 + r_{\max}^2)^{-\Delta(G)}
-$$
+\end{align}
 where $r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}$. The following lemma in~\cite{CG24bMatching} bounds the marginal probability of $\mu$.
 
 % \hktodo{check the lemma, $\mu_{E_v^\sigma}^{\sigma}(\zero)$ is unrelated to $\sigma$ }
@@ -428,17 +428,18 @@ For completeness, we prove~\Cref{lem:marginal-ratio-upper-bound} in~\Cref{sec:pr
 
 \section{The Coupling Process}
 
-In the subsequent discussion, we consider instances satisfying the following condition.
+In the subsequent discussion, we consider instances satisfying the following condition.\qtodo{We may change all $\Phi = (G, \vecf)$ to $\Phi = (G, \vecf,\boldsymbol{\lambda})$}
 \begin{condition}\label{cond-instancepair}
     The following holds for the tuple $\left(\Phi = (G, \vecf),  \sigma_\bot, \tau_\bot,v_{\bot}\right)$:
     \begin{itemize}
-		\item $G = (V, E = E_1 \cup \set{e_\bot})$ is a graph with a unique half edge $e_\bot = (v_{\bot})$ where $v_\bot \in V$;
+		\item $G = (V, E = E_1 \cup \set{e_\bot})$ is a graph with a unique half edge $e_\bot = \set{v_{\bot}}$ where $v_\bot \in V$;
 		\item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric log-concave signatures and $f_v(0) > 0$ for every $v \in V$;
 		\item $\sigma_\bot = (e_\bot \gets 1)$ and $\tau_\bot = (e_\bot \gets 0)$.
     \end{itemize}
 \end{condition}
 \begin{remark}
-    Conditional on $\sigma_\bot$ or $\tau_\bot$, if the assignment on $E_{v_\bot} \setminus \set{e_\bot}$ is determined, we can safely remove the vertex $v_\bot$ and edges incident to it from the graph. Then it follows directly from the definition that the instances conditional on $\sigma_\bot$ and $\tau_\bot$ after necessary removal satisfy~\Cref{cond:Holant-condition} with parameters $\Delta(G)$ and $r_{\max}(\Phi)$.
+    \qtodo{back to this statement later, this is not necessary}
+    \emph{Conditional on $\sigma_\bot$ or $\tau_\bot$, if the assignment on $E_{v_\bot} \setminus \set{e_\bot}$ is determined, we can safely remove the vertex $v_\bot$ and edges incident to it from the graph. Then it follows directly from the definition that the instances conditional on $\sigma_\bot$ and $\tau_\bot$ after necessary removal satisfy~\Cref{cond:Holant-condition} with parameters $\Delta(G)$ and $r_{\max}(\Phi)$.}
 \end{remark}
     
 For an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, recall that an arbitrary order is assumed over all the edges in $E_1$.
@@ -451,10 +452,9 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
     We say that $(\sigma, \tau)$ is a pair of \emph{1-discrepancy partial assignments} if there is a unique disagreeing vertex $v \in V$ and $v$ is 1-disagreeing.
 
     Given a pair of 1-discrepancy partial assignments $(\sigma,\tau)$,
-    the following algorithm from \cite{CG24bMatching} defines a 
+    Algorithm \ref{algo:Couple} from \cite{CG24bMatching} defines a 
     coupling of $\mu^{\sigma}$ and $\mu^{\tau}$.
-    
-    % We first review the coupling process for the marginal distribution of the $b$-matchings conditioned on the 1-discrepancy partial assignments $\sigma$ and $\tau$ designed by \qgl{[CG23]} in Algorithm~\ref{algo:Couple}. For our subsequent analysis, we state the description of the coupling process in the following equivalent way.
+    \hktodo{the use of the coupling in our paper}
 
 	\begin{algorithm}[th]
 		\caption{$\!{Couple}(\Phi, \sigma, \tau, v)$}
@@ -464,10 +464,7 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
 		% \KwIn{A graph $G=(V,E=E_1\cup \set{e_0})$ where the edges are labeled by an arbitrary order with partial assignments $\sigma'$ and $\tau'$ and a unique \qgl{disagreeing} vertex $v\in V$.}
 		  \KwOut{A pair of assignments drawn from a coupling between $\mu^{\sigma}$ and $\mu^{\tau}$.}	
            
-            % \If{$v$ is isolated}
-            % {
-                
-            % } 
+            $S \leftarrow \emptyset$\;
             \While{
                 $E_v^{\sigma} \neq \emptyset$\label{line-while}
             }
@@ -481,21 +478,24 @@ Also recall the distribution $\mu \triangleq \mu_{\Phi}$ defined in \eqref{def-h
                     $\mu^{\sigma}_e(1) \leq \mu^{\tau}_e(1)$\; \label{line:pick-dominating-edge-2}
                 }
                 sample $(\sigma_e, \tau_e)$ from an optimal coupling of $(\mu^{\sigma}_e, \mu^{\tau}_e)$\label{line-edge-sample}\;
-                $\sigma \gets \sigma \land \sigma_e$ and $\tau \gets \tau \land \tau_e$\; 
+                $\sigma \gets \sigma \land \sigma_e$, $\tau \gets \tau \land \tau_e$, $S \gets S\cup \{e\}$\; 
                 \If{$\sigma_e \neq \tau_e$}
                 {
                     % $L\gets L+1$\;
                     % $(\sigma,\tau)\gets \!{Couple}(G,\sigma',\tau',u)$; \quad 
                     % \tcp{The disagreeing vertex has changed}
                     % \hktodo{\Return{$(\sigma,\tau )$;}}
-                    \Return $ \!{Couple}(\Phi,\sigma, \tau, u)$; \quad 
+                    $(\sigma',\tau')\leftarrow \!{Couple}(\Phi,\sigma, \tau, u)$; \quad 
                     \tcp{The disagreeing vertex has been changed}\label{line-recursive-call}
+                    \Return $\left(\sigma_{S}\land \sigma',\tau_{S}\land \tau'\right)$
                 }
                 % \tcp{The disagreeing vertex remains the same}    
             }
-           \Return an optimal coupling of $(\mu^{\sigma},\mu^{\tau})$\;     
+            Sample $\sigma'\sim \mu^{\sigma}$\;
+           \Return $(\sigma_{S}\land \sigma', \tau_{S}\land \sigma')$\;     
 		%\Return{$(\sigma', \tau')$;}
 	\end{algorithm}
+\qtodo{The algorithm is wrong again?}
 
     % The correctness of the coupling relies on the following fact. 
     % \begin{lemma}\label{lem-marignal-dominance}
@@ -512,7 +512,7 @@ The following proposition demonstrates the correctness of the coupling process, 
         
         \item \textbf{(Validity of the recursive call)} At each call of $\!{Couple}(\Phi, \sigma, \tau, u)$ in Line \ref{line-recursive-call}, $(\sigma, \tau)$ is always a pair of 1-discrepancy partial assignments where $\sigma(e_\bot) = 1, \tau(e_\bot) = 0$, and $u$ is always the unique disagreeing vertex under $(\sigma, \tau)$. Moreover, $\sigma$ and $\tau$ are feasible.
         
-        \item \textbf{(Existence of edges satisfying monotonicity)} When $E_v^\sigma \neq \emptyset$ in Line \ref{line-while}, if $\!Ham(\sigma, E_v) < \!Ham(\tau, E_v)$, then there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \ge \mu^\tau_e(1)$; otherwise, there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \le \mu^\tau_e(1)$.
+        \item \textbf{(Existence of edges satisfying monotonicity)} When $E_v^\sigma \neq \emptyset$ in Line \ref{line-while}, if $\!{Ham}(\sigma, E_v) < \!{Ham}(\tau, E_v)$, then there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \ge \mu^\tau_e(1)$; otherwise, there always exists some $e \in E_v^\sigma$ such that $\mu_e^\sigma(1) \le \mu^\tau_e(1)$.
         
         \item \textbf{(Correctness of the coupling)} The outcome of $\!{Couple}(\Phi, \sigma, \tau, v)$ is a coupling of $(\mu^{\sigma}, \mu^{\tau})$.
     \end{enumerate}
@@ -536,7 +536,7 @@ The following proposition demonstrates the correctness of the coupling process, 
 %    \end{condition}
 
     % We can prove the following lemma by similar analysis in \zd{[CG23]}.
-Given any instance $\left(\Phi, \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying \Cref{cond-instancepair}, the subroutine $\!{Couple}(\cdot)$ would not be called recursively many times in the coupling procedure $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ by the following fact. The proof can be found in~\Cref{sec:omitted Proofs}.
+% Given any instance $\left(\Phi, \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying \Cref{cond-instancepair}, the subroutine $\!{Couple}(\cdot)$ would not be called recursively many times in the coupling procedure $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ by the following fact. The proof can be found in~\Cref{sec:omitted Proofs}.\qtodo{recheck this paragraph. I think it is better to state a decay lemma here. Because it provides the intuition for study the truncated coupling process.}
 
 
 \iffalse
@@ -571,44 +571,51 @@ Given any instance $\left(\Phi, \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfyi
 
 
 
-\begin{restatable}{lemma}{OneroundDecay}\label{lem:one-round-decay}
-For any input $(\Phi, \sigma, \tau, v)$ of Algorithm \ref{algo:Couple}, we have 
-\[\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}\leq 1 - B_{\min}(\Phi).\]
-\end{restatable}
+% \begin{restatable}{lemma}{OneroundDecay}\label{lem:one-round-decay}
+% For any input $(\Phi, \sigma, \tau, v)$ of Algorithm \ref{algo:Couple}, we have 
+% \[\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}\leq 1 - B_{\min}(\Phi).\]
+% \end{restatable}
 
-According to~\Cref{lem:one-round-decay}, we can establish the following tail bounds for the maximum depth of recursive calls of the subroutine $\!{Couple}(\cdot)$ in $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$.
-\hktodo{the proof of this lemma}
+% According to~\Cref{lem:one-round-decay}, we can establish the following tail bounds for the maximum depth of recursive calls of the subroutine $\!{Couple}(\cdot)$ in $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$.
+% \hktodo{the proof of this lemma}
 
-\begin{lemma} \label{lem:decay}
-	Given any instance $\left(\Phi,  \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying~\Cref{cond-instancepair}  and  any integer $\ell \ge 0$, we have
-	\begin{align}\label{eq-lem-decay}
-		\Pr{L \ge \ell} \le \left(1 - B_{\min}(\Phi)\right)^{\ell},
-	\end{align}
-        where $L$ is the {maximum depth of recursive calls} of the subroutine $\!{Couple}(\cdot)$ in $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$.
-        % the times that the subroutine $\!{Couple}(\cdot)$ is called in $\!{Couple}(G, \sigma_\bot, \tau_\bot, v_\bot)$.
-\end{lemma}
-\begin{proof}
-	We prove the lemma by induction. The induction basis is when $\ell = 0$, in which case we have 
- $$\Pr{L \ge \ell} =\Pr{L \ge 0}  = 1 = \left(1 - B_{\min}\right)^{0} = \left(1 - B_{\min}\right)^{\ell}.$$
-Thus, \eqref{eq-lem-decay} is proved.
+% \begin{lemma} \label{lem:decay}
+% 	Given any instance $\left(\Phi,  \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying~\Cref{cond-instancepair}  and  any integer $\ell \ge 0$, we have
+% 	\begin{align}\label{eq-lem-decay}
+% 		\Pr{L \ge \ell} \le \left(1 - B_{\min}(\Phi)\right)^{\ell},
+% 	\end{align}
+%         where $L$ is the {maximum depth of recursive calls} of the subroutine $\!{Couple}(\cdot)$ in $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$.
+%         % the times that the subroutine $\!{Couple}(\cdot)$ is called in $\!{Couple}(G, \sigma_\bot, \tau_\bot, v_\bot)$.
+% \end{lemma}
+% \begin{proof}
+% 	We prove the lemma by induction. The induction basis is when $\ell = 0$, in which case we have 
+%  $$\Pr{L \ge \ell} =\Pr{L \ge 0}  = 1 = \left(1 - B_{\min}\right)^{0} = \left(1 - B_{\min}\right)^{\ell}.$$
+% Thus, \eqref{eq-lem-decay} is proved.
 
-For the induction step,  we have $\Pr{L \ge \ell-1} \le \left(1 - B_{\min}\right)^{\ell-1}$.
-Observe that the event $\set{L \ge \ell}$ is equivalent to the event that subroutine $\Couple(\cdot)$ was called with at least $\ell$ times. At the $\ell$-th call of the subroutine $\Couple(\cdot)$ identified as $\Couple(G, \sigma, \tau, v)$, a new call happens when there exists some $e \in E_v^\sigma$ such that $\sigma_e \neq \tau_e$. By~\Cref{prop:coupling-correctness,lem:marginal-bound}, it holds that
-	\begin{align*}
-		\Pr{\exists e \in E_v^\sigma \cmid \sigma_e \neq \tau_e \mid \sigma, \tau} &\le 1 - \Pr{\sigma_{E_v^\sigma} = \tau_{E_v^\sigma} = \zero \mid \sigma, \tau} \\
-		&\le 1 - \min\set{\mu_{E_v^\sigma}^\sigma(\zero), \mu_{E_v^\sigma}^\tau(\zero)} \\
-		&\le 1 - B_{\min}.
-	\end{align*}
-	Consequently, we have
-	$$
-		\Pr{L \ge \ell + 1 \mid L \ge \ell} \le 1 - B_{\min}.
-	$$
-	Then it holds that
-	$$
-		\Pr{L \ge \ell + 1} \le (1 - B_{\min}) \Pr{L \ge \ell} \le (1 - B_{\min})^{\ell + 1},
-	$$
-	and the proof is immediate.
-\end{proof}
+% For the induction step,  we have $\Pr{L \ge \ell-1} \le \left(1 - B_{\min}\right)^{\ell-1}$.
+% Observe that the event $\set{L \ge \ell}$ is equivalent to the event that subroutine $\Couple(\cdot)$ was called with at least $\ell$ times. At the $\ell$-th call of the subroutine $\Couple(\cdot)$ identified as $\Couple(G, \sigma, \tau, v)$, a new call happens when there exists some $e \in E_v^\sigma$ such that $\sigma_e \neq \tau_e$. By~\Cref{prop:coupling-correctness,lem:marginal-bound}, it holds that
+% 	\begin{align*}
+% 		\Pr{\exists e \in E_v^\sigma \cmid \sigma_e \neq \tau_e \mid \sigma, \tau} &\le 1 - \Pr{\sigma_{E_v^\sigma} = \tau_{E_v^\sigma} = \zero \mid \sigma, \tau} \\
+% 		&\le 1 - \min\set{\mu_{E_v^\sigma}^\sigma(\zero), \mu_{E_v^\sigma}^\tau(\zero)} \\
+% 		&\le 1 - B_{\min}.
+% 	\end{align*}
+% 	Consequently, we have
+% 	$$
+% 		\Pr{L \ge \ell + 1 \mid L \ge \ell} \le 1 - B_{\min}.
+% 	$$
+% 	Then it holds that
+% 	$$
+% 		\Pr{L \ge \ell + 1} \le (1 - B_{\min}) \Pr{L \ge \ell} \le (1 - B_{\min})^{\ell + 1},
+% 	$$
+% 	and the proof is immediate.
+% \end{proof}
+
+
+    
+
+\subsection{Random process simulating the truncated coupling procedure}
+
+In this section, given an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, we construct a random process to simulate $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ with truncation. 
 
 In the subsequent discussion, we always consider the tuples satisfy the following conditions.
 \begin{condition}\label{condition-sigma-tau}
@@ -617,16 +624,12 @@ The tuples $(\sigma,\tau,\seqS)$, $(\sigma,\tau,\seqS,e)$,  $(\sigma,\tau,\seqS,
 \item $(\sigma, \tau)$ is a pair of 1-discrepancy partial assignments and $\sigma(e_\bot) = 1, \tau(e_\bot) = 0$;
 \item $\seqS$ records the sequence of assigned edges in $\Lambda(\sigma)\setminus \{e_\bot\}$;
 \item $v$ is the unique disagreeing vertex under $(\sigma, \tau)$;
-\item $L = \abs{\{e'\in \Lambda(\sigma)\mid (e'\neq e_{\bot})\land (\sigma(e')\neq \tau(e'))\}}$.
+\item $L = \abs{\{e'\in \Lambda(\sigma)\mid (e'\neq e_{\bot})\land (\sigma(e')\neq \tau(e'))\}}$;
+\item $e$ is an edge in $E^{\sigma}_v$.
 \end{itemize}
 \end{condition}
 For any tuple generated by certain processes, we will also ensure that \Cref{condition-sigma-tau} is satisfied, including those processes in Definitions  \ref{def:truncated-random-process} and \ref{def:truncated-coupling-tree}.
 Given any $(\sigma,\tau)$, let $v(\sigma,\tau)$ denote the unique disagreeing vertex under $(\sigma, \tau)$ and $L(\sigma,\tau)$ denote $\abs{\{e\in \Lambda(\sigma)\mid (e\neq e_{\bot})\land (\sigma(e)\neq \tau(e))\}}$.
-    
-
-\subsection{Random process simulating the truncated coupling procedure}
-
-In this section, given an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, we construct a random process to simulate $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ with truncation.
 
 
 
@@ -649,7 +652,7 @@ In this section, given an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, 
     
 
 
-
+The random process to simulate $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ is as follows.
 
 \begin{definition}[$\ell$-truncated random process] \label{def:truncated-random-process}
     \emph{
@@ -677,6 +680,7 @@ In this section, given an instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, 
 \end{definition}
 
 Intuitively, for any state $(\sigma_t, \tau_t, \seqS_t, v_t, L_t)$ in $P^{\!{cp}}$, $\seqS_t$ records the sequence of chosen edges and $L_t$ records the total number of edges $e$ in $\seqS_t$ where $\sigma_t(e)\neq \tau_t(e)$.
+By comparing \Cref{def:truncated-random-process} with Algorithm \ref{algo:Couple}, one can verify that $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ simulates $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ while ensuring that the depth of recursion does not exceed $\ell$.
 Moreover, one can verify the following lemma by \Cref{def:truncated-random-process} and the induction.
 
 
@@ -713,53 +717,31 @@ $(\sigma_t, \tau_t,\seqS_t, v_t, L_t)$ satisfies \Cref{condition-sigma-tau} for 
 % Combining with \Cref{cor-trp-vt} and \eqref{eq-trp-lt},
 % we have $v_t = v(\sigma_t, \tau_t)$ and $L_t = L(\sigma_t, \tau_t)$.
 
-% Combining \Cref{cor-trp-vt} with \eqref{eq-trp-lt},
-% we have $v_t,L_t$ are uniquely determined by $\sigma_t$ and $ \tau_t$.
-% Therefore,  given any $(\sigma, \tau, \seqS, v, L)\in \+V^{\!{cp}}$, 
-% one can recover $v, L$ from $\sigma, \tau$.
-% Thus, we may omit $v$ and $L$ from the notations when they are clear from the context. 
 
-Given a tuple $(\sigma,\tau,\seqS, v,L)$, we call the tuple \emph{feasible} if $\sigma$ and $\tau$ are feasible partial assignments. By comparing \Cref{def:truncated-random-process} with Algorithm \ref{algo:Couple}, one can verify that $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ simulates $\!{Couple}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ while ensuring that the depth of recursion does not exceed $\ell$.
-Thus, by the second item of \Cref{prop:coupling-correctness}, we have the following lemma. 
+% Thus, by the second item of \Cref{prop:coupling-correctness}, we have the following lemma. 
 
-\begin{lemma}\label{lemma-trp-correctness-feasible}
-In the $\ell$-truncated random process $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$, we have 
-$(\sigma_t, \tau_t,\seqS_t, v_t, L_t)$ is feasible for each $0\leq t \leq T$.
-\end{lemma}
+% \begin{lemma}\label{lemma-trp-correctness-feasible}
+% In the $\ell$-truncated random process $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$, we have 
+% $(\sigma_t, \tau_t,\seqS_t, v_t, L_t)$ is feasible for each $0\leq t \leq T$.
+% \end{lemma}
 
 
 
 The following notations related to the random process $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$ will be used in its analysis. 
 \begin{definition}\label{def-notation-trp}
-Define $\mu^{\!{cp}},\+L^{\!{cp}},\+V^{\!{cp}},\+L_{\ell}^{\!{cp}}$ and $\mathbf{Pr}_{\!{cp}}$ as follows.
+In the $\ell$-truncated random process $P^{\!{cp}}$, define $\mathbf{Pr}_{\!{cp}}$ as follows.
 \begin{itemize}
-\item Let $\mu^{\!{cp}}\triangleq\mu_\ell^{\!{cp}}$ denote the distribution of the outcome of the random process $P^{\!{cp}}$.
-% \item 
-% Let $\rho \triangleq \rho^{\!{cp}}$ denote the length of $P^{\!{cp}}$. Formally, $\rho = r$ if  $(\sigma_r, \tau_r, \seqS_r, v_r, L_r)$ is the outcome of $P^{\!{cp}}$.
 \item For any $(\sigma, \tau, \seqS, v, L)$, let $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}$ denote the probability that $(\sigma, \tau, \seqS, v, L)$ is a state in the random process $P^{\!{cp}}$.
 Formally, for each $(\sigma, \tau, \seqS, v, L)$  where  $\abs{\seqS}=t$,
 \begin{align}\label{eq-def-pro-stsvl}
     \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)} \triangleq \Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)}.
 \end{align}
 
-\item For any $(\sigma, \tau, \seqS, v, L)$ and $e\in E(G)$, let $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}$ denote the probability that $(\sigma, \tau, \seqS, v, L)$ is a state in the random process $P^{\!{cp}}$ and $e$ is the chosen edge at that state.
-Formally, for each $(\sigma, \tau, \seqS, v, L)$  where  $\abs{\seqS}=t$ and each $e\in E(G)$,
+\item For any $(\sigma, \tau, \seqS, v, L)$ and $e\in E^{\sigma}_v$, let $\Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)}$ denote the probability that $(\sigma, \tau, \seqS, v, L)$ is a state in the random process $P^{\!{cp}}$ and $e$ is the chosen edge at that state.
+Formally, for each $(\sigma, \tau, \seqS, v, L)$  where  $\abs{\seqS}=t$ and each $e\in E^{\sigma}_v$,
 {\begin{align}\label{eq-def-pro-stsvle}
 \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L,e)} \triangleq \Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS, v, L) = (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }.
 \end{align}}
-
-\item Let $\+L^{\!{cp}}$ and $\+V^{\!{cp}}$ denote all possible outcomes and states of $P^{\!{cp}}$, respectively. Formally, 
-$$
-    \+L^{\!{cp}} = \set{(\sigma, \tau, \seqS, v, L) \mid \mu_\ell^{\!{cp}}((\sigma, \tau, \seqS, v, L))>0},\quad  \+V^{\!{cp}} = \set{(\sigma, \tau, \seqS, v, L) \mid \Pr[\!{cp}]{(\sigma, \tau, \seqS, v, L)}>0}.
-$$
-\item Let $\+L_{\ell}^{\!{cp}}$ denote the set of outcomes $(\sigma, \tau, \seqS, v, L)$ of $P^{\!{cp}}$ with $L = \ell$, i.e.:
-$$
-    \+L_{\ell}^{\!{cp}} = \set{(\sigma, \tau, \seqS, v, L) \mid \mu_\ell^{\!{cp}}((\sigma, \tau, \seqS, v, L))>0 \land L = \ell}.
-$$
-% \item Let $\+W^{\!{cp}} \subseteq \+V^{\!{cp}} \setminus \+L^{\!{cp}}$ denote all possible states $(\sigma_t, \tau_t, \seqS_t, v_t, L_t)$ of $P^{\!{cp}}$ where $0\leq t \leq \rho$ and $v_t\neq v_{t-1}$. Formally,
-% $$
-%     \+W_{\ell}^{\!{cp}} = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t) \mid (t>0)\land (\sigma_t, \tau_t, \seqS_t, v_t, L_t)\in \+V^{\!{cp}} \setminus \+L^{\!{cp}} \land L = \ell}.
-% $$
 \end{itemize}
 \end{definition}
 
@@ -783,7 +765,7 @@ In \Cref{def:truncated-random-process}, the following properties hold:
 \begin{align}\label{eq-def-trp-perperty-sigma}
 \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma), \quad \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
 \end{align}
-\item For each $(\sigma, \tau, \seqS,v,L)$ and $e\in E(G)$, we have 
+\item For each $(\sigma, \tau, \seqS,v,L)$ and $e\in E^{\sigma}_v$, we have 
 \begin{align}\label{eq-def-trp-perperty-sigma-e}
 \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L,e)}\leq \mu^{\sigma_{\bot}}_{\seqS}(\sigma),\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L, e)}\leq\mu^{\tau_{\bot}}_{\seqS}(\tau).
 \end{align}
@@ -792,25 +774,16 @@ In \Cref{def:truncated-random-process}, the following properties hold:
 
 
 
-% \hktodo{polish this paragraph}
 
-% Since the random process is to simulate $\!{Couple}(G, \sigma_\bot, \tau_\bot, v_\bot)$, we have the following fact immediately.
-
-% \begin{lemma} \label{lem:random-process-decay}
-% 	Given any instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ satisyfing~\Cref{cond-instancepair}, for any non-negative integer $\ell$, we have
-% 	\begin{align*}
-% 		\mu^{\!{cp}}(\+L_\ell^{\!{cp}}) \leq \left(1 - B_{\min}\right)^{\ell}.
-% 	\end{align*}
-% \end{lemma}
 
 \subsection{Truncated coupling tree} 
 
 \hktodo{polish the following paragraph}
 
-\zdnew{To estimate the marginal probability, we employ Moitra's method. First we construct a truncated coupling tree, and then we set up linear programming on it.} \qgl{However, since the choice of the edge in Line~\ref{line:pick-dominating-edge-1} and~\ref{line:pick-dominating-edge-2} is unknown, the coupling tree is implicit}\qtodo{to clarify it more carefully}. To overcome this barrier, we define the following recursion tree to mimic the random process $P^{\!{cp}}$.
+\zdnew{To estimate the marginal probability, we employ Moitra's method. First we construct a truncated coupling tree, and then we set up linear programming on it.} {However, since the choice of the edge in Line~\ref{line:pick-dominating-edge-1} and~\ref{line:pick-dominating-edge-2} is unknown, the coupling tree is implicit}. To overcome this barrier, we define the following recursion tree to mimic the random process $P^{\!{cp}}$.
+Given a tuple $(\sigma,\tau,\seqS, v,L)$, we call the tuple \emph{feasible} if $\sigma$ and $\tau$ are feasible partial assignments. 
 
-%    In this section, we construct a coupling tree including the whole support $\+V^{\!{cp}}$ of the random truncated process $P^{\!{cp}}$. \qgl{add more words here. This is the best we can expect since we can not simulate the random process faithfully.}
-%    We define the following recursion tree to mimic the random process $P^{\!{cp}}$.
+
 
 % \hktodo{Here, for each node, only three children are added. How about adding four children?}
 
@@ -835,9 +808,7 @@ In \Cref{def:truncated-random-process}, the following properties hold:
     }
 \end{definition}
 
-% \hktodo{For each node $(\sigma, \tau, \seqS, v, L)\in V(\+T)$, we call it feasible if $\sigma$ and $\tau$ are feasible partial assignments.
-    % Define $\+V$ as the set of \emph{feasible} nodes in the coupling tree $\+T$.
-    % Let $\+L$ be the set of \emph{feasible} leaf nodes in $\+T$, $\+L_{\!{good}}\triangleq \set{(\sigma,\tau, \seqS,v,L) \mid L<\ell}$, and $\+L_{\!{bad}}\triangleq \+L\setminus \+L_{\!{good}}$. One can verify that $\+V^{\!{cp}}\subseteq \+V$.}
+
 
 % \hktodo{the following paragraph should be changed}
 
@@ -859,18 +830,19 @@ Any two different nodes in the $\ell$-truncated coupling tree have distinct labe
 By \Cref{lemma-truncated-coupling-tree}, one can use a label $(\sigma, \tau, \seqS, v, L)$ to refer to the unique node with this label in the $\ell$-truncated coupling tree $\+T$. 
 Thus, we will say `the node $(\sigma, \tau, \seqS, v, L)$', `the feasible node $(\sigma, \tau, \seqS, v, L)$' rather than `the node with label $(\sigma, \tau, \seqS, v, L)$' and `the node with feasible label $(\sigma, \tau, \seqS, v, L)$', respectively.
 
-By comparing \Cref{def:truncated-random-process} with \Cref{def:truncated-coupling-tree} and recalling that all the states in \Cref{def:truncated-random-process} are feasible as shown in \Cref{lemma-trp-correctness-feasible},
-one can verify that each possible state sequence of the $\ell$-truncated random process $P^{\!{cp}}$ is recorded as a path from the root to one leaf in the $\ell$-truncated coupling tree $\+T$.
-Thus, we have the following lemma. 
-\begin{lemma}\label{lemma-states-trp-path-tct}
-For the random process $P^{\!{cp}} = P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$, any integer $r$, and any fixed tuples $((\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1),\cdots,(\sigma'_r, \tau'_r, \seqS'_r, v'_t, L'_r))$
-where 
-\[\Pr{(T=r)\land\left((\sigma_1, \tau_1, \seqS_1, v_1, L_1)=(\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1)\right)\land\cdots\land \left((\sigma_r, \tau_r, \seqS_r, v_r, L_r)=(\sigma'_r, \tau'_r,\seqS'_r, v'_r, L'_r)\right)}>0,\]
-there exists a path $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0),(\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1),\cdots,(\sigma'_r, \tau'_r, \seqS'_r, v'_r, L'_r)$ in the $\ell$-truncated coupling tree $\+T$ where  $(\sigma'_r, \tau'_r,\seqS'_r, v'_r, L'_r)$ is a leaf.
-\end{lemma}
 
+\hktodo{the intuition of \Cref{def:truncated-coupling-tree} here}
+By comparing \Cref{def:truncated-random-process} with \Cref{def:truncated-coupling-tree} and,
 
-
+% By comparing \Cref{def:truncated-random-process} with \Cref{def:truncated-coupling-tree} and recalling that all the states in \Cref{def:truncated-random-process} are feasible as shown in \Cref{lemma-trp-correctness-feasible},
+% one can verify that each possible state sequence of the $\ell$-truncated random process $P^{\!{cp}}$ is recorded as a path from the root to one leaf in the $\ell$-truncated coupling tree $\+T$.
+% Thus, we have the following lemma. 
+% \begin{lemma}\label{lemma-states-trp-path-tct}
+% For the random process $P^{\!{cp}} = P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$, any integer $r$, and any fixed tuples $((\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1),\cdots,(\sigma'_r, \tau'_r, \seqS'_r, v'_t, L'_r))$
+% where 
+% \[\Pr{(T=r)\land\left((\sigma_1, \tau_1, \seqS_1, v_1, L_1)=(\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1)\right)\land\cdots\land \left((\sigma_r, \tau_r, \seqS_r, v_r, L_r)=(\sigma'_r, \tau'_r,\seqS'_r, v'_r, L'_r)\right)}>0,\]
+% there exists a path $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0),(\sigma'_1, \tau'_1, \seqS'_1, v'_1, L'_1),\cdots,(\sigma'_r, \tau'_r, \seqS'_r, v'_r, L'_r)$ in the $\ell$-truncated coupling tree $\+T$ where  $(\sigma'_r, \tau'_r,\seqS'_r, v'_r, L'_r)$ is a leaf.
+% \end{lemma}
 
 
 The following property on the nodes in $V(\+T)$ is immediate by \Cref{def:truncated-coupling-tree} and the induction.
@@ -946,44 +918,35 @@ Each node $(\sigma, \tau, \seqS, v, L)\in V(\+T)$ satisfies \Cref{condition-sigm
 
 
 The following notations related to the $\ell$-truncated coupling tree $\+T_{\ell}$ will be used in its analysis.
+% \qtodo{I think we can replace the notations here with our old notations. In the proof, we can add a sentence to state that we add the subscript $i$ in these notations to distinguish them.}
 \begin{definition}\label{def-notation-v-tct}
-For each $\ell\geq 0$, define the sets $\+V,\+L,\+L_{\!{good}}$ and the function $\+D(\cdot)$ as follows:
+Given any $\ell$-truncated coupling tree $\+T = \+T_{\ell}$,
+define the sets $\+V,\+L,\+L_{\!{good}}$ and the function $\+D(\cdot)$ as follows:
 \begin{itemize}
-\item Let $\+V\triangleq \+V(\ell)$ denote the set of \emph{feasible} nodes in $V(\+T_{\ell})$;
-\item Let $\+L\triangleq \+L(\ell)$ denote the set of leaf nodes in $V(\+T_{\ell})$;
-\item Define $\+L_{\!{good}}\triangleq \+L_{\!{good}}(\ell) = \set{(\sigma,\tau, \seqS,v,L) \in \+L\mid L<\ell}$ and $\+L_{\!{bad}}\triangleq \+L_{\!{bad}}(\ell) = \+L\setminus \+L_{\!{good}}$.
-\item Given any $(\sigma,\tau,\seqS,v,L)\in V(\+T)$, define 
+\item Let $\+V$ denote the set of \emph{feasible} nodes in $V(\+T)$;
+\item Let $\+L$ denote the set of leaf nodes in $V(\+T)$;
+\item Define $\+L_{\!{good}}= \set{(\sigma,\tau, \seqS,v,L) \in \+L\mid L<\ell}$ and $\+L_{\!{bad}}\triangleq \+L_{\!{bad}}(\ell) = \+L\setminus \+L_{\!{good}}$.
+\item Given any $(\sigma,\tau,\seqS,v,L)\in \+V\setminus \+L$, define 
 \[
-\+D(\sigma,\tau,\seqS,v,L)\triangleq \+D_{\ell}((\sigma,\tau,\seqS,v,L)) = \left\{(\sigma',\tau',\seqS',v',L')\in V(\+T) \mid \sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})\right\}.
+\+D(\sigma,\tau,\seqS,v,L)\triangleq \left\{(\sigma',\tau',\seqS',v',L')\in V(\+T) \mid \sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})\right\}.
 \]
 \end{itemize}
 \end{definition}
 \hktodo{
-Intuitively, $\+L_{\!{good}}$ is the set of leafs where 
-and $\+L_{\!{good}}$ is the set of leafs where .
-$\+D(\sigma,\tau,\seqS,v,L)$ is the set of }
+Intuitively, $\+L_{\!{good}}$ represents the set of leaves $(\sigma,\tau,\seqS,v,L)$ where 
+$\mu^\sigma = \mu^\tau$ if $\sigma$ and $\tau$ are feasible.
+These leaves are easily handled in \hktodo{our marginal ratio estimator}, as discussed in \Cref{sec-mre}.
+Conversely, the leaves in $\+L_{\!{bad}}$ are more challenging to handle and can introduce errors into our estimator.
+The notation $\+D(\cdot)$ is crucial for bounding such errors.
+}
+We remark that if $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
 
-
-The following facts about $\+D(\cdot)$ are immediate by Definitions \ref{def:truncated-coupling-tree} and \ref{def-notation-v-tct}.
-\begin{lemma}\label{lemma-fact-D}
-Given any $(\sigma,\tau,\seqS,v,L)\in V(\+T)$ where $L<\ell$, 
-\begin{itemize}
-\item $\+D(\sigma,\tau,\seqS,v,L) =\emptyset$ if and only if 
-$(\sigma,\tau,\seqS,v,L)$ is infeasible;
-\item if $(\sigma,\tau,\seqS,v,L)$ is feasible and $E^{\sigma}_v = \emptyset$, then $\+D(\sigma,\tau,\seqS,v,L) = \{(\sigma,\tau,\seqS,v,L)\}$;
-\end{itemize}
-\end{lemma}
-
-We remark that if $(\sigma,\tau,\seqS,v,L)$ is feasible and $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
-
-
-
-Recall that $\+V^{\!{cp}}$ denotes all possible states of $P^{\!{cp}}$. The following proposition provides some useful properties of the $\ell$-truncated coupling tree.
+The following proposition provides some useful properties of the $\ell$-truncated coupling tree.
 
 
 \begin{proposition} \label{prop:property-of-truncated-tree}
-$\+T$ is of degree at most $3\Delta$, of depth at most $\Delta \ell$ and of size at most $\left(3\Delta\right)^{\Delta \ell + 1}$.
-Moreover, we have $\+V^{\cp} \subseteq V(\+T)$, and each non-leaf node in $\+T$ is in the set $\+V\setminus\+L$.
+The $\ell$-truncated coupling tree $\+T$ is of degree at most $3\Delta$, of depth at most $\Delta \ell$ and of size at most $\left(3\Delta\right)^{\Delta \ell + 1}$.
+Moreover, we have $V(\+T)\setminus \+L = \+V\setminus\+L$.
 \end{proposition}
 
 \hktodo{polish the proof here}
@@ -994,11 +957,11 @@ Moreover, we have $\+V^{\cp} \subseteq V(\+T)$, and each non-leaf node in $\+T$ 
 
     \hktodo{rewrite this paragraph}
     
-    By \Cref{lemma-states-trp-path-tct}, 
-    we have $\+V^{\cp} \subseteq V(\+T)$ immediately.
     In addition, by \Cref{def:truncated-coupling-tree},  each infeasible node is a leaf in $\+T$.
-    Thus, each non-leaf node is feasible.
-    Therefore, this node is in $ \+V\setminus\+L$.
+    Formally, $V(\+T) \setminus \+V \subseteq \+L$.
+    Thus,  $V(\+T) \setminus \+L \subseteq \+V$.
+    Therefore, $V(\+T) \setminus \+L \subseteq \+V\setminus \+L$.
+    Combined with $\+V\subseteq V(\+T)$, we have $V(\+T) \setminus \+L = \+V\setminus \+L$.
     
 \end{proof}
 
@@ -1008,8 +971,7 @@ Moreover, we have $\+V^{\cp} \subseteq V(\+T)$, and each non-leaf node in $\+T$ 
 % 	The $\ell$-truncated coupling tree $\+T = \+T_\ell(G, \sigma_\bot, \tau_\bot, v_\bot)$ can be computed in time polynomial with $\Delta^{\Delta\ell}$.
 % \end{corollary}
 
-%\qgl{We should verify that the tree is well-defined. It suffices to show that there exist no nodes that occur multiple times. We also remark that $\+L^{\!{cp}}\subseteq \+L$ since we could choose each unpinned incident edge of the disagreeing vertex to update instead of the monotonicity edge}.
-%
+
 %
 %\qgl{fromhere} Note that for any $(\sigma,\tau,S,v,L)\in \+V(\+T)$, the value of $v$ and $L$ are determined by the tuple $(\sigma,\tau,S)$. For convenience, we represent the nodes $(\sigma,\tau,S,v,L)$ by $(\sigma,\tau,S)$, and the value of $v$ and $L$ are denoted by $v(\sigma,\tau,S)$ and $L(\sigma,\tau,S)$, respectively. 
 %
@@ -1019,9 +981,8 @@ Moreover, we have $\+V^{\cp} \subseteq V(\+T)$, and each non-leaf node in $\+T$ 
 %\end{lemma}
 
 \subsection{The marginal quantities from the coupling procedure}
-
+% \qtodo{To make the distinction between the previous algorithm, maybe we can move this section before the coupling tree. and only specify the definition on the node in the random process. We then propose the coupling tree to discussion the necessity of the extended states? If we do this, recheck this section}
 \hktodo{polish the following paragraph}
-
 In this section, we shall define a collection of quantities and verify some useful properties among them in the random process $P^{\!{cp}}$. 
 
 
@@ -1050,6 +1011,7 @@ Define the following quantities related to \Cref{def:truncated-random-process}:
 \end{definition}
 
 \begin{remark}
+\emph{
 For each $(\sigma, \tau, \seqS) \in \+V\setminus \+L$ and $e\in E_{v}^{\sigma}$, by the definition of $\+V$, we have $\sigma$ is feasible. Thus, $\mu(\sigma)>0$.
 In addition, recall that $\sigma(e_{\bot}) = 1$, $\sigma_{\bot} = (e_{\bot}\leftarrow 1)$.
 We have  
@@ -1057,13 +1019,13 @@ $\mu^{\sigma_{\bot}}_{\seqS}(\sigma) \geq \mu(\sigma)>0$.
 Thus, $p^{\sigma}_{\sigma, \tau, \seqS}$ and $p^{\sigma}_{\sigma, \tau, \seqS,e}$
 are well defined.
 Similarly, we also have $p^{\tau}_{\sigma, \tau, \seqS}$ and $p^{\tau}_{\sigma, \tau, \seqS, e}$ are well defined.
+}
 \end{remark}
+
 
 In the following, when we use the notations $p^{\sigma}_{\sigma, \tau, \seqS}$ and $p^{\tau}_{\sigma, \tau, \seqS}$,
 we always assume  $(\sigma,\tau,\seqS)\in V(\+T)$.
 Similarly, when we use the notations $p^{\sigma}_{\sigma, \tau, \seqS, e}$ and $p^{\tau}_{\sigma, \tau, \seqS, e}$, we always assume  $(\sigma,\tau,\seqS)\in \+V \setminus \+L$ and $e\in E_{v}^{\sigma}$.
-
-    
 One can verify that the following proposition holds for the above quantities. The proof of the proposition is deferred to~\Cref{sec:omitted Proofs}.
 
 
@@ -1097,46 +1059,20 @@ One can verify that the following proposition holds for the above quantities. Th
         \end{enumerate}
     \end{restatable}
     
-    Recall the definition of $\+D(\cdot)$ in \Cref{def-notation-v-tct}. The next lemma provides the key property for bounding \hktodo{the coupling error}.
+    Recall the definitions of $B_{\min}$ and $\+D(\cdot)$ in \eqref{eq-def-bmin} and \Cref{def-notation-v-tct}. The next lemma provides the key property for bounding \hktodo{the coupling error}.
 
     \begin{lemma} \label{lem:coupling-error}
-       For each $(\sigma, \tau, \seqS) \in V(\+T)$ where $L(\sigma,\tau)<\ell$,
+       For each $(\sigma, \tau, \seqS) \in \+V\setminus \+L$,
        let $\+D \triangleq \+D(\sigma, \tau, \seqS)$.
-       We have
+       We have $\+D\neq \emptyset$, and 
        \begin{align}\label{eqn-error-bound}
            \sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}, \quad \sum_{(\sigma',\tau', \seqS') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.
        \end{align}
     \end{lemma}
     \begin{proof}
-    To prove this lemma, it is sufficient to prove \begin{align}\label{eqn-error-bound-sigma}
-           \sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'}\geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.
-       \end{align}
-    Similarly, one can also prove 
-    \[\sum_{(\sigma',\tau', \seqS') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.\] 
-    Then the lemma is immediate.
-    In the following, we prove \eqref{eqn-error-bound-sigma}.
-    Given any $(\sigma, \tau, \seqS)$, let $v = v(\sigma,\tau)$. 
-    There are only three possibilities for $\+D$.
-    \begin{itemize}
-    \item $(\sigma,\tau,\seqS)$ is infeasible. Thus, we have $(\sigma,\tau,\seqS)\in V(\+T)\setminus \+V$.
-    By \Cref{def-key-quantity}, we have $p^{\sigma}_{\sigma, \tau, \seqS} = 0$.
-    In addition, by \Cref{lemma-fact-D} we have $\+D = \emptyset$.
-    Thus, we have
-    \[\sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} = 0 =  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.\]
-    Therefore, \eqref{eqn-error-bound-sigma} is proved.
-   
-    \item $(\sigma,\tau,\seqS)$ is feasible and $E^{\sigma}_{v} = \emptyset$. By \Cref{lemma-fact-D}, we have 
-    $\+D =\{(\sigma,\tau,\seqS)\}$.
-    Thus, we have 
-    \[\sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} =p^{\sigma}_{\sigma, \tau, \seqS} \geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS},\]
-    where the last inequality is by $B_{\min} \leq 1$.
-    Therefore, \eqref{eqn-error-bound-sigma} is proved.
-    
-    \item $(\sigma,\tau,\seqS)$ is feasible and $E^{\sigma}_v \neq \emptyset$. 
+    Given any $(\sigma, \tau, \seqS) \in \+V\setminus \+L$, let $v = v(\sigma,\tau)$. 
+    By \Cref{def:truncated-coupling-tree} and  $(\sigma, \tau, \seqS) \not \in \+L$, we have $(\sigma,\tau,\seqS)$ is feasible and $E^{\sigma}_v \neq \emptyset$.
     Assume $\emph{w.l.o.g.}$ ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
-    Let $\ell$ denote $\abs{E_v^\sigma}$. 
-    Let $e$ be the first edge in $E_{v}^{\sigma}$ with $\mu^{\sigma}_e(1) \geq \mu^{\tau}_e(1)$.
-
     Let $t$ denote $\abs{\seqS}$ and $r$ denote $\abs{E^{\sigma}_v}$. 
     Define a sequence of edges $e_1,e_2,\cdots,e_r\in E^{\sigma}_v$ recursively as follows.
     For each $0\leq i<r$, let $e_{i+1}$ be the first edge in $E_{v}^{\sigma^{i}}$ with $\mu^{\sigma^{i}}_{e_{i+1}}(1) \geq \mu^{\tau^{i}}_{e_{i+1}}(1)$ where 
@@ -1149,69 +1085,75 @@ One can verify that the following proposition holds for the above quantities. Th
     For each $0\leq i<r$, Define 
     \[\seqS^i \triangleq \seqS\circ e_1\circ\cdots\circ e_{i-1}.\]
     Specifically, we have $\seqS^0 = \seqS$.
+    We claim that 
+    \begin{align}\label{eq-sigmar-sigma}
+     \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} 
+    \geq \Pr[\!{cp}]{(\sigma, \tau, \seqS)}\cdot B_{\min}.
+        \end{align}
+    Meanwhile, by $(\sigma,\tau,\seqS)$ is feasible and $(\sigma,\tau,\seqS)\in V(\+T)$, we have $(\sigma,\tau,\seqS)\in \+V$. 
+    By $(\sigma,\tau,\seqS)$ is feasible, $\sigma^r = \sigma\land  (E^{\sigma}_v \gets \boldsymbol{0}),\tau^r = \tau\land  (E^{\sigma}_v \gets \boldsymbol{0})$ and  \Cref{lem:marginal-bound}, one can also verify that 
+    $(\sigma^r, \tau^r, \seqS^r)$ is also feasible.
+    Moreover, by the condition of this lemma, we have 
+    $(\sigma,\tau,\seqS)\in V(\+T)$ and $L(\sigma, \tau)<\ell$.
+    Combined with \Cref{def:truncated-coupling-tree},
+    one can also verify that $(\sigma^r, \tau^r, \seqS^r)\in V(\+T)$
+    by induction.
+    Therefore, we also have $(\sigma^r, \tau^r, \seqS^r)\in \+V$.
+    Thus, we have 
+    \begin{align*}
+        &\quad p^{\sigma^r}_{\sigma^r, \tau^r, \seqS^r}\\
+    (\text{by $(\sigma^r, \tau^r, \seqS^r)\in \+V$ and \eqref{eqn-marginal-all}}) \quad   &= \Pr[\!{cp}]{(\sigma^r,\tau^r, \seqS^r)}/ \mu^{\sigma_{\bot}}_{\seqS^r}(\sigma^r)\\
+        &\geq \Pr[\!{cp}]{(\sigma^r,\tau^r, \seqS^r)}/ \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+    (\text{by \eqref{eq-sigmar-sigma}})\quad    &\geq B_{\min}\cdot \Pr[\!{cp}]{(\sigma,\tau, \seqS)}/ \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+    (\text{by $(\sigma, \tau, \seqS)\in \+V$ and \eqref{eqn-marginal-all}}) \quad   &= B_{\min}\cdot p^{\sigma}_{\sigma, \tau, \seqS}
+    \end{align*}
+    In addition, by $(\sigma^r, \tau^r, \seqS^r)\in V(\+T)$ and $\sigma^r = \sigma\land  (E^{\sigma}_v \gets \boldsymbol{0}),\tau^r = \tau\land  (E^{\sigma}_v \gets \boldsymbol{0})$, we have 
+    $(\sigma^r, \tau^r, \seqS^r)\in \+D$ by \Cref{def-notation-v-tct}.
+    Thus, we have $\+D\neq \emptyset$ and 
+    \[\sum_{(\sigma', \tau', \seqS') \in \+D} p^{\sigma'}_{\sigma', \tau', \seqS'} \geq p^{\sigma^r}_{\sigma^r, \tau^r, \seqS^r} \geq  B_{\min} \cdot p^{\sigma}_{\sigma, \tau, \seqS}.\]
+    Similarly, one can also prove 
+    \[\sum_{(\sigma',\tau', \seqS') \in \+D} p^{\tau'}_{\sigma', \tau', \seqS} \geq  B_{\min} \cdot p^{\tau}_{\sigma,\tau, \seqS}.\]     
+    Therefore, the lemma is immediate.
+    
+
+    In the following, we prove \eqref{eq-sigmar-sigma}, which completes the proof of the lemma.    
     Recall the $\ell$-truncated 
     random process $P^{\!{cp}} \triangleq P^{\!{cp}}_\ell(\Phi, \sigma_\bot, \tau_\bot, v_\bot) = \set{(\sigma_t, \tau_t, \seqS_t, v_t, L_t)}_{0\leq t \leq T}$.
     Let $\+E_i$ denote the event $(T\geq t+i)\land \left((\sigma_{t+i},\tau_{i+i}, \seqS_{t+i})= (\sigma^i,\tau^i,\seqS^i)\right)$.
     Assume $\+E_i$ happens.
     We have 
-    $L(\sigma_{t+i},\tau_{t+i}) = L(\sigma^i,\tau^i) = L(\sigma,\tau)<\ell$, where the last inequality is the condition of this lemma.
+    $L(\sigma_{t+i},\tau_{t+i}) = L(\sigma^i,\tau^i) = L(\sigma,\tau)<\ell$.
     Meanwhile, recalling that $\abs{E_{v}^{\sigma^{i}}}>0$,
     we have $E_{v}^{\sigma_{t+i}} = E_{v}^{\sigma^{i}} \neq \emptyset$.
     Combining $L(\sigma_{t+i},\tau_{t+i})<\ell, E_{v}^{\sigma_{t+i}}  \neq \emptyset$ with  \Cref{def:truncated-random-process}, 
-    we have $T>t+i$,    
-    $e_{i+1}$ is the selected edge at the state $(\sigma_{t+i},\tau_{t+i},\seqS_{t+i})= (\sigma^i,\tau^i,\seqS^i)$,
-    and $(\sigma_{t+i+1}(e_{i+1}),\tau_{t+i+1}(e_{i+1}))$ is sampled from an optimal coupling of $(\sigma_{t+i},\tau_{t+i}) =(\sigma^i,\tau^i)$. 
-    Thus, 
-    \begin{align*}
-    \Pr{(T\geq t+i+1)\land \left((\sigma_{t+i+1},\tau_{t+i+1},\seqS_{t+i+1}) = (\sigma^{i+1},\tau^{i+1},\seqS^{i+1})\right)} 
-    =& \Pr{(\sigma_{t+i+1}(e_{i+1})=\tau_{t+i+1}(e_{i+1}) = 0)} 
-    \\=& \min\left\{\mu^{\sigma^{i}}_{e_{i+1}}(0), \mu^{\sigma^{i}}_{e_{i+1}}(0)\right\} = \mu^{\sigma^{i}}_{e_{i+1}}(0)
-    \end{align*}
-    where the last inequality is by $\mu^{\sigma^{i}}_{e_{i+1}}(1) \geq \mu^{\tau^{i}}_{e_{i+1}}(1)$.
-    Formally, we have 
+    we have 
+    \begin{itemize}
+    \item[$\circ$] $T>t+i$,
+    \item[$\circ$] $e_{i+1}$ is the selected edge at the state $(\sigma_{t+i},\tau_{t+i},\seqS_{t+i})= (\sigma^i,\tau^i,\seqS^i)$,
+    \item[$\circ$] $(\sigma_{t+i+1}(e_{i+1}),\tau_{t+i+1}(e_{i+1}))$ is sampled from an optimal coupling of $\left(\mu^{\sigma_{t+i}}_{e_{i+1}},\mu^{\tau_{t+i}}_{e_{i+1}}\right) =\left(\mu^{\sigma^i}_{e_{i+1}},\mu^{\tau^i}_{e_{i+1}}\right)$. 
+    \end{itemize}    
+    Thus, under the condition that $\+E_i$ happens,
+    $\+E_{i+1}$ happens only if $\sigma_{t+i+1}(e_{i+1})=\tau_{t+i+1}(e_{i+1}) = 0$. Formally, 
     \begin{align*}
     \Pr{\+E_{i+1}\mid \+E_{i}} 
-    =& \mu^{\sigma^{i}}_{e_{i+1}}(0).
+    =& \Pr{(\sigma_{t+i+1}(e_{i+1})=\tau_{t+i+1}(e_{i+1}) = 0)\mid \+E_{i}} = \min\left\{\mu^{\sigma^{i}}_{e_{i+1}}(0), \mu^{\sigma^{i}}_{e_{i+1}}(0)\right\} = \mu^{\sigma^{i}}_{e_{i+1}}(0),
     \end{align*}
-Thus, we have 
-\begin{align*}
-     \Pr{\+E_{r}} = \Pr{\+E_{0}} \cdot\prod_{i=0}^{r-1}\Pr{\+E_{i+1}\mid \+E_{i}}
-    =& \Pr{\+E_{0}} \cdot \prod_{i=0}^{r-1}\mu^{\sigma^{i}}_{e_{i+1}}(0)= \Pr{\+E_{0}} \cdot  \mu_{E_v^\sigma}^{\sigma}(\zero)
-\geq \Pr{\+E_{0}}\cdot B_{\min}(\Phi),
-    \end{align*}
+    where the last inequality is by $\mu^{\sigma^{i}}_{e_{i+1}}(1) \geq \mu^{\tau^{i}}_{e_{i+1}}(1)$.
+    Thus, we have 
+    \begin{align}\label{eq-pr-er}
+         \Pr{\+E_{r}} = \Pr{\+E_{0}} \cdot\prod_{i=0}^{r-1}\Pr{\+E_{i+1}\mid \+E_{i}}
+        =& \Pr{\+E_{0}} \cdot \prod_{i=0}^{r-1}\mu^{\sigma^{i}}_{e_{i+1}}(0)= \Pr{\+E_{0}} \cdot  \mu_{E_v^\sigma}^{\sigma}(\zero)
+    \geq \Pr{\+E_{0}}\cdot B_{\min},
+        \end{align}
 where the last inequality is by \Cref{lem:marginal-bound}.
 In addition, by \Cref{def-notation-trp} we have 
-    \begin{align*}
-    \Pr[\!{cp}]{(\sigma, \tau, \seqS)} \triangleq \Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)} = \Pr{\+E_{0}},
-    \end{align*}
-    \begin{align*}
-    \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} \triangleq \Pr{\left(T\geq t+r\right)\land \left((\sigma_r, \tau_r, \seqS_r) = (\sigma_{t+r}, \tau_{t+r}, \seqS_{t+r})\right)} = \Pr{\+E_{r}}.
-    \end{align*}
-Therefore, we have
-\begin{align*}
-     \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} 
-\geq \Pr[\!{cp}]{(\sigma, \tau, \seqS)}\cdot B_{\min}(\Phi).
-    \end{align*}
-Meanwhile, by $(\sigma,\tau,\seqS)$ is feasible and $(\sigma,\tau,\seqS)\in V(\+T)$, we have $(\sigma,\tau,\seqS)\in \+V$. 
-In addition, by $(\sigma,\tau,\seqS)$ is feasible and \Cref{lem:marginal-bound}, one can also verify that 
-$(\sigma^r, \tau^r, \seqS^r)$ is also feasible.
-By $(\sigma,\tau,\seqS)\in V(\+T)$, $L(\sigma, \tau)<r$ and \Cref{def:truncated-coupling-tree},
-one can also verify that $(\sigma^r, \tau^r, \seqS^r)\in V(\+T)$
-through induction.
-Therefore, we also have $(\sigma^r, \tau^r, \seqS^r)\in \+V$.
-Combing $(\sigma,\tau,\seqS)\in \+V$, $(\sigma^r, \tau^r, \seqS^r)\in \+V$ with \eqref{eqn-marginal-all}, we have 
-\begin{align}
-        p^{\sigma^r}_{\sigma^r, \tau^r, \seqS^r} = \Pr[\!{cp}]{(\sigma^r,\tau^r, \seqS^r)}/ \mu^{\sigma_{\bot}}_{\seqS^r}(\sigma^r) \geq \Pr[\!{cp}]{(\sigma,\tau, \seqS)}/ \mu^{\sigma_{\bot}}_{\seqS}(\sigma) = p^{\sigma}_{\sigma, \tau, \seqS}
+    \begin{align}\label{eq-prcp-e0}
+    \Pr[\!{cp}]{(\sigma, \tau, \seqS)} =\Pr{\left(T\geq t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)} = \Pr{\+E_{0}},
     \end{align}
-
-
-
-
-    
-    
-    
-    
-    \end{itemize}
+    \begin{align}\label{eq-prcp-er}
+    \Pr[\!{cp}]{(\sigma^r, \tau^r, \seqS^r)} = \Pr{\left(T\geq t+r\right)\land \left((\sigma_r, \tau_r, \seqS_r) = (\sigma_{t+r}, \tau_{t+r}, \seqS_{t+r})\right)} = \Pr{\+E_{r}}.
+    \end{align}
+Therefore, \eqref{eq-sigmar-sigma} is immediate by \eqref{eq-pr-er}, \eqref{eq-prcp-e0} and \eqref{eq-prcp-er}.
 \end{proof}
 
 
@@ -1229,7 +1171,7 @@ In this section, we show how to design a deterministic algorithm to efficiently 
 
 \subsection{Setting up the linear program}
 
-This section introduces a linear program induced by the coupling process described in \Cref{def:truncated-random-process}.
+This section introduces a linear program induced by the coupling process described in \Cref{def:truncated-random-process}.\qtodo{polish here}
 In the coupling process, for each possible state $(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$, if ${\!{Ham}\left(\sigma_t, {E_{v_t}}\right)} < {\!{Ham}\left(\tau_t, {E_{v_t}}\right)}$,
 only one edge $e$ in $E_{v_t}^{\sigma_t}$ satisfying $\mu^{\sigma_t}_e(1) \geq \mu^{\tau_t}_e(1)$ is selected to be assigned at this state.
 Otherwise, only one edge $e$ in $E_{v_t}^{\sigma_t}$ satisfying $\mu^{\sigma_t}_e(1) \leq \mu^{\tau_t}_e(1)$ is selected.
@@ -1244,9 +1186,8 @@ can then be determined by solving the LP.
 % Later, we will show that the coupling process ensures the feasibility of a linear program concerning these variables.
 
 \begin{definition}[Linear Program Induced by the Coupling] \label{def:induced-LP}
-\emph{
     For any instance $\left(\Phi = (G, \vecf),  \sigma_\bot, \tau_\bot,v_{\bot}\right)$ satisfying \Cref{cond-instancepair} and  any positive integer $\ell$, 
-    let $\+T = \+T_{\ell}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ be the $\ell$-truncated coupling tree in \Cref{def:truncated-coupling-tree} and $0 \leq r^- \leq r^+\leq r_{\max}(\Phi)$ be two parameters satisfying
+    let $\+T = \+T_{\ell}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ be the $\ell$-truncated coupling tree in \Cref{def:truncated-coupling-tree} and $0 \leq r^- \leq r^+\leq 1$ be two parameters satisfying
     \begin{align*}
         r^- \leq \frac{\mu_{e_{\bot}}(1)}{\mu_{e_{\bot}}(0)} \leq r^+.
     \end{align*}
@@ -1258,7 +1199,7 @@ can then be determined by solving the LP.
     \end{itemize}
     The constraints of the LP are:
     \begin{enumerate}
-        \item All $p^{\sigma}_{\sigma, \tau, \seqS}, p^{\tau}_{\sigma, \tau, \seqS},p^{\sigma}_{\sigma, \tau, \seqS,e}, p^{\tau}_{\sigma, \tau, \seqS,e}$ are in $[0, 1]$. In particular, $\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing}=\widehat{p}^{\tau_\bot}_{\sigma_\bot,\tau_\bot,\varnothing} = 1$.
+        \item All $\widehat{p}^{\sigma}_{\sigma, \tau, \seqS}, \widehat{p}^{\tau}_{\sigma, \tau, \seqS},\widehat{p}^{\sigma}_{\sigma, \tau, \seqS,e}, \widehat{p}^{\tau}_{\sigma, \tau, \seqS,e}$ are in $[0, 1]$. In particular, $\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing}=\widehat{p}^{\tau_\bot}_{\sigma_\bot,\tau_\bot,\varnothing} = 1$.\label{item-first-LP}
         \item For each $(\sigma, \tau, \seqS)\in \+V\setminus\+L$, 
             \begin{align}\label{eqn-hat-inter-sum1}
                \widehat{p}^{\sigma}_{\sigma, \tau, \seqS} = \sum_{e \in  E_v^{\sigma}} \widehat{p}^{\sigma}_{\sigma, \tau, \seqS, e}, \quad  \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=\sum_{e\in  E_v^{\sigma}} \widehat{p}^{\tau}_{\sigma,\tau, \seqS,e}.
@@ -1281,30 +1222,22 @@ can then be determined by solving the LP.
         \item For any $(\sigma,\tau,\seqS)\in \+L_{\!{good}}\cap \+V$,
             \begin{align}\label{eqn-hat-ratio}
                  \frac{ \mu(\tau)}{ \mu(\sigma)}\cdot r^-\cdot {\widehat{p}^{\tau}_{\sigma,\tau, \seqS}}\leq {\widehat{p}^{\sigma}_{\sigma,\tau, \seqS}}\leq  \frac{ \mu(\tau)}{ \mu(\sigma)}\cdot  r^+ \cdot{\widehat{p}^{\tau}_{\sigma,\tau, \seqS}}.
-            \end{align}
-        \item For any $(\sigma,\tau, \seqS)\in V(\+T)$ where $L< \ell$ and $\+D \triangleq \+D(\sigma,\tau, \seqS,v,L)$,
+            \end{align}\label{item-forth-LP}
+        \item For any $(\sigma,\tau, \seqS)\in \+V\setminus \+L$ and $\+D \triangleq \+D(\sigma,\tau, \seqS,v,L)$,
            \begin{align}\label{eqn-hat-error-bound}
                \sum_{(\sigma',\tau',\seqS')\in \+D}\widehat{p}^{\sigma'}_{\sigma',\tau', \seqS'} \geq  B_{\min} \cdot \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}, \quad \sum_{(\sigma',\tau',\seqS')\in \+D}\widehat{p}^{\tau'}_{\sigma',\tau',\seqS'}\geq  B_{\min} \cdot \widehat{p}^{\tau}_{\sigma,\tau,\seqS}.
-           \end{align}
-        \item  For each node $(\sigma, \tau, \seqS)$ in $V(\+T)\setminus \+V$, $ \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}= \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=0$. 
+           \end{align}\label{item-fifth-LP}
+        \item  For each node $(\sigma, \tau, \seqS)$ in $V(\+T)\setminus \+V$, $ \widehat{p}^{\sigma}_{\sigma,\tau, \seqS}= \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=0$. \label{item-sixth-LP}
     \end{enumerate}
-}
 \end{definition}
 
-% \begin{lemma}
-%     The feasibility of the above LP. and show that the LP can be constructed since the ratio of the good leaves can be computed.
-% \end{lemma}
-% \begin{proof}
-%     \qgl{It suffices to observe that we can embed the quantities induced from $\+V^{\!{cp}}$ and let those not in $\+V^{\!{cp}}$ be zero. Note that $\+L^{\!{cp}}\setminus \+L_{\ell}^{\!{cp}} \subseteq \+L_{\!{good}}$.} 
-% \end{proof}
 
 \subsection{The analysis of the linear program}
 
+\hktodo{polish this paragraph}
 We put some properties of the linear program in~\Cref{def:induced-LP} here. Firstly we show that the linear program can be built efficiently.
-
-\qgl{rewrite this, replace the notations.}
 \begin{lemma}[Building Cost of LP] \label{lem:building-cost-of-LP}
-    For an instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, a non-negative integer $\ell \ge 0$ and two real numbers $0 \le r^- \le r^+$,
+    For an instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, a non-negative integer $\ell \ge 0$ and two real numbers $0 \le r^- \le r^+\leq 1$,
     % a non-negative integer $\ell \ge 0$ and $0 \le r^{-} \le r^{+} \le r_{\max}(\Phi)$ where \qgl{seems wierd. since  }
     % $$
     %     r^{-} \le \frac{\mu_{e_{\bot}}(1)}{\mu_{e_{\bot}}(0)} \le r^+,
@@ -1318,10 +1251,11 @@ We put some properties of the linear program in~\Cref{def:induced-LP} here. Firs
 
     For $(\sigma, \tau, \seqS, v, L) \in V(\+T)$, by~\Cref{lem:partial-assignment-feasibility,lemma-property-tct-vl}, we can check the feasibility of $\sigma, \tau$ in time $O(\abs{\Lambda(\sigma)}) = O(\abs{\seqS})$. By~\Cref{prop:property-of-truncated-tree}, it holds that $\abs{\seqS} \le \Delta \ell$, meaning that the time for checking feasibility is $O(\Delta \ell)$.
     
-    For a node $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}$, to compute $\frac{\mu(\tau)}{\mu(\sigma)}$, we have
+    For a node $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}\cap \+V$, to compute $\frac{\mu(\tau)}{\mu(\sigma)}$, we have \qtodo{here should be changed when we add lambda}
+    \qgl{
     \begin{align*}
-        \frac{\mu(\tau)}{\mu(\sigma)} &= \frac{\sum_{x : E \to \set{0, 1} : x \in \tau} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}{\sum_{x : E \to \set{0, 1} : x \in \sigma} \prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}.
-    \end{align*}
+        \frac{\mu(\tau)}{\mu(\sigma)} &= \frac{\sum_{x : E \to \set{0, 1} : x \in \tau} \prod_{u \in V} f_u\left(\abs{x ({E_u})}\right)}{\sum_{x : E \to \set{0, 1} : x \in \sigma} \prod_{u \in V} f_u\left(\abs{x ({E_u})}\right)}.
+    \end{align*}}
     Since $(\sigma, \tau, \seqS, v, L) \in \+L_{\!{good}}$, it holds that $E_v^{\sigma} = \emptyset$ and for every $u \in V \setminus \set{v}$, $\Ham(\sigma, E_u) = \Ham(\tau, E_u)$. For every $x : E \to \set{0, 1}$ where $x \in \tau$, let $y : E \to \set{0, 1}$ be defined as
     \begin{align*}
         y(e) = \begin{cases}
@@ -1331,40 +1265,43 @@ We put some properties of the linear program in~\Cref{def:induced-LP} here. Firs
     \end{align*}
     It is not hard to see that $y \in \sigma$ and this mapping is one-to-one, and
     \begin{align*}
-        \frac{\prod_{u \in V} f_u\left(\abs{x \vert_{E_u}}\right)}{\prod_{u \in V} f_u\left(\abs{y \vert_{E_u}}\right)} = \frac{f_v\left(\abs{\tau \vert_{E_v}}\right)}{f_v\left(\abs{\sigma \vert_{E_v}}\right)}
+        \frac{\prod_{u \in V} f_u\left(\abs{x ({E_u})}\right)}{\prod_{u \in V} f_u\left(\abs{y ({E_u})}\right)} = \frac{f_v\left(\abs{\tau(E_v)}\right)}{f_v\left(\abs{\sigma({E_v})}\right)}
     \end{align*}
     Hence we conclude that
     $$
-        \frac{\mu(\tau)}{\mu(\sigma)} = \frac{f_v\left(\abs{\tau \vert_{E_v}}\right)}{f_v\left(\abs{\sigma \vert_{E_v}}\right)}.
+        \frac{\mu(\tau)}{\mu(\sigma)} =  \frac{f_v\left(\abs{\tau(E_v)}\right)}{f_v\left(\abs{\sigma({E_v})}\right)}.
     $$
     Since each ratio can be calculated in time $O(\Delta)$, we can build the constraints on all good leaves in time $\poly\left(\Delta^{\Delta\ell}\right)$.
     % Since the ratio can be computed in time $O(\Delta)$, for every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, we can build constraints in time $O(\Delta)$.
 
-    Combining all together, we can build the LP and check its feasibility in time $\poly\left(\Delta^{\Delta\ell}\right)$.
+    Combining all these together, we can build the LP and check its feasibility in time $\poly\left(\Delta^{\Delta\ell}\right)$.
 \end{proof}
 
 The following lemma ensures the feasibility of the LP by the coupling process.
+
 \begin{lemma}[Feasibility of LP] \label{lem:feasibility-of-LP}
-    There is at least a solution to the linear program defined as~\Cref{def:induced-LP}.
+    At least a feasible solution to the LP in~\Cref{def:induced-LP} exists.
 \end{lemma}
 \begin{proof}
-    Recall the quantities associated with the random process $P^{\cp} = P_{\ell}^{\cp}(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$. We show how to induce a solution to the LP from them.
-
-    For every $(\sigma, \tau, \seqS) \in V(\+T)$, if there exists some state in $\+V^{\cp}$ with label $(\sigma, \tau, \seqS)$, we let
-    $$
-        \wh{p}_{\sigma, \tau, \seqS}^{\sigma} = p_{\sigma, \tau, \seqS}^{\sigma}, \quad \wh{p}_{\sigma, \tau, \seqS}^{\tau} = p_{\sigma, \tau, \seqS}^{\tau}
-    $$
-    and if additionally the state $(\sigma, \tau, \seqS) \in \+V^{\cp} \setminus \+L^{\cp}$ is not a possible outcome, for every $e \in E_v^{\sigma}$,
-    $$
-        \wh{p}_{\sigma, \tau, \seqS, e}^{\sigma} = p_{\sigma, \tau, \seqS}^{\sigma, e}, \quad \wh{p}_{\sigma, \tau, \seqS, e}^{\tau} = p_{\sigma, \tau, \seqS, e}^{\tau};
-    $$
-    otherwise, we let all quantities associated with $(\sigma, \tau, \seqS)$ be $0$. By $\+V^{\cp} \subseteq V(\+T)$ from~\Cref{prop:property-of-truncated-tree}, the above assignments are well-defined. By~\Cref{prop:coupling-linear-constraint,lem:coupling-error}, the quantities satisfy all constraints in~\Cref{def:induced-LP}. That is to say, there exists at least one solution to it.
+Set the variables of the LP is as follows:
+\begin{itemize}
+    \item For each $(\sigma, \tau, \seqS) \in V(\+T)$, let $\widehat{p}_{\sigma, \tau, \seqS}^{\sigma} = p_{\sigma, \tau, \seqS}^{\sigma}$ and $\widehat{p}_{\sigma,\tau, \seqS}^{\tau} = p_{\sigma,\tau, \seqS}^{\tau}$.
+    \item For each $(\sigma,\tau,\seqS)$ in $\+V\setminus \+L$ and each $e\in E_v^{\sigma}$, let  $\widehat{p}_{\sigma,\tau,\seqS,e}^{\sigma} = p_{\sigma,\tau,\seqS,e}^{\sigma}$, and $\widehat{p}_{\sigma,\tau,\seqS,e}^{\tau} = p_{\sigma,\tau,\seqS,e}^{\tau}$.
+\end{itemize}
+By \Cref{prop:coupling-linear-constraint}, Items \ref{item-first-LP}-\ref{item-forth-LP} of the constraints are satisfied.
+By \Cref{lem:coupling-error}, Item \ref{item-fifth-LP} of the constraints is also satisfied.
+In addition, by \Cref{def-key-quantity}, we have $ p^{\sigma}_{\sigma, \tau, \seqS}= p^{\tau}_{\sigma, \tau, \seqS} = 0$ for each node $(\sigma, \tau, \seqS)\in V(\+T)\setminus \+V$.
+Thus, Item \ref{item-sixth-LP} of the constraints is also satisfied.
+In summary, all the constraints of the LP are satisfied.
+The lemma is proved.
 \end{proof}
 
 Lastly, we show that a feasible solution to the LP gives both upper and lower bounds to the marginal ratio $R_{\Phi}(e_\bot)$.
 
+\hktodo{polish the following theorem}
+
 \begin{theorem} \label{thm:ratio-bound-by-LP}
-    Assume that all constraints in the linear program defined as~\Cref{def:induced-LP} hold. Then it holds that
+    Assume that all the constraints of the linear program defined as~\Cref{def:induced-LP} hold. Then it holds that
     \begin{align*}
         r^{-} \left(1 - \left(1 - B_{\min}^2\right)^{\ell}\right)\le R_{\Phi}(e_\bot) \le {r^+}\left(1 - \left(1 - B_{\min}^2\right)^{\ell}\right)^{-1}.
     \end{align*}
@@ -1660,6 +1597,8 @@ The following identities hold:
 \qgl{check from here}
 Given a feasible solution to the LP, by~\Cref{lem:ratio-identity}, to estimate the marginal ratio, it suffices to bound $\left(\mu(\sigma)\cdot \wh{p}_{\sigma, \tau, \seqS}^{\sigma}\right)/\left(\mu(\tau)\cdot\wh{p}_{\sigma, \tau, \seqS}^{\tau}\right)$ for every $(\sigma, \tau, \seqS) \in \+L$. For every $(\sigma, \tau, \seqS) \in \+L_{\!{good}}$, the bounds are clear by~\eqref{eqn-hat-ratio}. However, for $(\sigma, \tau, \seqS) \in \+L_{\!{bad}}$, the cost to compute the ratio might be exponential in the size of the instance. The following lemma shows that we can truncate all bad leaves with a small error.
 
+\hktodo{the proof}
+
 \begin{lemma} \label{lem:LP-truncated-error}
     The following inequalities hold:
     \begin{align}\label{eqn-error1}
@@ -1675,8 +1614,10 @@ Given a feasible solution to the LP, by~\Cref{lem:ratio-identity}, to estimate t
 To prove this lemma, it is sufficient to prove \eqref{eqn-error1}.
 Similarly, one can also prove \eqref{eqn-error2}.
 In the following, we prove $\eqref{eqn-error1}$.
-Recall that $\+T_{\ell}$ is the $\ell$-truncated coupling tree, $\+L(\ell)$ is the set of leaf nodes in $\+T_{\ell}$, 
-$\+L_{\!{good}}(\ell)\triangleq \set{(\sigma,\tau, \seqS) \in \+L\mid L<\ell}$, $\+L_{\!{bad}}(\ell)\triangleq \+L(\ell)\setminus \+L_{\!{good}}(\ell)$.
+Recall the $\ell$-truncated coupling tree $\+T_{\ell}$ in \Cref{def:truncated-coupling-tree}, 
+and the $\+L,\+L_{\!{good}},\+L_{\!{bad}},\+D(\cdot)$ related to $\+T_{\ell}$ in \Cref{def-notation-v-tct}.
+In the following proof, we will use $\+L(\ell),\+L_{\!{good}}(\ell),\+L_{\!{bad}}(\ell),\+D_{\ell}(\cdot)$ to denote $\+L,\+L_{\!{good}},\+L_{\!{bad}},\+D(\cdot)$, such that
+these concepts related to different $\ell$ can be distinguished.
 To prove $\eqref{eqn-error1}$,
 it is equivalent to prove
 \begin{align}\label{eqn-sum-leftside-error-induction}
@@ -1691,88 +1632,114 @@ Therefore,
  \begin{align*}
     \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot\mu^{\sigma_{\bot}}_{\seqS}(\sigma)=\widehat{p}^{\sigma_\bot}_{\sigma_\bot,\tau_\bot, \varnothing} = 1 = (1- B_{\min}^2)^{0}.
 \end{align*}
-The base case is proved. For the induction step, we fix an $x\in \sigma_\bot$. For each node $(\sigma,\tau,\seqS)\in \+L(\ell)$, 
-there are only two possibilities.
-\begin{itemize}
-\item $(\sigma,\tau,\seqS) \in \+L_{\!{good}}(\ell)$. We have $L<\ell$.
-Combined with \Cref{def:truncated-coupling-tree},
-we have either $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS)$ is infeasible.
-Again by \Cref{def:truncated-coupling-tree},
-we have $(\sigma, \tau, \seqS)$ is also a leaf node in $\+T_{\ell+1}$.
-Formally, $(\sigma,\tau,\seqS)\in \+L(\ell+1)$.
-Combined with $L<\ell$, 
-we have 
-\begin{align}\label{eq-lgoogl-subset}
-(\sigma, \tau, \seqS)\in \+L_{\!{good}}(\ell+1).
+The base case is proved. For the induction step, 
+let $\+S$ denote $\+L_{\!{bad}}(\ell)\setminus \+L(\ell+1)$.
+We have 
+\[\+S \subseteq V(\+T_{\ell+1})\setminus \+L(\ell+1)= \+V_{\ell+1}\setminus \+L(\ell+1),\]
+where the last equality is by \Cref{prop:property-of-truncated-tree}.
+Thus, by \Cref{def-notation-v-tct}, 
+$\+D_{\ell+1}(\sigma,\tau,\seqS)$ is well-defined for each $(\sigma,\tau,\seqS)\in \+S$.
+we claim that 
+\begin{align}\label{eq-d-subset-1}
+\+L(\ell)\setminus \+L_{\!{good}}(\ell+1) \subseteq \+S,
 \end{align}
-\item $(\sigma,\tau,\seqS) \in \+L_{\!{bad}}(\ell)$. We have $L=\ell$.
-Recall $\+D_{\ell+1}(\cdot)$  in \Cref{def-notation-v-tct}.
-For simplicity, let $\+D_{\ell+1}$ denote $\+D_{\ell+1}((\sigma,\tau,\seqS))$.
-We claim that 
-\begin{align}\label{eq-d-subset}
-\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1),
+\begin{align}\label{eq-d-subset-2}
+\forall (\sigma,\tau,\seqS)\in \+S, \quad \+D_{\ell+1}(\sigma,\tau,\seqS)\subseteq \+L_{\!{good}}(\ell+1)\setminus \+L(\ell),
 \end{align}
-\begin{align}\label{eq-d-sum-pro}
-\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \geq B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
+\begin{align}\label{eq-d-subset-3}
+\forall u=(\sigma,\tau,\seqS)\in \+S, \quad \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \left(\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \right)\leq \left(1 - B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\mu^{\sigma_{\bot}}_{\seqS}(\sigma).
 \end{align}
-\end{itemize}
-Thus, combining \eqref{eq-lgoogl-subset}, \eqref{eq-d-subset} and \eqref{eq-d-sum-pro} with the induction hypothesis (I.H.), we have 
-\begin{equation}\label{eq-sum-good-leaf}
+Thus, by \eqref{eq-d-subset-1},  \eqref{eq-d-subset-2}, \eqref{eq-d-subset-3} and the induction hypothesis (I.H.), we have
+\begin{equation}\label{eq-d-diff}
 \begin{aligned}
-    &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by \eqref{eq-lgoogl-subset} and \eqref{eq-d-subset}}\right) \quad   \geq &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) + \sum_{u\in \+L_{\!{bad}}(\ell)}\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma')\\
-\left(\text{by \eqref{eq-d-sum-pro}}\right) \quad    \geq & \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) + \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-    \geq & \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-    = & \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
- \left(\text{by \Cref{lem:ratio-identity}}\right) \quad = & 1 - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell)}\left(1-B_{\min}^2\right)\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by I.H.}\right)\quad \geq & 1 - \left(1-B_{\min}^2\right)^{\ell+1}.
+ &\sum_{(\sigma,\tau, \seqS)\in \+L(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by \eqref{eq-d-subset-1} and \eqref{eq-d-subset-2}}\right)\quad\leq& \sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{u\in \+S}\ \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \\
+\left(\text{by \eqref{eq-d-subset-3}}\right)\quad \leq &
+\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by $\+S\subseteq \+L_{\!{bad}}(\ell)$}\right)
+\quad \leq &
+\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by I.H.}\right)\quad \leq & \left(1-B_{\min}^2\right)^{\ell+1}.
+\end{aligned}
+\end{equation}
+Moreover, by \Cref{lem:ratio-identity}, we have
+\begin{equation}\label{eq-lemma-ratio-identity-transform}
+\begin{aligned}
+    \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) &= \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) = 1 \\
+    &= \sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) =  \sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)
 \end{aligned}
 \end{equation}
 Therefore, we have
 \begin{align*}
-    &\sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\\\
+    \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{bad}}(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)
     =&\sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) \\
-    =&\sum_{(\sigma,\tau, \seqS)\in \+L(\ell+1)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu(\sigma)/\mu_{e_{\bot}}(1) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by \Cref{lem:ratio-identity}}\right) \quad    =&1 - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by \eqref{eq-sum-good-leaf}}\right) \quad   \leq &\left(1-B_{\min}^2\right)^{\ell+1}.
+\left(\text{by \eqref{eq-lemma-ratio-identity-transform}}\right) \quad      =&\sum_{(\sigma,\tau, \seqS)\in \+L(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by \eqref{eq-d-diff}}\right) \quad  \leq &\left(1-B_{\min}^2\right)^{\ell+1}.
 \end{align*}
 This completes the induction step and \eqref{eqn-sum-leftside-error-induction} is immediate.
 
-In the following, we prove \eqref{eq-d-subset} and \eqref{eq-d-sum-pro}, which completes the proofs of \eqref{eqn-sum-leftside-error-induction} and the lemma. 
-Fix a $(\sigma,\tau,\seqS) \in \+L_{\!{bad}}(\ell)$. We have $L=\ell$.
-At first, we prove \eqref{eq-d-subset} by considering two separate cases.
-\begin{itemize}
-\item $(\sigma,\tau,\seqS)$ is infeasible. By $L =\ell<\ell+1$ and \Cref{lemma-fact-D}, we have $\+D_{\ell+1} = \emptyset \subseteq \+L_{\!{good}}(\ell+1)$.
-\item $(\sigma,\tau,\seqS)$ is feasible.
-By $L =\ell\leq \ell+1$ and \Cref{lemma-fact-D}, we have $\+D_{\ell+1}\neq \emptyset$.
-Fix an arbitrary $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$.
-By \Cref{def-notation-v-tct}, we have 
-$E^{\sigma'}_v = \emptyset$.
-Combined with \Cref{def:truncated-coupling-tree},
-we have $(\sigma',\tau',\seqS')$ is a leaf node in $\+T_{\ell+1}$.
-Formally, $(\sigma',\tau',\seqS')\in \+L(\ell+1)$.
-In addition, by \Cref{condition-sigma-tau}
+In the following, we prove \eqref{eq-d-subset-1},  \eqref{eq-d-subset-2} and \eqref{eq-d-subset-3}, which completes the proofs of \eqref{eqn-sum-leftside-error-induction} and the lemma. 
+At first, we prove \eqref{eq-d-subset-1}.
+Given any $(\sigma,\tau,\seqS) \in \+L_{\!{good}}(\ell)$, we have $L(\sigma,\tau)<\ell$ by \Cref{def-notation-v-tct}.
+Combining $(\sigma,\tau,\seqS)$ is a leaf node in $\+T_{\ell}$, $L(\sigma,\tau)<\ell$ with \Cref{def:truncated-coupling-tree},
+we have either $E_v^{\sigma}=\emptyset$ or $(\sigma, \tau, \seqS)$ is infeasible.
+Thus, $(\sigma, \tau, \seqS)$ is also a leaf node in $\+T_{\ell+1}$.
+Formally, $(\sigma,\tau,\seqS)\in \+L(\ell+1)$.
+Combined with $L(\sigma,\tau)<\ell$, 
 we have 
-\[L' = \abs{\{e\in \Lambda(\sigma')\mid (e\neq e_{\bot})\land (\sigma'(e)\neq \tau'(e))\}} = \abs{\{e\in \Lambda(\sigma)\mid (e\neq e_{\bot})\land (\sigma(e)\neq \tau(e))\}} = L = \ell,\]
-where the second equality is due to $\sigma' = \sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau' = \tau \land (E^{\sigma}_v \gets \boldsymbol{0})$
-by \Cref{def-notation-v-tct}.
-Combining $(\sigma',\tau',\seqS')\in \+L(\ell+1)$ with $L'=\ell$, we have 
+$(\sigma, \tau, \seqS)\in \+L_{\!{good}}(\ell+1).$
+Thus, we have 
+$\+L_{\!{good}}(\ell)\subseteq \+L_{\!{good}}(\ell+1)$.
+Therefore, 
+$\+L(\ell)\setminus \+L_{\!{good}}(\ell+1)\subseteq \+L_{\!{bad}}(\ell)$.
+In addition, given any $(\sigma,\tau,\seqS)\in \+L(\ell)\setminus \+L_{\!{good}}(\ell+1)$, we have $L(\sigma,\tau)\leq \ell < \ell+1$ by \Cref{def-notation-v-tct}.
+Combined with $(\sigma,\tau,\seqS)\not \in \+L_{\!{good}}(\ell+1)$,
+we have $(\sigma,\tau,\seqS)\not\in \+L(\ell+1)$.
+Therefore, we have
+$(\+L(\ell)\setminus \+L_{\!{good}}(\ell+1))\cap \+L(\ell+1) = \emptyset$.
+In summary, we have $\+L(\ell)\setminus \+L_{\!{good}}(\ell+1) \subseteq \+L_{\!{bad}}(\ell)\setminus \+L(\ell+1)$.
+Then, \eqref{eq-d-subset-1} is proved.
+
+In the next, we prove \eqref{eq-d-subset-2}.
+Given any $(\sigma,\tau,\seqS)\in \+S$, let $\+D_{\ell+1}$ denote 
+$\+D_{\ell+1}(\sigma,\tau,\seqS)$ and $v$ denote $v(\sigma,\tau)$.
+By $(\sigma,\tau,\seqS)\in \+S \subseteq \+L_{\!{bad}}(\ell)$,
+we have $L(\sigma,\tau) = \ell$. Recall that $\+D_{\ell+1}\neq \emptyset$ by \Cref{lem:coupling-error}.
+Fix an arbitrary $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$.
+By \Cref{condition-sigma-tau} and \Cref{def-notation-v-tct},
+we have 
+\[v' = v(\sigma',\tau')= v(\sigma \land (E^{\sigma}_v \gets \boldsymbol{0}),\tau \land (E^{\sigma}_v \gets \boldsymbol{0}))=v(\sigma,\tau)=v,\]
+\[L' = \abs{\{e\in \Lambda(\sigma')\mid (e\neq e_{\bot})\land (\sigma'(e)\neq \tau'(e))\}} = \abs{\{e\in \Lambda(\sigma)\mid (e\neq e_{\bot})\land (\sigma(e)\neq \tau(e))\}} = L(\sigma,\tau) = \ell.\]
+Thus, we have
+$E^{\sigma'}_{v'} =E^{\sigma'}_{v} = \emptyset$.
+Combined with \Cref{def:truncated-coupling-tree},
+we have  $(\sigma',\tau',\seqS')$ is a leaf node in $\+T_{\ell+1}$.
+Formally, $(\sigma',\tau',\seqS')\in \+L(\ell+1)$.
+Combined with $L'=\ell<\ell+1$, we have 
 $(\sigma',\tau',\seqS') \in \+L_{\!{good}}(\ell+1)$.
 Recall that $(\sigma',\tau',\seqS')$ is an arbitrary node in $\+D_{\ell+1}$.
-Thus, we have $\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)$.
-\end{itemize}
-In summary, we always have $\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)$ and \eqref{eq-d-subset} is proved.
+We have $\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)$.
+Moreover, by $(\sigma,\tau,\seqS)\in 
+\+S = \+L_{\!{bad}}(\ell)\setminus \+L(\ell+1)$,
+we have $(\sigma,\tau,\seqS)$ is not a leaf in $\+T_{\ell+1}$.
+Combined with \Cref{def:truncated-coupling-tree}, we have 
+$E^{\sigma}_{v} \neq \emptyset$.
+Recalling that $E^{\sigma'}_{v} = \emptyset$,
+we have $\sigma'\neq \sigma$.
+Thus, $(\sigma',\tau',\seqS') \neq (\sigma,\tau,\seqS)$.
+Combining with \Cref{def:truncated-coupling-tree} and $(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)$,
+we have $(\sigma',\tau',\seqS')\not \in \+T_{\ell}$.
+Therefore, $(\sigma',\tau',\seqS')\not\in  \+L(\ell)$.
+Thus, we have $\+D_{\ell+1}\cap \+L(\ell) = \emptyset$.
+In summary, we have
+$\+D_{\ell+1}\subseteq \+L_{\!{good}}(\ell+1)\setminus \+L(\ell)$.
+Then, \eqref{eq-d-subset-2} is proved.
 
-At last, we prove \eqref{eq-d-sum-pro} by considering two separate cases.
-\begin{itemize}
-\item $(\sigma,\tau,\seqS)$ is infeasible. 
-By \Cref{def:induced-LP}, we have $\widehat{p}^{\sigma}_{\sigma,\tau,\seqS} = 0$.
-Therefore, 
-\begin{align*}
-\sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \geq 0 = B_{\min}^2\cdot\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma).
-\end{align*}
-Thus, \eqref{eq-d-sum-pro} is proved.
-\item $(\sigma,\tau,\seqS)$ is feasible. Recall that $\+D_{\ell+1}\neq \emptyset$ in this case. Fix an arbitrary $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$. By $(\sigma,\tau,\seqS)$ is feasible and \Cref{lem:marginal-bound},
+At last, we prove \eqref{eq-d-subset-3}.
+Fix arbitrary $(\sigma,\tau,\seqS) \in \+S$ and  $(\sigma',\tau',\seqS')\in \+D_{\ell+1}$. 
+Recall that $\+S \subseteq  \+V_{\ell+1}\setminus \+L(\ell+1)$.
+Thus, we have $(\sigma,\tau,\seqS)$ is in $\+V_{\ell+1}$ and feasible.
+Combined with \Cref{lem:marginal-bound},
 we have 
 $\mu^{\sigma_{\bot}}_{\seqS'}(\sigma') = \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\cdot \mu_{E_v^\sigma}^{\sigma}(\zero) \ge B_{\min}\cdot\mu^{\sigma_{\bot}}_{\seqS}(\sigma)$.
 Therefore, we have 
@@ -1780,12 +1747,11 @@ Therefore, we have
 \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') 
 \geq \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}} B_{\min}\cdot\widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) \geq B_{\min}^2 \cdot \widehat{p}^{\tau}_{\sigma,\tau,\seqS}\mu^{\sigma_{\bot}}_{\seqS}(\sigma),
 \end{align*}
-where the last inequality is by $L=\ell<\ell+1$ and \eqref{eqn-hat-error-bound}. Thus, \eqref{eq-d-sum-pro} is proved.
-\end{itemize}
+where the last inequality is by $(\sigma,\tau,\seqS) \in \+S\subseteq  \+V_{\ell+1}\setminus \+L(\ell+1)$ and \eqref{eqn-hat-error-bound}. Thus, \eqref{eq-d-subset-3} is proved.
+
 \end{proof}
 
 Now we prove~\Cref{thm:ratio-bound-by-LP} with the above lemmas.
-
 \begin{proof}[Proof of~\Cref{thm:ratio-bound-by-LP}]
     By~\Cref{lem:ratio-identity}, it holds that
     \begin{align*}
@@ -1815,30 +1781,39 @@ Now we prove~\Cref{thm:ratio-bound-by-LP} with the above lemmas.
     \end{align*}
 \end{proof}
 
-\subsection{The marginal ratio estimator}
+\subsection{The marginal ratio estimator}\label{sec-mre}
 In this section, we design a marginal ratio estimator for instances satisfying~\Cref{cond:Holant-condition} using the linear program in \Cref{def:induced-LP}.
 
 \hktodo{polish this paragraph}
 
+Recall the definition of $R_{\Phi}(e)$ in \eqref{def-rphie}.
+
+
 \begin{theorem} \label{thm:Holant-marginal-ratio-estimator}
-    Given any positive integer $\Delta > 0$, any positive real $r > 0$ and any small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A$ such that for every instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and each $e \in E(G)$, within time $\poly\left((\varepsilon^{-1})^{C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)}\right)$, $\+A$ outputs a number $\wh{R}$ such that
+    There exists a deterministic algorithm $\+A$ such that for each instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition}, each $e \in E(G)$, and each $\varepsilon \in (0, 1/4)$, within time $O\left(n \cdot \varepsilon^{-\poly(\Delta,r)}\right)$\zdtodo{check the running time}, $\+A$ outputs a number $\wh{R}$ such that
     $$
-        (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e),
+        (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e).
     $$
-    where $C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)$ and the coefficients in the polynomial depend only on $\Delta$ and $r$.
 \end{theorem}
 
-The key ingredient is the following estimator for the marginal ratio of a half-edge via linear programming.
+% \begin{theorem} \label{thm:Holant-marginal-ratio-estimator}
+%     Given any positive integer $\Delta > 0$, any positive real $r > 0$ and any small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A$ such that for each instance $(\Phi = (G, \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and each $e \in E(G)$, within time $\poly\left((\varepsilon^{-1})^{C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)}\right)$, $\+A$ outputs a number $\wh{R}$ such that
+%     $$
+%         (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e),
+%     $$
+%     where $C_{\ref{thm:Holant-marginal-ratio-estimator}}(\Delta, r)$ and the coefficients in the polynomial depend only on $\Delta$ and $r$.
+% \end{theorem}
 
+The key ingredient to \Cref{thm:Holant-marginal-ratio-estimator} is the following estimator for the marginal ratio.
+\qtodo{Move this theorem to the beginning of the section}
 \begin{theorem} \label{thm:LP-ratio-estimator}
-    Given a positive integer $\wh{\Delta} > 0$, a positive number $\wh{r} > 0$ and a small tolerance error $\varepsilon \in (0, 1/4)$, there exists a deterministic algorithm $\+A_{\bot}$ such that for every instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair} and $\Delta(G) \le \wh{\Delta}$, $r_{\max}(\Phi) \le \wh{r}$, within time $\poly\left((\varepsilon^{-1})^{C_{\ref{thm:LP-ratio-estimator}}(\wh{\Delta}, \wh{r})}\right)$, $\+A_{\bot}$ outputs a number $\wh{R}$ such that
+   There exists a deterministic algorithm $\+A_{\bot}$ such that for every instance $(\Phi = (G, \vecf), \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, within time $O\left(n \cdot \varepsilon^{-\poly(\Delta(G),r_{\max}(\Phi))}\right)$ \zdtodo{check the running time}, $\+A_{\bot}$ outputs a number $\wh{R}$ such that
     $$
-        (1 - \varepsilon) R_{\Phi}(e_\bot) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e_\bot)
+        (1 - \varepsilon) R_{\Phi}(e_\bot) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e_\bot).
     $$
-    where $C_{\ref{thm:LP-ratio-estimator}}(\wh{\Delta}, \wh{r})$ and the coefficients in the polynomial depend only on $\wh{\Delta}$ and $\wh{r}$.
 \end{theorem}
 \begin{proof}
-    For simplicity, let $R = r_{\max}(\Phi)$ and $\Delta = \Delta(G)$. Given the tolerance error $\varepsilon \in (0, 1/4)$, we set
+    For simplicity, let $R = r_{\max}(\Phi)$ and $\Delta = \Delta(G)$ and 
     $$
         \ell = \left\lceil \frac{3 + \log{r} + \log{\varepsilon^{-1}}}{\log\left(1 - B_{\min}(\Phi)^2\right)^{-1}} \right\rceil.
     $$
@@ -1855,10 +1830,16 @@ The key ingredient is the following estimator for the marginal ratio of a half-e
     Note that $C_1(\Delta, r)$ and $C_2(\Delta, r)$ are both increasing functions to $\Delta$ and $r$. Then by~\Cref{lem:building-cost-of-LP}, the running time of the marginal ratio estimator is at most $\poly\left(C_1(\wh{\Delta}, \wh{r}) (\varepsilon^{-1})^{C_2(\wh{\Delta}, \wh{r})}\right)$. Hence we conclude the theorem.
 \end{proof}
 
+Now we can prove \Cref{thm:Holant-marginal-ratio-estimator}.
+
 \begin{proof}[Proof of~\Cref{thm:Holant-marginal-ratio-estimator}]
-    % Firstly we show how to design an estimator for the marginal ratio in the instance $\Phi$ satisfying~\Cref{cond:Holant-condition} by the algorithm in~\Cref{thm:Holant-marginal-ratio-estimator}, and then approximate the marginal probability via this ratio estimator.
+    Given an instance $(\Phi = (G = (V, E), \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and an edge $e = \set{u, v} \in E$, if $f_u(1) = 0$ or $f_v(1) = 0$, we have $R_\Phi(e) = 0$ immediately. Thus, the algorithm 
+
+    Otherwise, we have $f_u(1) > 0$ and $f_v(1) > 0$.
+    One can verify that 
+    \hktodo{the notation here}
     
-    Given an instance $(\Phi = (G = (V, E), \vecf), \Delta, r)$ satisfying~\Cref{cond:Holant-condition} and an edge $e = \set{u, v} \in E$, when $f_u(1) = 0$ or $f_v(1) = 0$, it holds that $R_\Phi(e) = 0$ and nothing remains to do. Otherwise $\mu_{e}(1) > 0$. 
+    $\mu_{e}(1) > 0$. 
     We turn $\Phi$ to two instances $\Phi^{(1)}, \Phi^{(2)}$ satisfying~\Cref{cond-instancepair} by splitting the edge $e$, and estimate $R_{\Phi}(e)$ by applying $\+A_\bot$ in~\Cref{thm:LP-ratio-estimator} to $\Phi^{(1)}$ and $\Phi^{(2)}$.
     
     % Now we split $e$ into two half-edges and construct two instances satisfying~\Cref{cond-instancepair}. 
@@ -1938,7 +1919,7 @@ The key ingredient is the following estimator for the marginal ratio of a half-e
         \item $\Phi^{(2)} = \left(G^{(2)}, \vecf\right)$.
     \end{itemize}
     Note that $f_u^{(1)}(1)$ might be $0$. In this case $f_u^{(1)}(i) = 0$ for every $1 \le i < \deg_G(u)$ since $f_u$ is log-concave. And we can safely remove $u$ and edges incident to $u$ from $G^{(1)}$ and the marginal ratio in $\Phi^{(1)}$ keeps invariant.
-    Assume that $\Phi^{(1)}$ is the Holant instance after necessary removal. By definition, we have $\Phi^{(1)}$ and $\Phi^{(2)}$ both satisfy~\Cref{cond-instancepair} and $r_{\max}(\Phi^{(1)}) \le r$, $r_{\max}(\Phi^{(2)}) \le r$. By computation,
+    Assume that $\Phi^{(1)}$ is the Holant instance after necessary removal. By definition, we have $\Phi^{(1)}$ and $\Phi^{(2)}$ both satisfy~\Cref{cond-instancepair} and $r_{\max}(\Phi^{(1)}) \le r$, $r_{\max}(\Phi^{(2)}) \le r$. Therefore, 
     \begin{align*}
         R_{\Phi}(e) &= \frac{\Pr[X \sim \mu_{\Phi}]{X(e) = 1}}{\Pr[X \sim \mu_{\Phi}]{X(e) = 0}} \\
         &= \frac{\Pr[X \sim \mu_{\Phi^{(0)}}]{X(e_u) = X(e_v) = 1 \mid X(e_u) = X(e_v)}}{\Pr[X \sim \mu_{\Phi^{(0)}}]{X(e_u) = X(e_v) = 0 \mid X(e_u) = X(e_v)}} \\
@@ -1950,7 +1931,14 @@ The key ingredient is the following estimator for the marginal ratio of a half-e
     \end{align*}
     To obtain an $\varepsilon$-approximation to $R_\Phi(e)$, set $\varepsilon' = \varepsilon/3$. We employ $\+A_\bot$ in~\Cref{thm:LP-ratio-estimator} to obtain $\varepsilon'$-approximations $\wh{R}_1$ and $\wh{R}_2$ to $R_{\Phi^{(1)}}(e_v)$ and $R_{\Phi^{(2)}}(e_u)$ respectively. Then let $\wh{R} = \wh{R}_1 \cdot \wh{R}_2$. By~\Cref{thm:LP-ratio-estimator}, we have that
     \begin{align*}
-        \wh{R} \ge (1 - \varepsilon/3)^2 R_{\Phi^{(1)}}(e_v) \cdot R_{\Phi^{(2)}}(e_u) \ge (1 - \varepsilon) R_{\Phi}(e)
+        (1 - \varepsilon')R_{\Phi^{(1)}}(e_v) = \wh{R}_1 \leq (1 + \varepsilon')R_{\Phi^{(1)}}(e_v)
+    \end{align*}
+    Therefore, we have
+
+    
+    \begin{align*}
+        \wh{R} = \wh{R}_1 \cdot \wh{R}_2\ge (1 - \varepsilon')^2R_{\Phi^{(1)}}(e_v) \cdot R_{\Phi^{(2)}}(e_u) =
+        (1 - \varepsilon/3)^2 R_{\Phi^{(1)}}(e_v) \cdot R_{\Phi^{(2)}}(e_u) \ge (1 - \varepsilon) R_{\Phi}(e)
     \end{align*}
     and
     \begin{align*}
@@ -2118,6 +2106,7 @@ The algorithm for counting $b$-matchings comes directly from~\Cref{thm:counting-
 
 \section{Counterexample}
 \zdtodo{move this part to the end of the construction of the coupling tree.}
+\zdtodo{mentioned in the introduction and LP section}
 
 In this section, we give a counterexample to show that the updated edge cannot be arbitrarily chosen in the coupling process.
 
@@ -2217,11 +2206,11 @@ To show the feasibility of a partial assignment $\sigma$, we first make the foll
     \end{align}
 \end{claim}
 \begin{proof}
-    When $\sigma'$ is feasible, obviously $\sigma$ is feasible since $\sigma' \in \sigma$. To see the other side, when $\sigma$ is feasible, there exists $\tau : E \to \set{0, 1}$, $\tau \in \sigma$ such that $\mu(\tau) > 0$. Hence we have $\prod_{v \in V} f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ meaning that $f_v\left(\abs{\tau \vert_{E_v}}\right) > 0$ for every $v \in V$. Since $f_v$ is log-concave, $f_v(0) > 0$ and $\abs{\sigma' \vert_{E_v}} \le \abs{\tau \vert_{E_v}}$, it holds that $f_v\left(\abs{\sigma' \vert_{E_v}}\right) > 0$. Therefore we obtain that $\mu(\sigma') > 0$ by the definition of $\mu(\sigma')$.
+    When $\sigma'$ is feasible, obviously $\sigma$ is feasible since $\sigma' \in \sigma$. To see the other side, when $\sigma$ is feasible, there exists $\tau : E \to \set{0, 1}$, $\tau \in \sigma$ such that $\mu(\tau) > 0$. Hence we have $\prod_{v \in V} f_v\left(\abs{\tau(E_v)}\right) > 0$ meaning that $f_v\left(\abs{\tau(E_v)}\right) > 0$ for every $v \in V$. Since $f_v$ is log-concave, $f_v(0) > 0$ and $\abs{\sigma'(E_v)} \le \abs{\tau(E_v)}$, it holds that $f_v\left(\abs{\sigma'(E_v)}\right) > 0$. Therefore we obtain that $\mu(\sigma') > 0$ by the definition of $\mu(\sigma')$.
 \end{proof}
 
 \begin{proof}[Proof of~\Cref{lem:partial-assignment-feasibility}]
-    By~\Cref{claim:partial-assignment-feasibility}, we check the feasibility of $\sigma'$ defined as~\eqref{eq:0-assignment}. In other words, we check whether $f\left(\abs{\sigma'\vert_{E_v}}\right) > 0$ for every $v \in V$. By definition, for every $v \in V$, $\abs{\sigma' \vert_{E_v}} = \abs{\sigma \vert_{E_v}}$ and thus $f\left(\abs{\sigma' \vert_{E_v}}\right) = f\left(\abs{\sigma \vert_{E_v}}\right)$. When $\sigma \vert_{E_v} = \emptyset$, nothing needs to do from the assumption $f_v(0) > 0$. Let $V(\sigma) \defeq \set{v \in V \cmid \sigma_{E_v} \neq \emptyset}$. It is not hard to see that we can find $V(\sigma)$ and compute $\sigma \vert_{E_v}$ for every $v \in V(\sigma)$ in time $O(\abs{\Lambda(\sigma)})$ by enumerating all edges in $\Lambda(\sigma)$. Hence we can check the feasibility of a partial assignment $\sigma$ in time $O(\abs{\Lambda(\sigma)})$. 
+    By~\Cref{claim:partial-assignment-feasibility}, we check the feasibility of $\sigma'$ defined as~\eqref{eq:0-assignment}. In other words, we check whether $f\left(\abs{\sigma'(E_v)}\right) > 0$ for every $v \in V$. By definition, for every $v \in V$, $\abs{\sigma'(E_v)} = \Ham(\sigma, v)$ and thus $f\left(\abs{\sigma'(E_v)}\right) = f\left(\Ham(\sigma, v)\right)$. When $\Lambda(\sigma) \cap E_v = \emptyset$, we need to do nothing from the assumption $f_v(0) > 0$. Let $V(\sigma) \defeq \set{v \in V \cmid \Lambda(\sigma) \cap E_v \neq \emptyset}$. It is not hard to see that we can find $V(\sigma)$ and compute $\Ham(\sigma, v)$ for every $v \in V(\sigma)$ in time $O(\abs{\Lambda(\sigma)})$ by enumerating all edges in $\Lambda(\sigma)$. Hence we can check the feasibility of a partial assignment $\sigma$ in time $O(\abs{\Lambda(\sigma)})$. 
 \end{proof}
 
 \subsection{Marginal ratio bounds}
@@ -2231,91 +2220,91 @@ In this part, we prove the upper bound for marginal ratios.
 % \MarginalBound*
 \MarginalRatioBound*
 \begin{proof}
-    Let $v$ be the unique vertex incident to $e$. Since $f_v$ is log-concave and $f_v(0) > 0$, it holds that $f_v(i + 1) \le r_{\max}(\Phi) f_v(i)$. Hence we have, for every $\sigma \in \set{0, 1}^E$ with $\sigma(e) = 1$, $\prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right) \le r_{\max}(\Phi) \prod_{u \in V} f_u\left(\abs{\sigma' \vert_{E_u}}\right)$ where $\sigma'(e') = \sigma(e')$ for every $e' \in E \setminus \set{e}$ and $\sigma'(e) = 0$. Then by direct calculation,
+    Let $v$ be the unique vertex incident to $e$. Since $f_v$ is log-concave and $f_v(0) > 0$, it holds that $f_v(i + 1) \le r_{\max}(\Phi) f_v(i)$. Hence we have, for every $\sigma \in \set{0, 1}^E$ with $\sigma(e) = 1$, $\prod_{u \in V} f_u\left(\abs{\sigma(E_u)}\right) \le r_{\max}(\Phi) \prod_{u \in V} f_u\left(\abs{\sigma'(E_u)}\right)$ where $\sigma'(e') = \sigma(e')$ for every $e' \in E \setminus \set{e}$ and $\sigma'(e) = 0$. Then by direct calculation,
     \begin{align*}
         R_{\Phi}(e) &= \frac{Z_{\Phi}^{(e \gets 1)}}{Z_{\Phi}^{(e \gets 0)}} \\
-        &= \frac{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 1} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)} \\
-        &\le \frac{r_{\max}(\Phi) \sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma \vert_{E_u}}\right)} \le r_{\max}(\Phi).
+        &= \frac{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 1} \prod_{u \in V} f_u\left(\abs{\sigma(E_u)}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma(E_u)}\right)} \\
+        &\le \frac{r_{\max}(\Phi) \sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma(E_u)}\right)}{\sum_{\sigma \in \set{0, 1}^E : \sigma(e) = 0} \prod_{u \in V} f_u\left(\abs{\sigma(E_u)}\right)} \le r_{\max}(\Phi).
     \end{align*}
     Then we conclude the upper bound.
 \end{proof}
 
 \section{Omitted proofs}\label{sec:omitted Proofs}
 
-\OneroundDecay*
-\begin{proof}
-Let $\ell$ denote $\abs{E_v^\sigma}$. 
-% Let $\ell$ denote the number of times the while loop is executed in $\!{Couple}(\Phi, \sigma, \tau, v)$.
-% We remark that $\ell$ is a random variable.
-For each $i>0$,
-let $e_i, \sigma_i,\tau_i,\sigma_{e_i},\tau_{e_i}$ be the random variables $e,\sigma,\tau,\sigma_{e},\tau_{e}$ in Line \ref{line-edge-sample} of the $i$-th iteration of the while loop, respectively.
-Let $\+E$ denote the event that 
-$\land_{i\in [\ell]}(\sigma_{e_i} = \tau_{e_i} = ( e_i\leftarrow 0))$.
-We remark that this event is well-defined.
-Because for each $1< i \leq \ell$,
-under the condition that $\sigma_{e_{i-1}} = \tau_{e_{i-1}} = (e_{i-1}\leftarrow 0)$, Line \ref{line-recursive-call} of Algorithm \ref{algo:Couple} is skiped.
-In addition, we have $E^{\sigma_{i}}_v\neq \emptyset$, because only $i-1<\ell$ edges in $E_v^\sigma$ are assigned in $\sigma_{i}$.
-Thus, the $i$-th iteration of the while loop must be performed
-and $\sigma_{e_i}$ and $\tau_{e_i}$ are well-defined.
-Therefore, $\+E$ is also well-defined.
+% \OneroundDecay*
+% \begin{proof}
+% Let $\ell$ denote $\abs{E_v^\sigma}$. 
+% % Let $\ell$ denote the number of times the while loop is executed in $\!{Couple}(\Phi, \sigma, \tau, v)$.
+% % We remark that $\ell$ is a random variable.
+% For each $i>0$,
+% let $e_i, \sigma_i,\tau_i,\sigma_{e_i},\tau_{e_i}$ be the random variables $e,\sigma,\tau,\sigma_{e},\tau_{e}$ in Line \ref{line-edge-sample} of the $i$-th iteration of the while loop, respectively.
+% Let $\+E$ denote the event that 
+% $\land_{i\in [\ell]}(\sigma_{e_i} = \tau_{e_i} = ( e_i\leftarrow 0))$.
+% We remark that this event is well-defined.
+% Because for each $1< i \leq \ell$,
+% under the condition that $\sigma_{e_{i-1}} = \tau_{e_{i-1}} = (e_{i-1}\leftarrow 0)$, Line \ref{line-recursive-call} of Algorithm \ref{algo:Couple} is skiped.
+% In addition, we have $E^{\sigma_{i}}_v\neq \emptyset$, because only $i-1<\ell$ edges in $E_v^\sigma$ are assigned in $\sigma_{i}$.
+% Thus, the $i$-th iteration of the while loop must be performed
+% and $\sigma_{e_i}$ and $\tau_{e_i}$ are well-defined.
+% Therefore, $\+E$ is also well-defined.
 
 
-For any $1<i\leq  \ell$, under the condition $\left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)$,
-we have $\!{Ham}\left(\sigma_i, {E_v}\right) = \!{Ham}\left(\sigma, {E_v}\right) > \!{Ham}\left(\tau, {E_v}\right) = \!{Ham}\left(\tau_i, {E_v}\right)$.
-Thus, we have $e_i$ satisfies 
-                    $\mu^{\sigma_i}_e(1) \leq \mu^{\tau_i}_e(1)$
-by Line \ref{line:pick-dominating-edge-2} of Algorithm \ref{algo:Couple}.
-Therefore, $\mu^{\sigma_i}_e(0) = 1 - \mu^{\sigma_i}_e(1) \geq 1 - \mu^{\tau_i}_e(1)  = \mu^{\tau_i}_e(0)$.
-Moreover, according to Line \ref{line-edge-sample},
-we have 
-$(\sigma_{e_i}, \tau_{e_i})$ is sampled from an optimal coupling of $(\mu^{\sigma_i}_{e_i}, \mu^{\tau_i}_{e_i})$.
-Thus, we have 
-\begin{align*}
-&\symbolwidth \Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
-\\
-&= \min\left\{\mu^{\sigma_i}_e(0), \mu^{\tau_i}_e(0)\right\} = \mu^{\tau_i}_e(0),
-\end{align*}
-where the last inequality is by $\mu^{\sigma_i}_e(0) \geq \mu^{\tau_i}_e(0)$.
-Similarly, one can also prove that 
-\begin{align*}
-\Pr{\sigma_{e_{1}} = \tau_{e_{1}} = (e_1\leftarrow 0)} = \mu^{\tau_1}_e(0) = \mu^{\tau}_e(0).
-\end{align*}
-Therefore, we have 
-\begin{equation*}
-\begin{aligned}
-&\symbolwidth \Pr{\+E} = \prod_{i\in [\ell]}\Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
-\\
-&= \prod_{i\in [\ell]}\mu^{\tau_i}_{e_i}(0)
-=\mu^{\tau}_{e_1}(0)\cdot \mu^{\tau\land (e_1\leftarrow 0)}_{e_2}(0)\cdots \mu^{\tau\land (e_1\leftarrow 0)\cdots\land (e_{\ell-1}\leftarrow 0)}_{e_{\ell}}(0)
-= \mu_{E_v^\tau}^{\tau}(\zero)
-\geq  B_{\min}(\Phi),
-\end{aligned}
-\end{equation*}
-where the last inequality is by \Cref{lem:marginal-bound}.
-In addition, we claim that if $\+E$ happens, then $\!{Couple}(\cdot)$ is not called in $\!{Couple}(\Phi, \sigma, \tau, v)$.
-Thus, we have 
-\begin{equation*}
-\begin{aligned}
-&\symbolwidth\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
-\\&=1-\Pr{\!{Couple}(\cdot) \text{ is never called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
-\\&\leq 1- \Pr{\+E}
-\\&\leq 1- B_{\min}(\Phi).
-\end{aligned}
-\end{equation*}
+% For any $1<i\leq  \ell$, under the condition $\left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)$,
+% we have $\!{Ham}\left(\sigma_i, {E_v}\right) = \!{Ham}\left(\sigma, {E_v}\right) > \!{Ham}\left(\tau, {E_v}\right) = \!{Ham}\left(\tau_i, {E_v}\right)$.
+% Thus, we have $e_i$ satisfies 
+%                     $\mu^{\sigma_i}_e(1) \leq \mu^{\tau_i}_e(1)$
+% by Line \ref{line:pick-dominating-edge-2} of Algorithm \ref{algo:Couple}.
+% Therefore, $\mu^{\sigma_i}_e(0) = 1 - \mu^{\sigma_i}_e(1) \geq 1 - \mu^{\tau_i}_e(1)  = \mu^{\tau_i}_e(0)$.
+% Moreover, according to Line \ref{line-edge-sample},
+% we have 
+% $(\sigma_{e_i}, \tau_{e_i})$ is sampled from an optimal coupling of $(\mu^{\sigma_i}_{e_i}, \mu^{\tau_i}_{e_i})$.
+% Thus, we have 
+% \begin{align*}
+% &\symbolwidth \Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
+% \\
+% &= \min\left\{\mu^{\sigma_i}_e(0), \mu^{\tau_i}_e(0)\right\} = \mu^{\tau_i}_e(0),
+% \end{align*}
+% where the last inequality is by $\mu^{\sigma_i}_e(0) \geq \mu^{\tau_i}_e(0)$.
+% Similarly, one can also prove that 
+% \begin{align*}
+% \Pr{\sigma_{e_{1}} = \tau_{e_{1}} = (e_1\leftarrow 0)} = \mu^{\tau_1}_e(0) = \mu^{\tau}_e(0).
+% \end{align*}
+% Therefore, we have 
+% \begin{equation*}
+% \begin{aligned}
+% &\symbolwidth \Pr{\+E} = \prod_{i\in [\ell]}\Pr{\sigma_{e_{i}} = \tau_{e_{i}} = (e_i\leftarrow 0)\mid \left(\sigma_{e_{1}}=\tau_{e_{1}} = (e_1\leftarrow 0)\right)\land \cdots\land \left(\sigma_{e_{i-1}} = \tau_{e_{i-1}}=(e_{i-1}\leftarrow 0)\right)}
+% \\
+% &= \prod_{i\in [\ell]}\mu^{\tau_i}_{e_i}(0)
+% =\mu^{\tau}_{e_1}(0)\cdot \mu^{\tau\land (e_1\leftarrow 0)}_{e_2}(0)\cdots \mu^{\tau\land (e_1\leftarrow 0)\cdots\land (e_{\ell-1}\leftarrow 0)}_{e_{\ell}}(0)
+% = \mu_{E_v^\tau}^{\tau}(\zero)
+% \geq  B_{\min}(\Phi),
+% \end{aligned}
+% \end{equation*}
+% where the last inequality is by \Cref{lem:marginal-bound}.
+% In addition, we claim that if $\+E$ happens, then $\!{Couple}(\cdot)$ is not called in $\!{Couple}(\Phi, \sigma, \tau, v)$.
+% Thus, we have 
+% \begin{equation*}
+% \begin{aligned}
+% &\symbolwidth\Pr{\!{Couple}(\cdot) \text{ is recursively called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
+% \\&=1-\Pr{\!{Couple}(\cdot) \text{ is never called in Line \ref{line-recursive-call} of $\!{Couple}(\Phi, \sigma, \tau, v)$}}
+% \\&\leq 1- \Pr{\+E}
+% \\&\leq 1- B_{\min}(\Phi).
+% \end{aligned}
+% \end{equation*}
 
-At last, we prove the claim that $\!{Couple}(\cdot)$ is not called in $\!{Couple}(\Phi, \sigma, \tau, v)$ if $\+E$ happens.
-Then the lemma is immediate.
-Assume $\+E$ happens.
-We have $\sigma_{e_i} = \tau_{e_i}$ for each $i\in [\ell]$,
-Then Line \ref{line-recursive-call} of Algorithm \ref{algo:Couple} is skiped in the $i$-th iteration of the while loop.
-{Moreover, we have $E^{\sigma_{\ell}\land \sigma_{e_\ell}}_v=\emptyset$, because all the edges 
-$e_1,\cdots,e_{\ell}$ in $E_v^\sigma$ are assigned in $\sigma_{\ell}\land \sigma_{e_\ell}$.}
-Thus, the $(\ell+1)$-th iteration of the while loop will not be performed.
-Thus, $\!{Couple}(\cdot)$ in Line \ref{line-recursive-call} is never called in $\!{Couple}(\Phi, \sigma, \tau, v)$.
-The claim is proved, which finishes the proof of the lemma.
+% At last, we prove the claim that $\!{Couple}(\cdot)$ is not called in $\!{Couple}(\Phi, \sigma, \tau, v)$ if $\+E$ happens.
+% Then the lemma is immediate.
+% Assume $\+E$ happens.
+% We have $\sigma_{e_i} = \tau_{e_i}$ for each $i\in [\ell]$,
+% Then Line \ref{line-recursive-call} of Algorithm \ref{algo:Couple} is skiped in the $i$-th iteration of the while loop.
+% {Moreover, we have $E^{\sigma_{\ell}\land \sigma_{e_\ell}}_v=\emptyset$, because all the edges 
+% $e_1,\cdots,e_{\ell}$ in $E_v^\sigma$ are assigned in $\sigma_{\ell}\land \sigma_{e_\ell}$.}
+% Thus, the $(\ell+1)$-th iteration of the while loop will not be performed.
+% Thus, $\!{Couple}(\cdot)$ in Line \ref{line-recursive-call} is never called in $\!{Couple}(\Phi, \sigma, \tau, v)$.
+% The claim is proved, which finishes the proof of the lemma.
 
 
-\end{proof}
+% \end{proof}
 
 
 \PropertyDefrpc*
@@ -2326,7 +2315,7 @@ To prove this lemma, it is sufficient to prove that for each $(\sigma, \tau, \se
 \end{align}
 Similarly, one can also prove that $\Pr[\!{cp}]{(\sigma, \tau, \seqS,v,L)}\leq \mu^{\tau_{\bot}}_{\seqS}(\tau)$.
 Thus, \eqref{eq-def-trp-perperty-sigma} is proved.
-Meanwhile, for each $e\in E(G)$,
+Meanwhile, for each $e\in E^{\sigma}_v$,
 by \Cref{def-notation-trp} and \eqref{eq-def-trp-perperty-sigma-delete-vt}, 
 we have
 \begin{align*}
@@ -2433,20 +2422,24 @@ Then \eqref{eq-def-trp-perperty-sigma-delete-vt} is proved and the lemma is imme
     At last, we prove \eqref{eq-pr-stsvl-sum-stsvle}, which completes the proof of \eqref{eqn-inter-sum1-first}.
      We prove \eqref{eq-pr-stsvl-sum-stsvle} by considering two separate cases.
     \begin{itemize}
-    \item $(\sigma, \tau, \seqS)\not\in \+V^{\!{cp}}$.
-    We have $\Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0$.
-    Thus, by \eqref{eq-def-pro-stsvl} and \eqref{eq-def-pro-stsvle} we have
+    \item $\Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0$.
+    By \eqref{eq-def-pro-stsvl} and \eqref{eq-def-pro-stsvle} we have
     \[\forall e\in E_v^{\sigma},\quad \Pr[\!{cp}]{(\sigma, \tau, \seqS, e)}\leq \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0 .\]
     Therefore,
     \begin{align*}
     \Pr[\!{cp}]{(\sigma, \tau, \seqS)} = 0 = \sum_{e\in E_v^{\sigma}}\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)}.
     \end{align*}  
     Thus, \eqref{eq-pr-stsvl-sum-stsvle} is immediate.
-    \item $(\sigma, \tau, \seqS)\in \+V^{\!{cp}}$. Assume \emph{w.l.o.g.} that ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
+    \item $\Pr[\!{cp}]{(\sigma, \tau, \seqS)} > 0$. Assume \emph{w.l.o.g.} that ${\!{Ham}\left(\sigma, {E_{v}}\right)} < {\!{Ham}\left(\tau, {E_{v}}\right)}$.
     By \Cref{def:truncated-random-process},
     if $e$ is the first edge in $E_{v}^{\sigma}$ with 
             $\mu^{\sigma}_e(1) \geq \mu^{\tau}_e(1)$,
-    then $\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} =\Pr[\!{cp}]{(\sigma, \tau, \seqS)}$.
+    then 
+    \begin{align*}
+\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} &= \Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)\land \left(\seqS_{t+1} =\seqS\circ e\right) }\\
+&=\Pr{\left(T > t\right)\land \left((\sigma, \tau, \seqS) = (\sigma_t, \tau_t, \seqS_t)\right)}\\
+&=\Pr[\!{cp}]{(\sigma, \tau, \seqS)}.
+\end{align*}
     Otherwise, $\Pr[\!{cp}]{(\sigma, \tau, \seqS,e)} = 0$.
     Thus, \eqref{eq-pr-stsvl-sum-stsvle} is immediate.
     \end{itemize}
