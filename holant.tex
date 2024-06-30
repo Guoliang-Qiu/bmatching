@@ -67,7 +67,6 @@
 \def\*#1{\mathbf{#1}} \def\+#1{\mathcal{#1}} \def\-#1{\mathrm{#1}} \def\^#1{\mathbb{#1}} \def\$#1{\mathtt{#1}}
 \newcommand{\bb}{\mathbb}
 
-
 \def\!#1{\mathtt{#1}}
 \def\@#1{\mathscr{#1}}
 
@@ -160,21 +159,13 @@ Given a graph $G = (V, E)$, let $E_v \defeq \set{e \in E \cmid \mbox{$e$ is inci
 \end{theorem}
 \zdtodo{suggest this version: the running time is seemingly slow.}
 
-% \begin{theorem} \label{thm:counting-b-matchings}
-%     There exists a deterministic algorithm that given any graph $G = (V, E)$ with maximum degree $\Delta$, any positive integer $b \ge 1$ and any $\varepsilon \in (0, 1)$, it outputs a number $\wh{Z}$ such that
-%     \begin{align*}
-%         (1 - \varepsilon)\abs{\Omega_{G, b}} \le \wh{Z} \le (1 + \varepsilon) \abs{\Omega_{G, b}}
-%     \end{align*}
-%     in time $(\abs{E} \cdot \varepsilon^{-1})^{\poly(2^\Delta)}$.
-% \end{theorem}
-
-% \begin{theorem} \label{thm:counting-b-matchings}
-%     Given a positive integer $\Delta \ge 1$ and a tolerance error $\varepsilon \in (0, 1/4)$, there is a deterministic algorithm such that for every graph $G = (V, E)$ with maximum degree $\le \Delta$ and every positive integer $b \le \Delta$, in time $\poly\left(\left(\abs{E} \cdot \varepsilon^{-1}\right)^{C_{\ref{thm:counting-b-matchings}}}\right)$, it outputs a number $\wh{Z}$ such that
-%     \begin{align*}
-%         (1 - \varepsilon) \abs{\Omega_{G, b}} \le \wh{Z} \le (1 + \varepsilon) \abs{\Omega_{G, b}}
-%     \end{align*}
-%     where the coefficients of the polynomial and $C_{\ref{thm:counting-b-matchings}}$ depends only on $\Delta$.
-% \end{theorem}
+\begin{theorem} \label{thm:counting-b-matchings}
+    There exists a deterministic algorithm that given any graph $G = (V, E)$ with maximum degree $\Delta$, any positive integer $b \ge 1$ and any $\varepsilon \in (0, 1)$, it outputs a number $\wh{Z}$ such that
+    \begin{align*}
+        (1 - \varepsilon)\abs{\Omega_{G, b}} \le \wh{Z} \le (1 + \varepsilon) \abs{\Omega_{G, b}}
+    \end{align*}
+    in time $(\abs{E} \cdot \varepsilon^{-1})^{\poly(\Delta^b)}$.
+\end{theorem}
 
 \paragraph{Holant problems with log-concave signatures}
 
@@ -215,23 +206,11 @@ Furthermore, it is natural to induce the probability distribution $\mu=\mu_\Phi$
 \qgl{When $f_v(k) = \id{k \le b}$, it can be shown that the Holant problem becomes an instance of $b$-matchings by regarding any subset of edges $S\subseteq E$ as the binary vector.} \qtodo{maybe add more famous problem here to show the expressibility of the holant.}
 
 %Note that, for a Holant instance $(G = (V, E), \set{f_v}_{v \in V})$, 
-In this paper, we focus on a family of Holant problems with signatures being log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{log-concave} if and only if it satisfies: (1) $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$; (2) If $f(k_1) > 0$ and $f(k_2) > 0$ for some $0 \le k_1 \le k_2 \le d$, then for every $k_1 \le j \le k_2$, $f(j) > 0$. We say that $\Phi$ is log-concave if all its signatures are log-concave. \qgl{state that the log-concave signature is powerful enough to express many counting problems.}
-% \begin{itemize}
-% 	\item $f(0) > 0$.
-%     \item $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$.
-%     \item If $f(k) > 0$ for some $k \le d$, then for every $0 \le j \le k$, $f(j) > 0$.
-% \end{itemize}
-% \qgl{Similarly to the $b$-matchings, the concepts are well-defined as well when the underlying graphs contain dangling edges.}\qtodo{also put this in pre.}
+In this paper, we focus on a family of Holant problems with signatures being log-concave. A binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$ is \emph{log-concave} if and only if it satisfies: (1) $f(k)^2 \ge f(k - 1) f(k + 1)$ for every $1 \le k \le d - 1$; (2) If $f(k_1) > 0$ and $f(k_2) > 0$ for some $0 \le k_1 \le k_2 \le d$, then for every $k_1 \le j \le k_2$, $f(j) > 0$. We say that $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ is log-concave if all its signatures are log-concave. 
+We always assume \emph{w.l.o.g.} that $f_v(d)=0$ for each $v\in V$ and $d> \Delta$, where $\Delta$ is the maximum degree of $G$.
+\qgl{state that the log-concave signature is powerful enough to express many counting problems.}
 
 We consider a family of Holant instances satisfying the following conditions.
-% \begin{condition} \label{cond:Holant-condition}
-%     Let $\Delta$ be a positive integer and $r$ be a positive real number. Consider the Holant instance $\Phi=(G= (V, E),\vecf)$ satisfying
-%     \begin{itemize}
-%         \item The maximum degree of $G$ is bounded by $\Delta$.
-%         \item $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric log-concave signatures.
-%         \item $f_v(1) \le r \cdot f_v(0)$ and $f_v(0) > 0$ for every $v \in V$.
-%     \end{itemize}
-% \end{condition}
 \begin{condition} \label{cond:Holant-condition}
     Consider the Holant instance $\Phi=(G= (V, E),\vecf)$ satisfying that $\vecf = \set{f_v}_{v \in V}$ is a family of binary symmetric log-concave signatures and $f_v(0) > 0$ for every $v \in V$.
 
@@ -247,10 +226,10 @@ We consider a family of Holant instances satisfying the following conditions.
 
 \zdtodo{State SOTA of Holant problems with log-concave signatures here, and following is our main result on it.}
 
-\begin{theorem} \label{thm:counting-Holant}
-    Given a positive integer $\Delta > 0$ and a real number $r > 0$, there is an FPTAS for the partition function of every Holant instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ satisfying~\Cref{cond:Holant-condition} with the maximum degree of $G$ at most $\Delta$ and $f_v(1) \le r f_v(0)$ for each $v \in V$.
-\end{theorem}
-\zdtodo{suggest this version: the running time is seemingly slow.}
+% \begin{theorem} \label{thm:counting-Holant}
+%     Given a positive integer $\Delta > 0$ and a real number $r > 0$, there is an FPTAS for the partition function of every Holant instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ satisfying~\Cref{cond:Holant-condition} with the maximum degree of $G$ at most $\Delta$ and $f_v(1) \le r f_v(0)$ for each $v \in V$.
+% \end{theorem}
+% \zdtodo{suggest this version: the running time is seemingly slow.}
 
 \begin{theorem} \label{thm:counting-Holant}
     There is a deterministic algorithm such that given as input any $\varepsilon>0$ and any instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ satisfying~\Cref{cond:Holant-condition}, it outputs a number $\wh{Z}$ such that
@@ -388,39 +367,28 @@ In this paper, we focus on the Holant problems with all signatures being positiv
 \fi
 
 \subsection{Properties of Holant instances}
-% \qtodo{This part should be changed}
-% \qtodo{change it to the holant version.}
-% \begin{lemma}
-%     Consider any graph $G=(V,E)$ of maximum degree $\Delta$ with an integer $b\geq 1$ and a feasible partial assignment $\tau:E'\rightarrow \set{0,1}$ where $E'\subseteq E$. For each $v\in V$, it holds that  
-%     \begin{align*}
-%        \sigma \sim \mu^{\tau}, \quad \quad   \mu^{\tau}(\sigma_{E_v\setminus E'}=\boldsymbol{0})\geq 1/{\Delta^b}.
-%     \end{align*}
-% \end{lemma}
 
-% For a positive binary symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ with $f(0) > 0$, we consider the following \emph{local polynomial} introduced in \zd{[GLLZ18, CG23]}:
-% \begin{align} \label{eq:local-polynomial}
-% 	P_f(x) \defeq \frac{1}{f(0)}\sum_{i = 0}^d \binom{d}{i}\cdot f(i) \cdot x^i.
-% \end{align}
-% For a binary symmetric Holant instance $\Phi = \left(G = (V, E), \vecf = \set{f_v}_{v \in V}\right)$ with positive log-concave signatures, the following quantities defined in~\zd{[CG23]} might be helpful:
-% \begin{align} \label{eq:Holant-quantities}
-% 	r_{\max} \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}, \quad P_{\max} \defeq \max_{v \in V} P_{f_v}(r_{\max}).
-% \end{align}
-% We state here the following marginal lower bound established in~\zd{[CG23]}, which is of great significance in our analysis.
+% the marginal bound from [CG24]
 
-% Now we state some properties of Holant instances here. 
-Let $\Phi = \left(G = (V, E_1\cup E_2), \vecf = \set{f_v}_{v \in V}\right)$ be a Holant instance satisfying~\Cref{cond:Holant-condition}. Recall that $\mu = \mu_{\Phi}$ is the corresponding Gibbs distribution. Define 
+For a symmetric signature $f = [f(0), f(1), \ldots, f(d)]$ of arity $d$, its \emph{local polynomial} introduced by~\cite{GLLZ21Holant} is defined as follows:
+\begin{align} \label{eq:local-polynomial}
+    P_f(x) \defeq \sum_{i = 0}^{d} \binom{d}{i} f(i) x^i.
+\end{align}
+Let $\Phi = \left(G = (V, E_1 \cup E_2), \vecf = \set{f_v}_{v \in V}\right)$ be a Holant instance satisfying~\Cref{cond:Holant-condition}. Recall that $\mu = \mu_{\Phi}$ is the corresponding Gibbs distribution. Define 
 \begin{align}\label{eq-def-bmin}
-    B = B(\Phi) \defeq (1 + r_{\max}^2)^{-\Delta(G)}
+    B = B(\Phi) \defeq \min_{v \in V} \frac{P_{f_v}(0)}{P_{f_v}(r_{\max})}
 \end{align}
 where 
 \begin{align}\label{eq-def-rmax}
-r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}.
+    r_{\max} = r_{\max}(\Phi) \defeq \max_{v \in V} \frac{f_v(1)}{f_v(0)}.
 \end{align}
+Note that since $\Phi$ satisfies~\Cref{cond:Holant-condition}, it holds that $r_{\max} \ge 0$. Hence $0 \le P_{f_v}(0) \le P_{f_v}(r_{\max})$ by~\eqref{eq-def-bmin}, leading to $0 < B \le 1$. When $B = 1$, it follows from the definition that $f_{v}(1) = 0$ for all $v \in V$. In this case, the only feasible assignment of $\Omega_{\Phi}$ is $\sigma(e) = 0$ for every $e \in E$ and the partition function is $Z = \prod_{v \in V} f_v(0)$, which is trivial. Thus throughout the subsequent part of this work, we assume that $0 < B < 1$.
+
 Given any partial assignment $\sigma$ and vertex $v\in V$, recall that $E_v^\sigma$ is the set of unpinned edges incident to $v$ under $\sigma$. The following lemma in~\cite{CG24bMatching} establish lower bounds of the marginal probability of $\mu$.
 \begin{restatable}[Lemma 18 and Proposition 20 in~\cite{CG24bMatching}]{lemma}{MarginalBound} \label{lem:marginal-bound}
     Given any Holant instance $\Phi = \left(G=(V,E=E_1\cup E_2) , \vecf \right)$ satisfying~\Cref{cond:Holant-condition}, it holds that
     \begin{align} \label{eq:marginal-bound}
-        \mu_{E_v^\sigma}^{\sigma}(\zero) \ge B(\Phi),
+        \mu_{E_v^\sigma}^{\sigma}(\zero) \ge B(\Phi) \qgl{\ge (1 + r_{\max}^2)^{-\Delta},}
     \end{align}
     for any feasible partial assignment $\sigma$ and vertex $v\in V$ where $E^{\sigma}_v\subseteq E_1$.
 \end{restatable}
@@ -442,43 +410,24 @@ In addition, for $e \in E$ and $c \in \set{0, 1}$, we use $Z^{e \gets c}=Z_{\Phi
 \begin{align*}
     Z^{e \gets c}=Z_{\Phi}^{e \gets c} \defeq \sum_{\sigma \in \set{0, 1}^E :  \sigma(e) = c} \prod_{v \in V} f_v\left(\abs{\sigma ({E_v})}\right).
 \end{align*}
-One can verify that $R(e) = Z^{e \gets 1} / Z^{e \gets 0}$. We also need the following upper bound for the marginal ratio of a half-edge.
+One can verify that $R(e) = Z^{e \gets 1} / Z^{e \gets 0}$. The marginal ratio of a half-edge can be bounded as follows.
 \begin{restatable}{lemma}{MarginalRatioBound} \label{lem:marginal-ratio-upper-bound}
-       Given any instance $\Phi = \left(G =(V,E=E_1\cup E_2), \vecf \right)$ satisfying~\Cref{cond:Holant-condition} , for each half-edge $e \in E_2$, it holds that
+       Given any Holant instance $\Phi = \left(G =(V,E=E_1\cup E_2), \vecf \right)$ satisfying~\Cref{cond:Holant-condition} , for each half-edge $e \in E_2$, it holds that
     \begin{align*}
         R_{\Phi}(e) \le r_{\max}(\Phi).
     \end{align*}
 \end{restatable}
 For completeness, we prove~\Cref{lem:marginal-ratio-upper-bound} in~\Cref{sec:proof-Holant-properties}.
-% \zdtodo{merge these two lemmas.}
-
-% \hktodo{check the lemma, $\mu_{E_v^\sigma}^{\sigma}(\zero)$ is unrelated to $\sigma$ }
 
 
-% \zdnew{For completeness, we prove~\Cref{lem:marginal-bound} in appendix.}
-%For the sake of simplicity, we use $B = B(\Phi) \defeq (r_{\max}^2 + 1)^{-\Delta(G)}$ to denote the lower bound in~\Cref{lem:marginal-bound}.
-%\begin{lemma}\label{lem:marginal-bound}
-%    Consider any graph $G=(V,E=E_1\cup E_2)$ of maximum degree $\Delta$ with a positive integer $b$ and a partial assignment $\sigma$. For each $v\in V$, it holds that  
-%    \begin{align*}
-%         \mu^{\sigma}_{E^{\sigma}_v}(\boldsymbol{0})\geq {2^{-\Delta}}.
-%    \end{align*} 
-%\end{lemma}
-%\begin{remark}
-%    The statement of this lemma indicates its applicability to the graph with dangling edges.
-%\end{remark}
-%\begin{proof}
-%    \qgl{immediately from czc's paper.}
-%\end{proof}
 
-% We also need the monotonicity of the uniform distribution over all $b$-matchings.
 
-% \begin{lemma}
-%     Consider any graph $G=(V,E)$ of maximum degree $\Delta$ with an integer $b\geq 1$. Given an edge $e\in E$ and feasible partial assignments $\tau_1,\tau_2:\set{e}\rightarrow \set{0,1}$ where $\tau_1(e)=0$ and $\tau_2(e)=1$, we have 
-%     \begin{align*}
-%         d
-%     \end{align*}
-% \end{lemma}
+\section{Technique Overview} \zdtodo{Move it to the introduction}
 
+\qgl{very rough draft.}
+First, state that it suffices to design an efficient marginal ratio estimator for approximate counting. To estimate the marginal ratio, we use the standard split operation on an edge and reduce it to the estimation of the marginal ratio of the half-edges. By CZC's coupling, the marginal distribution exhibits certain correlation decay. List the previous work here. These work exploits the decay properties to decide the counting algorithm. Notablly, introduce the work of Moitra. To emphasize the technical ingredient.
+
+The technical contribution here. First, the coupling error. Then the difficulty for the choose of the updated edge. emphasize the hard instance here.
 
 \section{The Coupling Process}
 
@@ -969,10 +918,10 @@ The notation $\+D(\cdot)$ is crucial for bounding such errors.
 }
 We remark that if $\abs{E^{\sigma}_v} > 1$, then $\abs{\+D(\sigma,\tau,\seqS,v,L)}$ can be larger than $1$, because each permutation $e_1,e_2,\cdots,e_{\abs{E^{\sigma}_v}}$ of the edges in $E^{\sigma}_v$ results in a possible sequence $\seqS' = \seqS\circ e_1 \circ e_2\cdots\circ e_{\abs{E^{\sigma}_v}}$.
 
-The following proposition provides some useful properties of the $\ell$-truncated coupling tree.
+The following proposition provides some useful properties of the $\ell$-truncated coupling tree. We defer its proof in~\Cref{sec:omitted Proofs}.
 
 
-\begin{proposition} \label{prop:property-of-truncated-tree}
+\begin{restatable}{proposition}{PropertyTruncateTree} \label{prop:property-of-truncated-tree}
 The following holds for the $\ell$-truncated coupling tree $\+T$:
 \begin{enumerate}[(1)]
 \item $V(\+T)\setminus \+L = \+V\setminus\+L$. \label{item:CT-property-1}
@@ -982,114 +931,9 @@ In addition, for each node $(\sigma,\tau,\seqS,v,L)\in \+T$, we have $\abs{\Lamb
 \item For each node $(\sigma,\tau,\seqS,v,L)\in \+L_{\!{good}}\cap \+V$, we have $\mu^\sigma = \mu^\tau$. Thus, 
 \[\frac{\mu(\tau)}{\mu(\sigma)} =  \frac{f_v\left(\abs{\tau(E_v)}\right)}{f_v\left(\abs{\sigma({E_v})}\right)}.\] \label{item:CT-property-ratio}
 \end{enumerate}
-\end{proposition}
+\end{restatable}
 
-\begin{proof}
-    \underline{Proof of (1).} By \Cref{def:truncated-coupling-tree},  each infeasible node is a leaf in $\+T$.
-    Formally, $V(\+T) \setminus \+V \subseteq \+L$.
-    Thus,  $V(\+T) \setminus \+L \subseteq \+V$.
-    Therefore, $V(\+T) \setminus \+L \subseteq \+V\setminus \+L$.
-    Combined with $\+V\subseteq V(\+T)$, we have $V(\+T) \setminus \+L = \+V\setminus \+L$.
-    \vspace{0.2cm}
-    
-    \underline{Proof of (2).} 
-    Let $(\sigma_0,\tau_0,\seqS_0,v_0,L_0),\cdots,(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$ be a path from the root to any leaf in $\+T$, where $(\sigma_0,\tau_0,\seqS_0,v_0,L_0)$ is the root $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)$ and $(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$ is the leaf.
-    At first, we prove the bound on the depth of $\+T$.
-    According to ~\Cref{def:truncated-coupling-tree}, for each $0\leq i <t$, one can verify that either $L_{i+1}= L_{i} + 1$ or the following holds:
-    \[L_{i+1} = L_{i}, v_{i+1} = v_{i}, \Lambda(\sigma_{i+1}) = \Lambda(\sigma_{i})\cup \{e_{i+1}\}, e_{i}\in \Lambda(\sigma_{i}) \text{ for some } e_{i}\in E_{v_i},e_{i+1}\in E^{\sigma_i}_{v_i}.\]
-    Thus, for any $j>i$ where $L_j = L_i$, by induction
-    one can verify that  
-    $\Lambda(\sigma_{j}) = \Lambda(\sigma_{i})\cup S$ where $\abs{S} = j-i$ and $S\subseteq E^{\sigma_i}_{v_i}$. 
-    In addition, by $E^{\sigma_i}_{v_i}\subseteq E_{v_i} \setminus \{e_i\}$, we have $\abs{E^{\sigma_i}_{v_i}}\leq \abs{E_{v_i}\setminus \{e_i\}} = \Delta - 1$.
-    Thus, we have $j - i= \abs{S} \leq \Delta - 1$.
-    Therefore, $j\leq i+\Delta - 1$.
-    Thus, for each $0\leq i <t$ and each $i+\Delta \leq k\leq t$, we have $L_{k}>L_{i}$.
-    Therefore, $L_{t}\geq 0 + \lfloor t/\Delta\rfloor$.
-    In addition, by ~\Cref{def:truncated-coupling-tree} we have $L_t\leq \ell$.
-    Thus, we have $t\leq \Delta\ell$.
-    Therefore, the depth of $\+T$ is no more than $\Delta\ell$.
 
-    Now we prove the conclusion $\abs{\Lambda(\sigma)} = \abs{\Lambda(\tau)} \leq \Delta \ell + 1$ for each node $(\sigma,\tau,\seqS,v,L)\in \+T$.
-    By $\abs{\Lambda(\sigma_{0})} = 1$ and $\abs{\Lambda(\sigma_{i+1})} = \abs{\Lambda(\sigma_{i})} + 1$ for each 
-    $0\leq i <t \leq \Delta\ell$, we have $\abs{\Lambda(\sigma_{i+1})} \leq \Delta\ell + 1$.
-    Combined with \Cref{condition-sigma-tau},
-    we also have $\abs{\Lambda(\tau_{i+1})} = \abs{\Lambda(\sigma_{i+1})} \leq \Delta\ell + 1$. 
-    The conclusion is proved.
-
-    
-    In the next, we prove the bound on the degree of $\+T$.
-    For each $0\leq i <t$, assume \emph{w.l.o.g.} ${\!{Ham}\left(\sigma_i,{E_{v_i}}\right)}<{\!{Ham}\left(\tau_i,{E_{v_i}}\right)}$.
-    According to ~\Cref{def:truncated-coupling-tree},     
-    one can verify that there exists some $e\in E^{\sigma_i}_{v_i}$ such that
-    \[\seqS_{i+1} = \seqS_{i}\circ e, (\sigma_{i+1},\tau_{i+1})\in \{(\sigma_i\land(e\leftarrow 0),\tau_i\land(e\leftarrow 0)),(\sigma_i\land(e\leftarrow 1),\tau_i\land(e\leftarrow 0)),(\sigma_i\land(e\leftarrow 1),\tau_i\land(e\leftarrow 1))\}.\]
-    Moreover, by \Cref{condition-sigma-tau} we have $v_{i+1} = v(\sigma_{i+1},\tau_{i+1})$ and
-    $L_{i+1} = L(\sigma_{i+1},\tau_{i+1})$.
-    Thus, by $\abs{E^{\sigma_i}_{v_i}}\leq \abs{E_{v_i}}\leq \Delta$, we have $(\sigma_{i+1},\tau_{i+1},\seqS_{i+1},v_{i+1},L_{i+1})$ has at most $3\Delta$ possibilities for each fixed  $(\sigma_{i},\tau_{i},\seqS_{i},v_{i},L_{i})$.
-    Therefore, the degree of $\+T$ is no more than $3\Delta$.
-    
-    Finally, $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$ is immediate by the depth of $\+T$ is at most $\Delta \ell$ and the degree is at most $3\Delta$.
- 
-    \vspace{0.2cm}
-    \underline{Proof of (3).} For each node $(\sigma, \tau, \seqS,v,L) \in \+L_{\!{good}}\cap \+V$, 
-    define a mapping $g:\left\{x\mid x\in \sigma\right\}\rightarrow \{0,1\}^E$ as follows.
-    For every $x \in \sigma$, 
-    \begin{align}\label{eq-def-g}
-        (g(x))(e) \triangleq \begin{cases}
-            \tau(e) & e \in \Lambda(\tau) \\
-             x(e)& \mbox{otherwise}
-        \end{cases}\;.
-    \end{align}
-    % By \Cref{condition-sigma-tau}, we have $\Lambda(\sigma) = \Lambda(\tau)$. Thus, one can verify that $(g(x))(e)$ is well-defined. 
-    % Moreover, 
-    We claim that $g(\cdot)$ is a bijection between $\left\{x\mid x\in\sigma\right\}$ and $\left\{y\mid x\in\tau\right\}$.
-    Because for each $x\in \sigma$, by \eqref{eq-def-g} we have $g(x)\in \tau$.
-    In addition, by \Cref{condition-sigma-tau} we have $\Lambda(\sigma) = \Lambda(\tau)$. 
-    Thus, one can also verify that for each $y\in \tau$, there exists a unique $x\in \sigma$ such that $g(x) = y$.  
-
-    By \Cref{condition-sigma-tau}, we have $\abs{\sigma(E_u)} = \Ham(\sigma, E_u) = \Ham(\tau, E_u) = \abs{\tau(E_u)}$ for each $u \in V \setminus \set{v}$.
-     Thus, we have
-     \begin{equation*}
-      \begin{aligned}\label{eq-xemu-eq-gxemu}
-   & \abs{x(E_u)} \\
-\left(\text{by $x\in \sigma$}\right) \quad   = &\abs{\sigma(E_u)} + \sum_{e\in E_u\setminus \Lambda(\sigma)}x(e) \\
-\left(\text{by $\abs{\sigma(E_u)} = \abs{\tau(E_u)}, \Lambda(\sigma) = \Lambda(\tau)$}\right) \quad  = & \abs{\tau(E_u)} + \sum_{e\in E_u\setminus \Lambda(\tau)}x(e) \\
-\left(\text{by \eqref{eq-def-g}}\right) \quad  = & \abs{(g(x))(E_u)}.
-    \end{aligned}
-    \end{equation*}
-    Therefore, we have 
-    \begin{align}\label{eq-mapping-g}
-            \sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{x ({E_u})}\right)            =\sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{(g(x))({E_u})}\right)
-            =\sum_{y\in \tau} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{y({E_u})}\right),
-        \end{align}
-    where the last equality is by that $g(\cdot)$ is a bijection between $\left\{x\mid x\in \sigma\right\}$ and $\left\{y\mid y\in \tau\right\}$.
-    
-    Meanwhile, by $(\sigma, \tau, \seqS,v,L) \in \+L_{\!{good}}\cap \+V$, 
-    we have $L<\ell$ and $(\sigma, \tau, \seqS,v,L)$ is a feasible leaf in $\+T$.
-    Combing with \Cref{def:truncated-coupling-tree},
-    we have $E_v^{\sigma} = \emptyset$. 
-    Therefore, $x(E_v) = \sigma(E_v)$ for each $x\in \sigma$.
-    Thus, by \eqref{def-holant-mu} we have
-    \begin{equation}\label{eq-z-mu-sigma}
-    \begin{aligned}
-        Z\cdot \mu(\sigma)&= \sum_{x\in \sigma} \prod_{u \in V} f_u\left(\abs{x ({E_u})}\right)=\sum_{x\in \sigma} f_v\left(\abs{x ({E_v})}\right)\prod_{u \in V\setminus v} f_u\left(\abs{x ({E_u})}\right)\\
-        &=f_v\left(\abs{\sigma ({E_v})}\right)\sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{x ({E_u})}\right).
-    \end{aligned}
-    \end{equation}
-    Similarly, by $E_v^{\sigma} = \emptyset$ and $\Lambda(\sigma) = \Lambda(\tau)$, we have $E_v^{\tau} = \emptyset$. 
-    Therefore, $y(E_v) = \tau(E_v)$ for each $y\in \tau$.
-    Thus, by \eqref{def-holant-mu} we have 
-    \begin{equation}\label{eq-z-mu-tau}
-      \begin{aligned}
-        Z\cdot\mu(\tau)&= \sum_{y\in \tau} \prod_{u \in V} f_u\left(\abs{y ({E_u})}\right)=\sum_{y\in \tau} f_v\left(\abs{y ({E_v})}\right)\prod_{u \in V\setminus v} f_u\left(\abs{y ({E_u})}\right)\\
-        &=f_v\left(\abs{\tau ({E_v})}\right)\sum_{y\in \tau} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{y ({E_u})}\right).
-    \end{aligned}
-    \end{equation}
-    Moreover, recall that $(\sigma,\tau,\seqS,v,L)$ is feasible.
-    We have $\mu(\sigma)>0$. Combined with \eqref{eq-mapping-g}, \eqref{eq-z-mu-sigma} and \eqref{eq-z-mu-tau}, we have
-    $$
-        \frac{\mu(\tau)}{\mu(\sigma)} =  \frac{f_v\left(\abs{\tau(E_v)}\right)}{f_v\left(\abs{\sigma({E_v})}\right)}.
-    $$
-\end{proof}
 
 % By~\Cref{prop:correctness-of-truncated-tree}, the computation cost of $\+T$ is an immediate corollary.
 
@@ -1364,55 +1208,13 @@ Recall the definition of the marginal ratio $R_{\Phi}(e_\bot)$ in \eqref{def-rph
 we demonstrate that the feasibility of the LP in \Cref{def:induced-LP} can be efficiently checked. Furthermore, if the LP is feasible, one can obtain a good approximation of $R_{\Phi}(e_\bot)$.
 
 
-Firstly we show that the LP can be constructed efficiently.
-\begin{lemma}[Building Cost of LP] \label{lem:building-cost-of-LP}
+Firstly we show that the LP can be constructed efficiently. For completeness, we provide the proof in~\Cref{sec:omitted Proofs}.
+\begin{restatable}[Building Cost of LP]{lemma}{BuildingCost} 
+\label{lem:building-cost-of-LP}
     For any instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ satisfying~\Cref{cond-instancepair}, any non-negative integer $\ell \ge 0$ and any two real numbers $0 \le r^- \le r^+$,
     the LP in \Cref{def:induced-LP} can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. Thus one can check the feasibility of the LP in time $\poly\left(\Delta^{\Delta \ell}\right)$.
-\end{lemma}
-\begin{proof}
-    To prove this lemma, it is sufficient to show that the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. 
-    Thus, the total number of variables and constraints in the LP is no more than $\poly\left(\Delta^{\Delta \ell}\right)$.
-    Therefore, the feasibility of the LP can be checked in time $\poly\left(\Delta^{\Delta \ell}\right)$, because LP has polynomial-time algorithms.
+\end{restatable}
 
-    In the following, we show the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. 
-    By \Cref{lem:partial-assignment-feasibility},
-    the feasibility of each node $(\sigma,\tau,\seqS)\in V(\+T)$ can be checked within time $O(\abs{\Lambda(\sigma)}+\abs{\Lambda(\tau)})$.
-    Combined with Item~\eqref{item:CT-property-size} in~\Cref{prop:property-of-truncated-tree}, we have 
-    $O(\abs{\Lambda(\sigma)}+\abs{\Lambda(\tau)})\leq O(\Delta\ell)$.
-    Thus, the feasibility of each node in $\+T$ can be checked within time $O(\Delta\ell)$.
-    In addition, by Item~\eqref{item:CT-property-size} of~\Cref{prop:property-of-truncated-tree}, 
-    we have $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$.
-    Thus, by \Cref{def:truncated-coupling-tree}, $\+T$ can be constructed within cost $O\left(\Delta \ell \cdot \BuildTime\right) = \BuildTime$,
-    where the term $\Delta \ell$ is due to the cost of checking the feasibility of a node, and the term
-    $\BuildTime$ is due to the size of $\+T$.
-    In the process of constructing $\+T$,
-    one can also obtain the set $V(\+T),\+V,\+L$ and $\+L_{\good}$.
-    
-    % we can build the $\ell$-truncated coupling tree in time $\BuildTime$ and the feasibility of each $(\sigma, \tau, \seqS)$ can be checked in time $O(\abs{\seqS}) = O(\Delta \ell)$. Then the sets $\+V, \+L$ and $\+L_{\good}$ with $\+T$ can be obtained in time $O\left(\Delta \ell \cdot \BuildTime\right) = \BuildTime$.
-
-    Note that the number of variables in the LP is no more than $4\abs{V(\+T)}$, because each pair of variables $\widehat{p}_{\sigma, \tau, \seqS}^{\sigma}$ and $\widehat{p}_{\sigma, \tau, \seqS}^{\tau}$ are corresponding to a node $(\sigma,\tau,\seqS)\in V(\+T)$,
-    and each pair of variables $\widehat{p}_{\sigma,\tau,\seqS,e}^{\sigma}$ and $\widehat{p}_{\sigma,\tau,\seqS,e}^{\tau}$ where $e\in E_{v(\sigma,\tau)}^{\sigma}$
-    are corresponding to a node $(\sigma\land(e\leftarrow 0),\tau\land(e\leftarrow 0),\seqS\circ e)\in V(\+T)$.
-    Combined with $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$, we have
-    Constraint~\ref{item-first-LP} can be constructed in time $\BuildTime$.
-    Similarly, one can also verify that Constraints~\ref{item-second-LP}, \ref{item-third-LP} and \ref{item-sixth-LP} can be constructed in time $\BuildTime$.
-    Now we turn to Constraint~\ref{item-forth-LP}.
-    For any $(\sigma, \tau, \seqS) \in \+L_{\!{good}} \cap \+V$, by Item~\eqref{item:CT-property-ratio} in~\Cref{prop:property-of-truncated-tree}, 
-    we have $\mu(\tau)/\mu(\sigma) = f_v\left(\abs{\tau(E_v)}\right)/f_v\left(\abs{\sigma(E_v)}\right)$.
-    Thus, one can verify that $\mu(\tau)/\mu(\sigma)$ can be calculated in time $O(\abs{E_v}) = O(\Delta)$.
-    Thus Constraint~\ref{item-forth-LP} can be constructed in time 
-    $O(\Delta)\cdot \abs{V(\+T)} = \poly\left(\Delta^{\Delta \ell}\right)$.
-    At last, we consider Constraint~\ref{item-fifth-LP}.
-    For each node $(\sigma,\tau,\seqS)\in \+V\setminus\+L$, we claim that the set $\+D(\sigma,\tau,\seqS)$ can be constructed in time $O(\Delta\ell\cdot V(\+T)) = \poly\left(\Delta^{\Delta \ell}\right)$. 
-    Thus, Constraints~\ref{item-fifth-LP} can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)\cdot \poly\left(\Delta^{\Delta \ell}\right) = \poly\left(\Delta^{\Delta \ell}\right)$.
-    In the following, we prove the claim that $\+D(\sigma,\tau,\seqS)$ can be constructed in time $O(\Delta\ell\cdot V(\+T))$.
-    Note that $\+D(\sigma,\tau,\seqS)\subseteq V(\+T)$.
-    In addition, for each $(\sigma',\tau',\seqS')\in V(\+T)$,
-    by \Cref{def-notation-v-tct} and Item~\eqref{item:CT-property-size} in~\Cref{prop:property-of-truncated-tree}, one can check whether $(\sigma',\tau',\seqS')\in \+D(\sigma,\tau,\seqS)$ within time $O(\Lambda(\sigma) + \Lambda(\tau) + \Lambda(\sigma') + \Lambda(\tau') + 2\Delta) = O(\Delta\ell)$.
-    Therefore, the time cost for constructing $\+D(\sigma,\tau,\seqS)$ is $O(\Delta\ell\cdot V(\+T))$.
-    In summary, the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. The lemma is proved.
-    
-\end{proof}
 
 The following lemma ensures the feasibility of the LP by the coupling process.
 
@@ -1436,8 +1238,6 @@ The lemma is proved.
 
 We show that a feasible solution to the LP provides both upper and lower bounds for $R_{\Phi}(e_\bot)$.
 
-\hktodo{use $B$ not $B_{\min}$ here}
-\hktodo{change all $B_{\min}$ to $B$}
 
 \begin{theorem} \label{thm:ratio-bound-by-LP}
     Assume that all the constraints of the LP in~\Cref{def:induced-LP} hold. Then it holds that
@@ -1458,9 +1258,10 @@ To prove~\Cref{thm:ratio-bound-by-LP}, we show some properties of the feasible s
     \end{align*}
 \end{lemma}
 
-The following lemma is the key ingredient to prove~\Cref{lem:ratio-identity}.
+The following lemma is the key ingredient to prove~\Cref{lem:ratio-identity}. \qtodo{To state the difference between the previous LP. This is the place why the choose of edges is unnecessary.}
+% The complete proof can be found in~\Cref{sec:omitted Proofs}.
 
-\begin{lemma} \label{lem:ratio-identity-partial}
+\begin{restatable}{lemma}{RatioSum} \label{lem:ratio-identity-partial}
  Assume that all the constraints of the LP in~\Cref{def:induced-LP} hold. Then it holds that
     \begin{align}\label{eqn-sum-leftside}
         \forall x\in \sigma_\bot, \quad \sum_{(\sigma,\tau, \seqS)\in \+L: \ x\in \sigma} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}=1,
@@ -1468,7 +1269,7 @@ The following lemma is the key ingredient to prove~\Cref{lem:ratio-identity}.
     \begin{align}\label{eqn-sum-rightside}
         \forall y\in \tau_\bot, \quad \sum_{(\sigma,\tau, \seqS)\in \+L: \ y\in \tau} \widehat{p}^{\tau}_{\sigma,\tau, \seqS}=1.
     \end{align}
-\end{lemma}
+\end{restatable}
 
 \begin{proof}
     To prove this lemma, it is sufficient to prove \eqref{eqn-sum-leftside}. Similarly, one can also prove \eqref{eqn-sum-rightside}.
@@ -1756,11 +1557,11 @@ Thus, by \eqref{eq-d-subset-1},  \eqref{eq-d-subset-2}, \eqref{eq-d-subset-3} an
  &\quad \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
 \left(\text{by \eqref{eq-d-subset-1} and \eqref{eq-d-subset-2}}\right)\quad &\leq \sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{u\in \+S}\ \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \\
 \left(\text{by \eqref{eq-d-subset-3}}\right)\quad &\leq
-\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left( 1 -B^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
 \left(\text{by $\+S\subseteq \+L_{\!{bad}}(\ell)$}\right)
 \quad &\leq
-\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by I.H.}\right)\quad &\leq \left(1-B_{\min}^2\right)^{\ell+1}.
+\left( 1 -B^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by I.H.}\right)\quad &\leq \left(1-B^2\right)^{\ell+1}.
 \end{aligned}
 \end{equation}
 Moreover, by \Cref{lem:ratio-identity}, we have
@@ -1888,7 +1689,7 @@ Given any instance satisfying~\Cref{cond:Holant-condition}, one can design an ef
 
 
 \begin{theorem} \label{thm:Holant-marginal-ratio-estimator}
-    There exists a deterministic algorithm $\+A$ such that given as input any $\varepsilon\in(0,1/4)$ and any instance $\Phi = (G, \vecf)$ satisfying~\Cref{cond:Holant-condition} with any edge $e\in E$, it outputs a number $\wh{R}$ such that
+    There exists a deterministic algorithm $\+A$ such that given as input any $\varepsilon\in(0,1/4)$ and any instance $\Phi = (G=(V,E), \vecf)$ satisfying~\Cref{cond:Holant-condition} with any edge $e\in E$, it outputs a number $\wh{R}$ such that
     $$
         (1 - \varepsilon) R_{\Phi}(e) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e),
     $$
@@ -1914,35 +1715,90 @@ The key ingredient to \Cref{thm:Holant-marginal-ratio-estimator} is the followin
     $$
         (1 - \varepsilon) R_{\Phi}(e_\bot) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e_\bot),
     $$
-   within time \qgl{$O\left(n \cdot \varepsilon^{-\poly(\Delta(G),r_{\max}(\Phi))}\right)$} \zdtodo{check the running time: the exponent is not polynomial}. 
+   within time \qgl{$\abs{V(G)}\cdot\varepsilon^{-\poly(\Delta(G),B(\Phi)^{-1})}$} \zdtodo{check the running time: the exponent is not polynomial}. 
 \end{theorem}
 
 
 \begin{proof}
-    For simplicity, let $r \triangleq r_{\max}(\Phi)$ and $\Delta \triangleq \Delta(G)$. Recall the definition of $B(\Phi)$ in \eqref{eq-def-bmin}.
-    Let $B \triangleq B(\Phi)$ and 
-    $$
-        \ell = \left\lceil \frac{3 - \log{\varepsilon}}{-\log\left(1 - B^2\right)} \right\rceil.
-    $$
-    One can verify that $\left(1 - \left(1 - B^2\right)^{\ell}\right) > 2(1 - \varepsilon) $.
-    With a binary search on the parameters $r^-$ and $r^+$, we can obtain an $\varepsilon$-approximation to $R_\Phi(e_\bot)$ by~\Cref{thm:ratio-bound-by-LP}. By~\Cref{lem:marginal-ratio-upper-bound}, 
-    we have 
-    $R_{\Phi}(e_\bot)\leq r_{\max}(\Phi) = r$ and thus the search range $[0, r]$ is sufficient. Hence the number of rounds the binary search takes is $O\left(r\log{\frac{1}{\varepsilon}}\right)$.
-
-    For the running time on each round of the LP, recall that $B = (1 + r^2)^{-\Delta}$ as defined in \eqref{eq-def-bmin}. Then we have
+    Recall the definition of $B(\Phi)$ in \eqref{eq-def-bmin}.
+    For simplicity, let $\Delta \triangleq \Delta(G)$, $B \triangleq B(\Phi)$ and $r=r_{\max}(\Phi)$. Set
+     \begin{align}\label{eq-def-ell}
+    \ell = \left\lceil \frac{\log{\varepsilon} - \log 2}{\log\left(1 - B^2\right)} \right\rceil
+    \end{align}
+    The following binary search calculates $\wh{R}$. Initially, set $r^1_1 \gets 1$ and $r^1_2 \gets r$ and $i \gets 1$. Then, repeat the following steps: 
+    \begin{enumerate}[(1)]
+        \item Let $\mathsf{LP1}$ denote the LP in~\Cref{def:induced-LP} for the instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ with parameters $r^- = r^i_1,r^+ = (r^i_1 + r^i_2)/2$ and $\ell$.
+        Let $\mathsf{LP2}$ denote the LP in~\Cref{def:induced-LP} for the instance $(\Phi, \sigma_\bot, \tau_\bot, v_\bot)$ with parameters $r^- = (r^i_1+r^i_2)/2,r^+ = r^i_2$ and $\ell$.
+        Decide the feasibility of $\mathsf{LP1}$ and $\mathsf{LP2}$.
+        \item If both $\mathsf{LP1}$ and $\mathsf{LP2}$ are feasible or $r^i_1 \geq r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right)$, let $\wh{R} = (r^i_1+r^i_2)/2$ and
+        terminate the binary search. Otherwise, proceed to the next step. \label{enu-bs-2}
+        \item If $\mathsf{LP1}$ is feasible, let $r^{i+1}_2 \leftarrow (r^i_1 + r^i_2)/2$; otherwise, let $r^{i+1}_1 \leftarrow (r^i_1 + r^i_2)/2$. Let $i \leftarrow i+1$.
+        \label{enu-bs-3}
+    \end{enumerate}
+    We claim $r^i_1 \leq R_\Phi(e_\bot) \leq r^i_2$ for each $i>0$ in the binary search.
+    We prove the claim by induction.
+    For the base case, by~\Cref{lem:marginal-ratio-upper-bound}, 
+    we have $0\leq R_{\Phi}(e_\bot)\leq r_{\max}(\Phi) = r$.
+    Thus, initially we have $r^1_1 \leq R_\Phi(e_\bot) \leq r^1_2$.
+    For the induction step, by ~\Cref{lem:feasibility-of-LP}, if $r^- \le R_\Phi(e_\bot) \le r^+$, then a feasible solution to the LP exists.
+    Combined with the induction hypothesis, we have 
+    at least one of $\mathsf{LP1}$ and $\mathsf{LP2}$ is feasible in round $i$.
+    In \Cref{enu-bs-3}, at most one of $\mathsf{LP1}$ and $\mathsf{LP2}$ is feasible. 
+    Combined with that at least one of them is feasible,     
+    we have exactly one of $\mathsf{LP1}$ and $\mathsf{LP2}$ is feasible in \Cref{enu-bs-3}.
+    Assume that $\mathsf{LP1}$ is feasible in \Cref{enu-bs-3}.
+    Then $\mathsf{LP2}$ is infeasible.
+    Combined with ~\Cref{lem:feasibility-of-LP}, we have 
+    either $R_\Phi(e_\bot) > r^i_2$ or $R_\Phi(e_\bot) < (r^i_1 + r^i_2)/2$. Combined with the induction hypothesis,
+    we have $r^i_1 \leq R_\Phi(e_\bot) \leq (r^i_1 + r^i_2)/2$.
+    Thus, we have $r^{i+1}_1 \leq R_\Phi(e_\bot) \leq r^{i+1}_2$. 
+    Similarly, if $\mathsf{LP1}$ is infeasible,
+    we also have $r^{i+1}_1 \leq R_\Phi(e_\bot) \leq r^{i+1}_2$.
+    
+    When the binary research stops, we have either both $\mathsf{LP1}$ and $\mathsf{LP2}$ are feasible or $r^i_1 \geq r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right)$.
+    If both $\mathsf{LP1}$ and $\mathsf{LP2}$ are feasible,
+    by \Cref{thm:ratio-bound-by-LP} we have
     \begin{align*}
-        \Delta^{\Delta \ell} &\le \exp\left(\Delta\left(1 + \frac{3 - \log{\varepsilon}}{-\log\left(1 - (1 + r^2)^{-2\Delta}\right)}\right) \log{\Delta}\right) \\
-        \mbox{($-\log(1 - 1/x) \le 1/x$ for $x > 1$)} \quad
-        &\le \exp\left(\Delta \log{\Delta} \left(1 + (3 - \log{\epsilon}) (1 + r^2)^{2\Delta}\right)\right) \\
-        &= \varepsilon^{-\poly((1 + r^2)^\Delta)}.
+        r^i_1 \left(1 - \left(1 - B^2\right)^{\ell}\right)\le R_{\Phi}(e_\bot) \le \frac{r^i_1+r^i_2}{2}\left(1 - \left(1 - B^2\right)^{\ell}\right)^{-1},\\
+        \frac{r^i_1+r^i_2}{2} \left(1 - \left(1 - B^2\right)^{\ell}\right)\le R_{\Phi}(e_\bot) \le r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right)^{-1}
     \end{align*}
-    % where $C_1(\Delta, r), C_2(\Delta, r)$ are functions on $\Delta, r$ defined as
-    % \begin{align*}
-    %     C_1(\Delta, r) &= \Delta \log{\Delta} \left(1 + \frac{3 + \log{r}}{-\log\left(1 - (1 + r^2)^{-2\Delta}\right)}\right) \le \left(1 + (3 + \log{r})(1 + r^2)^{2\Delta}\right) \Delta \log{\Delta},\\
-    %     C_2(\Delta, r) &= \frac{\Delta \log \Delta}{-\log\left(1 - (1 + r^2)^{-2\Delta}\right)} \le (1 + r^2)^{2\Delta} \Delta \log{\Delta}
-    % \end{align*}
-    % where the inequalities follow from the inequality $-\log{\left(1 - \frac{1}{x}\right)} \le \frac{1}{x}$ for $x > 1$.
-    \zdnew{Then by~\Cref{lem:building-cost-of-LP}, the running time of the marginal estimator is $O\left(r\log{\varepsilon^{-1}} \cdot \poly\left(\varepsilon^{-\poly\left((1 + r^2)^\Delta\right)}\right)\right) = \varepsilon^{-\poly\left((1 + r^2)^\Delta\right)}$.}
+    Combined with $\wh{R} = (r^i_1+r^i_2)/2$, we have
+    \begin{align}\label{eq-rhat-rphi-relation}
+        \wh{R} \left(1 - \left(1 - B^2\right)^{\ell}\right)\le R_{\Phi}(e_\bot) \le \wh{R}\left(1 - \left(1 - B^2\right)^{\ell}\right)^{-1}.
+    \end{align}
+    If $r^i_1 \geq r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right)$, 
+    we have 
+    \[r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right)\leq \frac{r^i_1+r^i_2}{2} \leq r^i_1 \left(1 - \left(1 - B^2\right)^{\ell}\right)^{-1}.\]
+    Combined with $r^i_1 \leq R_\Phi(e_\bot) \leq r^i_2$ and $\wh{R} = (r^i_1+r^i_2)/2$, we also have \eqref{eq-rhat-rphi-relation}.
+    Moreover, by \eqref{eq-def-ell} one can verify  
+    \begin{equation}
+    \begin{aligned}
+    \left(1 - \left(1 - B^2\right)^{\ell}\right) \geq 1 - \varepsilon/2
+    \end{aligned}
+    \end{equation}
+    Combined with \eqref{eq-rhat-rphi-relation},
+    we have 
+    $$
+        (1 - \varepsilon) R_{\Phi}(e_\bot) \le \wh{R} \le (1 + \varepsilon) R_{\Phi}(e_\bot).
+    $$
+    
+    Now we turn to the running time of the algorithm. 
+    Recall the definition of $B$ in \eqref{eq-def-bmin}.
+    One can verify that $B$ and $\ell$ can be calculated within time $O(\abs{V(G)}\cdot 2^{\Delta})$.
+    Recall that if $r^i_1 \geq r^i_2\left(1 - \left(1 - B^2\right)^{\ell}\right) = r^i_2(1 - \varepsilon/2)$, the binary search stops.
+    Then one can verify that the binary search runs for at most $O(\log \frac{2}{\varepsilon}) =  O(\log \frac{1}{\varepsilon})$ rounds. 
+    For each round of the binary search, by \Cref{lem:building-cost-of-LP} we have the time cost is $\poly\left(\Delta^{\Delta \ell}\right)$.
+    Meanwhile, we have
+    \begin{align*}
+        &\Delta^{\Delta \ell} \\
+    \left(\text{by \eqref{eq-def-ell}}\right)\quad   \le &\exp\left(\Delta \log{\Delta} \left(1 + \frac{\log{\varepsilon} - \log 2}{\log\left(1 - B^2\right)}\right)\right) \\
+        (\mbox{by $\log{(1 - x)} \leq  -x$ for $x\in (0,1)$}) \quad
+        \le & \exp\left(\Delta \log{\Delta} \left(1 + (\log 2 - \log{\varepsilon}) B^{-2}\right)\right) \\
+        &= \varepsilon^{-\poly(\Delta, 1/B)}.
+    \end{align*}
+    Hence, the total cost of the algorithm is 
+    \[O\left(2^{\Delta}\abs{V(G)} +\log \frac{1}{\varepsilon} \cdot \poly\left(\Delta^{\Delta \ell}\right)\right) = O\left(2^{\Delta}\abs{V(G)} +\log \frac{1}{\varepsilon} \cdot \varepsilon^{-\poly(\Delta, 1/B)}\right) = \abs{V(G)}\cdot\varepsilon^{-\poly(\Delta, 1/B)}.\]
+    The theorem is proved.
 \end{proof}
 
 Now we can prove \Cref{thm:Holant-marginal-ratio-estimator}.
@@ -2032,14 +1888,18 @@ Now we can prove \Cref{thm:Holant-marginal-ratio-estimator}.
     \item By $f_u(1)>0$, we have $f_u^{(1)}(i) >0$. Combined with  $\Phi = (G,\vecf)$ satisfies~\Cref{cond:Holant-condition}, one can verify that $\left(\Phi^{(1)},(e_v\leftarrow 1),(e_v\leftarrow 0),v\right)$ satisfies~\Cref{cond-instancepair}.
     Similarly, we have $\left(\Phi^{(2)},(e_u\leftarrow 1),(e_u\leftarrow 0),u\right)$ satisfies~\Cref{cond-instancepair};
     % $\Phi = (G,\vecf)$ satisfies~\Cref{cond:Holant-condition}, one can verify that both $\left(\Phi^{(1)},(e_v\leftarrow 1),(e_v\leftarrow 0),v\right)$ and \\$\left(\Phi^{(2)},(e_u\leftarrow 1),(e_u\leftarrow 0),u\right)$ satisfy~\Cref{cond-instancepair};
-    \item Recall the definition of $r_{\max}$ in \eqref{eq-def-rmax}. We have 
+    \item Recall the definitions of $r_{\max}$ in \eqref{eq-def-rmax} and $B$ in \eqref{eq-def-bmin}. We have 
     \[r_{\max}(\Phi^{(1)}) = \max_{w \in V} \frac{f^{(1)}_w(1)}{f^{(1)}_w(0)} = \max\left\{\max_{w\neq v} \frac{f_w(1)}{f_w(0)},\frac{f_u(2)}{f_u(1)}\right\} \leq \max\left\{\max_{w\neq v} \frac{f_w(1)}{f_w(0)},\frac{f_u(1)}{f_u(0)}\right\} = r_{\max}(\Phi),\]
     where the inequality is by $f_u$ is log-concave.
+    By \eqref{eq:local-polynomial}, we have 
+    $P_{f_v}(r_{\max})$
+
+    
     Similarly, we also have $r_{\max}(\Phi^{(2)}) \le r_{\max}(\Phi)$. 
     \end{itemize}
     Set $\varepsilon_1 = \varepsilon_2 = \varepsilon/3$.
     Combined these properties with \Cref{thm:LP-ratio-estimator}, we have that $\wh{R}_1$ can be obtained within time 
-    \[\qgl{O\left(\abs{V} \cdot \varepsilon_1^{-\poly(\Delta(G^{(1)}),r_{\max}(\Phi^{(1)}))}\right) = O\left(\abs{V} \cdot \varepsilon^{-\poly(\Delta(G),r_{\max}(\Phi))}\right),}\]
+    \[\qgl{O\left(\varepsilon_1^{-\poly\left(\Delta(G^{(1)}),1/B\left(\Phi^{(1)}\right)\right)}\right) = O\left(\abs{V} \cdot \varepsilon^{-\poly(\Delta(G),r_{\max}(\Phi))}\right),}\]
     where 
     \begin{align}\label{eq-rhat1}
         (1 - \varepsilon')R_{\Phi^{(1)}}(e_v) \leq \wh{R}_1 \leq (1 + \varepsilon')R_{\Phi^{(1)}}(e_v), 
@@ -2202,30 +2062,62 @@ Now we can prove \Cref{thm:Holant-marginal-ratio-estimator}.
 Now we give our deterministic algorithm to approximately count the partition function of instances satisfying~\Cref{cond:Holant-condition} via the marginal ratio estimator in~\Cref{thm:Holant-marginal-ratio-estimator}.
 
 \begin{proof}[Proof of~\Cref{thm:counting-Holant}]
-    Without loss of generality, assume that $\varepsilon < 1/4$. For the Holant instance $\Phi = (G = (V, E), \vecf)$, recall that we order $E$ as $E = e_1, \ldots, e_m$ where $m = \abs{E}$. For every $1 \le i \le m + 1$, define $G_i = (V, E_i)$ where $E_i = E \setminus \set{e_1, \ldots, e_{i - 1}}$. We remark here that $G_1 = G$ and $G_{m + 1} = (V, \emptyset)$. Then we define the Holant instance $\Phi_i = (G_i, \vecf)$ for every $i \in [m]$. Obviously $(\Phi_i, \Delta, r)$ satisfies~\Cref{cond:Holant-condition} for every $i \in [m]$. Then,
-    \begin{align*}
+    Without loss of generality, assume that $\varepsilon < 1/4$, $\abs{E} = m$ and $E = \{E = e_1, \ldots, e_m\}$. For each $ i \in [m + 1]$, define $G_i \triangleq (V, E_i)$ where $E_i = E \setminus \set{e_1, \ldots, e_{i - 1}}$ 
+    and $\Phi_i \triangleq (G_i, \vecf)$. We remark that $G_1 = G$, $G_{m + 1} = (V, \emptyset)$ and $\Delta(G_i)\leq \Delta(G)$ for each $i\in [m+1]$.     
+    By $\Phi$ satisfies~\Cref{cond:Holant-condition}, we also have 
+    $\Phi_i$ satisfies~\Cref{cond:Holant-condition} for each $i \in [m+1]$. 
+    Thus, we have 
+    \begin{equation}
+    \begin{aligned}\label{eq-z-decompose}
         Z_{\Phi} &= Z_{\Phi}^{e_1 \gets 0} + Z_{\Phi}^{e_1 \gets 1} \\
-        &= \left(1 + R_{\Phi}(e_1)\right) Z_{\Phi}^{e_1 \gets 0} \\
-        &= \left(1 + R_{\Phi_1}(e_1)\right) Z_{\Phi_2} \\
+\left(\text{by \eqref{def-rphie}}\right) \quad       &= \left(1 + R_{\Phi}(e_1)\right) Z_{\Phi}^{e_1 \gets 0} \\
+\left(\text{by definitions of $\Phi_1,\Phi_2$}\right) \quad        &= \left(1 + R_{\Phi_1}(e_1)\right) Z_{\Phi_2} \\
         &= \left(1 + R_{\Phi_1}(e_1)\right) \left(Z_{\Phi_2}^{e_2 \gets 0} + Z_{\Phi_2}^{e_2 \gets 1}\right) \\
-        &= \left(1 + R_{\Phi_1}(e_1)\right) \left(1 + R_{\Phi_2}(e_2)\right) Z_{\Phi_3} \\
+\left(\text{by \eqref{def-rphie}}\right) \quad        &= \left(1 + R_{\Phi_1}(e_1)\right) \left(1 + R_{\Phi_2}(e_2)\right) Z_{\Phi_2}^{e_2 \gets 0} \\
+\left(\text{by definitions of $\Phi_2,\Phi_2$}\right) \quad         &= \left(1 + R_{\Phi_1}(e_1)\right) \left(1 + R_{\Phi_2}(e_2)\right) Z_{\Phi_3} \\
         &= \cdots \\
         &= Z_{\Phi_{m + 1}}\prod_{i = 1}^{m} \left(1 + R_{\Phi_i}(e_i)\right) \\
-        &= \prod_{v \in V} f_v(0) \prod_{i = 1}^{m} \left(1 + R_{\Phi_i}(e_i)\right)
-    \end{align*}
-    where the last identity holds from the fact that $E_{m + 1} = \emptyset$. For every $1 \le i \le m$, we run the marginal ratio estimator $\+A$ in~\Cref{thm:Holant-marginal-ratio-estimator} with tolerance error $\varepsilon/(2m)$ on input $\Phi_i, e_i$ to obtain an $\varepsilon/(2m)$-approximation $\wh{R}_i$ to $R_{\Phi_i}(e_i)$. Let $\wh{Z} = \prod_{v \in V} f_v(0) \prod_{i = 1}^{m} (1 + \wh{R}_i)$. Then it holds that
-    \begin{gather*}
-        \frac{\wh{Z}}{Z_\Phi} \ge \prod_{i = 1}^{m} \frac{1 + (1 - \varepsilon/(2m)) R_{\Phi_i}(e_i)}{1 + R_{\Phi_i}(e_i)} \ge (1 - \varepsilon/(2m))^m \ge 1 - \varepsilon, \\
-        \frac{\wh{Z}}{Z_\Phi} \le \prod_{i = 1}^{m} \frac{1 + (1 + \varepsilon/(2m)) R_{\Phi_i}(e_i)}{1 + R_{\Phi_i}(e_i)} \le (1 + \varepsilon/(2m))^m \le 1 + \varepsilon.
-    \end{gather*}
-    Here we use inequalities $(1 - x)^{n} \ge 1 - nx$ and $(1 + x/(2n))^n \le e^{x/2} \le 1 + x$ for $0 \le x \le 1$ and $n \in \mathbb{N}$. This means that $\wh{Z}$ is an $\varepsilon$-approximation to $Z_{\Phi}$.
+\left(\text{by $E_{m + 1} = \emptyset$}\right) \quad        &= \prod_{v \in V} f_v(0) \prod_{i = 1}^{m} \left(1 + R_{\Phi_i}(e_i)\right).
+    \end{aligned} 
+    \end{equation}
+For each $1 \le i \le m$, we run the algorithm $\+A$ in~\Cref{thm:Holant-marginal-ratio-estimator} with tolerance error $\varepsilon/(2m)$ on the input $\Phi_i, e_i$ to obtain an $\wh{R}_i$
+where 
+\begin{align}\label{eq-condition-ri}
+(1-\varepsilon/(2m))R_{\Phi_i}(e_i) \leq \wh{R}_i \leq (1+\varepsilon/(2m))R_{\Phi_i}(e_i).
+\end{align}
+Define 
+\begin{align}\label{eq-def-z}
+\wh{Z} \triangleq \prod_{v \in V} f_v(0) \prod_{i = 1}^{m} (1 + \wh{R}_i).
+\end{align}
+Thus, we have 
+ \begin{align*}
+    &\frac{\wh{Z}}{Z_\Phi} \\
+\left(\text{by \eqref{eq-z-decompose} and \eqref{eq-def-z}}\right)\quad    = &\prod_{i = 1}^{m} \left( \frac{1 + \wh{R}_i}{1 + R_{\Phi_i}(e_i)}\right)\\ 
+\left(\text{by \eqref{eq-condition-ri}}\right)\quad    \ge &\prod_{i = 1}^{m}  \left( \frac{1+(1-\varepsilon/(2m))R_{\Phi_i}(e_i) }{1 + R_{\Phi_i}(e_i)}\right)\\
+ \ge &\prod_{i = 1}^{m} \left(1- \frac{\varepsilon\cdot R_{\Phi_i}(e_i)}{2m(1 + R_{\Phi_i}(e_i))}\right)\\ 
+  \ge &\prod_{i = 1}^{m} \left(1- \frac{\varepsilon}{2m}\right)\\
+\left(\text{by $\varepsilon\in (0,1/4)$}\right)\quad   \ge & 1 - \varepsilon.
+\end{align*}
+Similarly, we also have 
+\begin{align*}
+     &\frac{\wh{Z}}{Z_\Phi} \\
+\left(\text{by \eqref{eq-z-decompose} and \eqref{eq-def-z}}\right)\quad    = &\prod_{i = 1}^{m} \left( \frac{1 + \wh{R}_i}{1 + R_{\Phi_i}(e_i)}\right)\\ 
+\left(\text{by \eqref{eq-condition-ri}}\right)\quad    \leq &\prod_{i = 1}^{m}  \left( \frac{1+(1+\varepsilon/(2m))R_{\Phi_i}(e_i) }{1 + R_{\Phi_i}(e_i)}\right)
+\\ \leq &\prod_{i = 1}^{m} \left(1+ \frac{\varepsilon\cdot R_{\Phi_i}(e_i)}{2m(1 + R_{\Phi_i}(e_i))}\right)\\ 
+\leq&\prod_{i = 1}^{m} \left(1+ \frac{\varepsilon}{2m}\right) \\
+\left(\text{by $\varepsilon\in (0,1/4)$}\right)\quad\le& 1 + \varepsilon.
+\end{align*}
 
-    For the running time, firstly we can obtain $\prod_{v \in V} f_v(0)$ in time $O(\abs{V})$. For every $i \in [m]$, by~\Cref{thm:Holant-marginal-ratio-estimator} on input $\Phi_i, e_i$ with tolerance error $\varepsilon/(2m)$, we can obtain $\wh{R}_i$ in time $\poly\left((m/\varepsilon)^{C(\Delta, r)}\right)$ where the coefficients of the polynomial and $C(\Delta, r)$ depend only on $\Delta$ and $r$. Hence we can calculate $\wh{Z}$ in time $\poly\left((m/\varepsilon)^{C(\Delta, r)}\right)$. Then we finish the proof.
+Now we turn to the running time of the algorithm.
+Firstly we can obtain $\prod_{v \in V} f_v(0)$ in time $O(\abs{V})$. For every $i \in [m]$, by~\Cref{thm:Holant-marginal-ratio-estimator}, we can obtain $\wh{R}_i$ in time \hktodo{$\poly\left((m/\varepsilon)^{C(\Delta, r)}\right)\leq $}. Hence we can calculate $\wh{Z}$ in time \hktodo{$\poly\left((m/\varepsilon)^{C(\Delta, r)}\right)$}. 
+The theorem is proved.
 \end{proof}
 
 The algorithm for counting $b$-matchings comes directly from~\Cref{thm:counting-Holant}.
+
+\hktodo{the proof here}
 \begin{proof}[Proof of~\Cref{thm:counting-b-matchings}]
-    For a graph $G = (V, E)$ with maximum degree $\le \Delta$ and every positive integer $b \le \Delta$, we view $b$-matchings as a Holant instance $\Phi_{G, b} = (G, \vecf)$. Formally speaking, we associate every $v \in V$ with $f_v$ defined as $f_v(i) = \id{i \le b}$ for every $0 \le i \le \Delta$. By definition, the instance $\left(\Phi_{G, b}, \Delta, 1\right)$ satisfies~\Cref{cond:Holant-condition}. Applying~\Cref{thm:counting-Holant} on input $\Phi_{G, b}$ with tolerance error $\varepsilon$, we obtain an $\varepsilon$-approximation to $\abs{\Omega_{G, b}}$ in time $\poly\left((\abs{E} \cdot \varepsilon^{-1})^{C}\right)$ where $C$ depends only on $\Delta$.
+    For any graph $G = (V, E)$ and any positive integer $b \le \Delta(G)$, we view $b$-matchings as a Holant instance $\Phi_{G, b} = (G, \vecf)$. Formally speaking, we associate every $v \in V$ with $f_v$ defined as $f_v(i) = \id{i \le b}$ for every $0 \le i \le \Delta$. By definition, the instance $\left(\Phi_{G, b}, \Delta, 1\right)$ satisfies~\Cref{cond:Holant-condition}. Applying~\Cref{thm:counting-Holant} on input $\Phi_{G, b}$ with tolerance error $\varepsilon$, we obtain an $\varepsilon$-approximation to $\abs{\Omega_{G, b}}$ in time $\poly\left((\abs{E} \cdot \varepsilon^{-1})^{C}\right)$ where $C$ depends only on $\Delta$.
 \end{proof}
 
 \section{Counterexample}
@@ -2312,7 +2204,7 @@ meaning that there exists an instance $(\Phi, \sigma, \tau, v)$ and an edge $e \
 
 \section{Proofs for Properties of Holant Instances} \label{sec:proof-Holant-properties}
 
-Now we complete the deferred proofs for properties of Holant instances. Recall that $\Phi = (G = (V, E), \vecf = \set{f_v})$ is a binary symmetric log-concave Holant instance with $f_v(0) > 0$ for all $v \in V$ and $\mu = \mu_\Phi$ is its Gibbs distribution.
+Now we complete the deferred proofs for properties of Holant instances. Recall that $\Phi = (G = (V, E = E_1 \cup E_2), \vecf = \set{f_v})$ is a binary symmetric log-concave Holant instance satisfying~\Cref{cond:Holant-condition} and $\mu = \mu_\Phi$ is its Gibbs distribution.
 
 \subsection{Feasibility of partial assignments}
 
@@ -2502,6 +2394,117 @@ This completes the induction step.
 Then \eqref{eq-def-trp-perperty-sigma-delete-vt} is proved and the lemma is immediate.
 \end{proof}
 
+
+\PropertyTruncateTree*
+
+\begin{proof}
+    \underline{Proof of (1).} By \Cref{def:truncated-coupling-tree},  each infeasible node is a leaf in $\+T$.
+    Formally, $V(\+T) \setminus \+V \subseteq \+L$.
+    Thus,  $V(\+T) \setminus \+L \subseteq \+V$.
+    Therefore, $V(\+T) \setminus \+L \subseteq \+V\setminus \+L$.
+    Combined with $\+V\subseteq V(\+T)$, we have $V(\+T) \setminus \+L = \+V\setminus \+L$.
+    \vspace{0.2cm}
+    
+    \underline{Proof of (2).} 
+    Let $(\sigma_0,\tau_0,\seqS_0,v_0,L_0),\cdots,(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$ be a path from the root to any leaf in $\+T$, where $(\sigma_0,\tau_0,\seqS_0,v_0,L_0)$ is the root $(\sigma_\bot, \tau_\bot, \varnothing, v_\bot, 0)$ and $(\sigma_t,\tau_t,\seqS_t,v_t,L_t)$ is the leaf.
+    At first, we prove the bound on the depth of $\+T$.
+    According to ~\Cref{def:truncated-coupling-tree}, for each $0\leq i <t$, one can verify that either $L_{i+1}= L_{i} + 1$ or the following holds:
+    \[L_{i+1} = L_{i}, v_{i+1} = v_{i}, \Lambda(\sigma_{i+1}) = \Lambda(\sigma_{i})\cup \{e_{i+1}\}, e_{i}\in \Lambda(\sigma_{i}) \text{ for some } e_{i}\in E_{v_i},e_{i+1}\in E^{\sigma_i}_{v_i}.\]
+    Thus, for any $j>i$ where $L_j = L_i$, by induction
+    one can verify that  
+    $\Lambda(\sigma_{j}) = \Lambda(\sigma_{i})\cup S$ where $\abs{S} = j-i$ and $S\subseteq E^{\sigma_i}_{v_i}$. 
+    In addition, by $E^{\sigma_i}_{v_i}\subseteq E_{v_i} \setminus \{e_i\}$, we have $\abs{E^{\sigma_i}_{v_i}}\leq \abs{E_{v_i}\setminus \{e_i\}} = \Delta - 1$.
+    Thus, we have $j - i= \abs{S} \leq \Delta - 1$.
+    Therefore, $j\leq i+\Delta - 1$.
+    Thus, for each $0\leq i <t$ and each $i+\Delta \leq k\leq t$, we have $L_{k}>L_{i}$.
+    Therefore, $L_{t}\geq 0 + \lfloor t/\Delta\rfloor$.
+    In addition, by ~\Cref{def:truncated-coupling-tree} we have $L_t\leq \ell$.
+    Thus, we have $t\leq \Delta\ell$.
+    Therefore, the depth of $\+T$ is no more than $\Delta\ell$.
+
+    Now we prove the conclusion $\abs{\Lambda(\sigma)} = \abs{\Lambda(\tau)} \leq \Delta \ell + 1$ for each node $(\sigma,\tau,\seqS,v,L)\in \+T$.
+    By $\abs{\Lambda(\sigma_{0})} = 1$ and $\abs{\Lambda(\sigma_{i+1})} = \abs{\Lambda(\sigma_{i})} + 1$ for each 
+    $0\leq i <t \leq \Delta\ell$, we have $\abs{\Lambda(\sigma_{i+1})} \leq \Delta\ell + 1$.
+    Combined with \Cref{condition-sigma-tau},
+    we also have $\abs{\Lambda(\tau_{i+1})} = \abs{\Lambda(\sigma_{i+1})} \leq \Delta\ell + 1$. 
+    The conclusion is proved.
+
+    
+    In the next, we prove the bound on the degree of $\+T$.
+    For each $0\leq i <t$, assume \emph{w.l.o.g.} ${\!{Ham}\left(\sigma_i,{E_{v_i}}\right)}<{\!{Ham}\left(\tau_i,{E_{v_i}}\right)}$.
+    According to ~\Cref{def:truncated-coupling-tree},     
+    one can verify that there exists some $e\in E^{\sigma_i}_{v_i}$ such that
+    \[\seqS_{i+1} = \seqS_{i}\circ e, (\sigma_{i+1},\tau_{i+1})\in \{(\sigma_i\land(e\leftarrow 0),\tau_i\land(e\leftarrow 0)),(\sigma_i\land(e\leftarrow 1),\tau_i\land(e\leftarrow 0)),(\sigma_i\land(e\leftarrow 1),\tau_i\land(e\leftarrow 1))\}.\]
+    Moreover, by \Cref{condition-sigma-tau} we have $v_{i+1} = v(\sigma_{i+1},\tau_{i+1})$ and
+    $L_{i+1} = L(\sigma_{i+1},\tau_{i+1})$.
+    Thus, by $\abs{E^{\sigma_i}_{v_i}}\leq \abs{E_{v_i}}\leq \Delta$, we have $(\sigma_{i+1},\tau_{i+1},\seqS_{i+1},v_{i+1},L_{i+1})$ has at most $3\Delta$ possibilities for each fixed  $(\sigma_{i},\tau_{i},\seqS_{i},v_{i},L_{i})$.
+    Therefore, the degree of $\+T$ is no more than $3\Delta$.
+    
+    Finally, $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$ is immediate by the depth of $\+T$ is at most $\Delta \ell$ and the degree is at most $3\Delta$.
+ 
+    \vspace{0.2cm}
+    \underline{Proof of (3).} For each node $(\sigma, \tau, \seqS,v,L) \in \+L_{\!{good}}\cap \+V$, 
+    define a mapping $g:\left\{x\mid x\in \sigma\right\}\rightarrow \{0,1\}^E$ as follows.
+    For every $x \in \sigma$, 
+    \begin{align}\label{eq-def-g}
+        (g(x))(e) \triangleq \begin{cases}
+            \tau(e) & e \in \Lambda(\tau) \\
+             x(e)& \mbox{otherwise}
+        \end{cases}\;.
+    \end{align}
+    % By \Cref{condition-sigma-tau}, we have $\Lambda(\sigma) = \Lambda(\tau)$. Thus, one can verify that $(g(x))(e)$ is well-defined. 
+    % Moreover, 
+    We claim that $g(\cdot)$ is a bijection between $\left\{x\mid x\in\sigma\right\}$ and $\left\{y\mid x\in\tau\right\}$.
+    Because for each $x\in \sigma$, by \eqref{eq-def-g} we have $g(x)\in \tau$.
+    In addition, by \Cref{condition-sigma-tau} we have $\Lambda(\sigma) = \Lambda(\tau)$. 
+    Thus, one can also verify that for each $y\in \tau$, there exists a unique $x\in \sigma$ such that $g(x) = y$.  
+
+    By \Cref{condition-sigma-tau}, we have $\abs{\sigma(E_u)} = \Ham(\sigma, E_u) = \Ham(\tau, E_u) = \abs{\tau(E_u)}$ for each $u \in V \setminus \set{v}$.
+     Thus, we have
+     \begin{equation*}
+      \begin{aligned}\label{eq-xemu-eq-gxemu}
+   & \abs{x(E_u)} \\
+\left(\text{by $x\in \sigma$}\right) \quad   = &\abs{\sigma(E_u)} + \sum_{e\in E_u\setminus \Lambda(\sigma)}x(e) \\
+\left(\text{by $\abs{\sigma(E_u)} = \abs{\tau(E_u)}, \Lambda(\sigma) = \Lambda(\tau)$}\right) \quad  = & \abs{\tau(E_u)} + \sum_{e\in E_u\setminus \Lambda(\tau)}x(e) \\
+\left(\text{by \eqref{eq-def-g}}\right) \quad  = & \abs{(g(x))(E_u)}.
+    \end{aligned}
+    \end{equation*}
+    Therefore, we have 
+    \begin{align}\label{eq-mapping-g}
+            \sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{x ({E_u})}\right)            =\sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{(g(x))({E_u})}\right)
+            =\sum_{y\in \tau} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{y({E_u})}\right),
+        \end{align}
+    where the last equality is by that $g(\cdot)$ is a bijection between $\left\{x\mid x\in \sigma\right\}$ and $\left\{y\mid y\in \tau\right\}$.
+    
+    Meanwhile, by $(\sigma, \tau, \seqS,v,L) \in \+L_{\!{good}}\cap \+V$, 
+    we have $L<\ell$ and $(\sigma, \tau, \seqS,v,L)$ is a feasible leaf in $\+T$.
+    Combing with \Cref{def:truncated-coupling-tree},
+    we have $E_v^{\sigma} = \emptyset$. 
+    Therefore, $x(E_v) = \sigma(E_v)$ for each $x\in \sigma$.
+    Thus, by \eqref{def-holant-mu} we have
+    \begin{equation}\label{eq-z-mu-sigma}
+    \begin{aligned}
+        Z\cdot \mu(\sigma)&= \sum_{x\in \sigma} \prod_{u \in V} f_u\left(\abs{x ({E_u})}\right)=\sum_{x\in \sigma} f_v\left(\abs{x ({E_v})}\right)\prod_{u \in V\setminus v} f_u\left(\abs{x ({E_u})}\right)\\
+        &=f_v\left(\abs{\sigma ({E_v})}\right)\sum_{x\in \sigma} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{x ({E_u})}\right).
+    \end{aligned}
+    \end{equation}
+    Similarly, by $E_v^{\sigma} = \emptyset$ and $\Lambda(\sigma) = \Lambda(\tau)$, we have $E_v^{\tau} = \emptyset$. 
+    Therefore, $y(E_v) = \tau(E_v)$ for each $y\in \tau$.
+    Thus, by \eqref{def-holant-mu} we have 
+    \begin{equation}\label{eq-z-mu-tau}
+      \begin{aligned}
+        Z\cdot\mu(\tau)&= \sum_{y\in \tau} \prod_{u \in V} f_u\left(\abs{y ({E_u})}\right)=\sum_{y\in \tau} f_v\left(\abs{y ({E_v})}\right)\prod_{u \in V\setminus v} f_u\left(\abs{y ({E_u})}\right)\\
+        &=f_v\left(\abs{\tau ({E_v})}\right)\sum_{y\in \tau} \prod_{u \in V\setminus \{v\}} f_u\left(\abs{y ({E_u})}\right).
+    \end{aligned}
+    \end{equation}
+    Moreover, recall that $(\sigma,\tau,\seqS,v,L)$ is feasible.
+    We have $\mu(\sigma)>0$. Combined with \eqref{eq-mapping-g}, \eqref{eq-z-mu-sigma} and \eqref{eq-z-mu-tau}, we have
+    $$
+        \frac{\mu(\tau)}{\mu(\sigma)} =  \frac{f_v\left(\abs{\tau(E_v)}\right)}{f_v\left(\abs{\sigma({E_v})}\right)}.
+    $$
+\end{proof}
+
+
 \LinearConstraints*
 \begin{proof}
 \underline{Proof of (1).} 
@@ -2666,6 +2669,53 @@ Then \eqref{eq-def-trp-perperty-sigma-delete-vt} is proved and the lemma is imme
 \begin{align*}
     p^{\tau}_{\sigma, \tau, \seqS} \cdot \frac{\mu_{e_{\bot}}(1)}{\mu_{e_{\bot}}(0)}\cdot \frac{ \mu(\tau)}{ \mu(\sigma)} = \frac{\Pr[\!{cp}]{(\sigma, \tau, \seqS)}\cdot\mu_{e_{\bot}}(1)\cdot\mu(\tau)}{\mu^{\tau_{\bot}}_{\seqS}(\tau)\cdot\mu_{e_{\bot}}(0) \cdot\mu(\sigma)}= \frac{\Pr[\!{cp}]{(\sigma, \tau, \seqS)}\cdot\mu_{e_{\bot}(1)}}{\mu(\sigma)}= \frac{\Pr[\!{cp}]{(\sigma,\tau, \seqS)}}{\mu^{\sigma_{\bot}}_{\seqS}(\sigma)}= p^{\sigma}_{\sigma, \tau, \seqS}.
 \end{align*}
+\end{proof}
+
+
+\BuildingCost*
+\begin{proof}
+    To prove this lemma, it is sufficient to show that the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. 
+    Thus, the total number of variables and constraints in the LP is no more than $\poly\left(\Delta^{\Delta \ell}\right)$.
+    Therefore, the feasibility of the LP can be checked in time $\poly\left(\Delta^{\Delta \ell}\right)$, because LP has polynomial-time algorithms.
+
+    In the following, we show the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. 
+    By \Cref{lem:partial-assignment-feasibility},
+    the feasibility of each node $(\sigma,\tau,\seqS)\in V(\+T)$ can be checked within time $O(\abs{\Lambda(\sigma)}+\abs{\Lambda(\tau)})$.
+    Combined with Item~\eqref{item:CT-property-size} in~\Cref{prop:property-of-truncated-tree}, we have 
+    $O(\abs{\Lambda(\sigma)}+\abs{\Lambda(\tau)})\leq O(\Delta\ell)$.
+    Thus, the feasibility of each node in $\+T$ can be checked within time $O(\Delta\ell)$.
+    In addition, by Item~\eqref{item:CT-property-size} of~\Cref{prop:property-of-truncated-tree}, 
+    we have $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$.
+    Thus, by \Cref{def:truncated-coupling-tree}, $\+T$ can be constructed within cost $O\left(\Delta \ell \cdot \BuildTime\right) = \BuildTime$,
+    where the term $\Delta \ell$ is due to the cost of checking the feasibility of a node, and the term
+    $\BuildTime$ is due to the size of $\+T$.
+    In the process of constructing $\+T$,
+    one can also obtain the set $V(\+T),\+V,\+L$ and $\+L_{\good}$.
+    
+    % we can build the $\ell$-truncated coupling tree in time $\BuildTime$ and the feasibility of each $(\sigma, \tau, \seqS)$ can be checked in time $O(\abs{\seqS}) = O(\Delta \ell)$. Then the sets $\+V, \+L$ and $\+L_{\good}$ with $\+T$ can be obtained in time $O\left(\Delta \ell \cdot \BuildTime\right) = \BuildTime$.
+
+    Note that the number of variables in the LP is no more than $4\abs{V(\+T)}$, because each pair of variables $\widehat{p}_{\sigma, \tau, \seqS}^{\sigma}$ and $\widehat{p}_{\sigma, \tau, \seqS}^{\tau}$ are corresponding to a node $(\sigma,\tau,\seqS)\in V(\+T)$,
+    and each pair of variables $\widehat{p}_{\sigma,\tau,\seqS,e}^{\sigma}$ and $\widehat{p}_{\sigma,\tau,\seqS,e}^{\tau}$ where $e\in E_{v(\sigma,\tau)}^{\sigma}$
+    are corresponding to a node $(\sigma\land(e\leftarrow 0),\tau\land(e\leftarrow 0),\seqS\circ e)\in V(\+T)$.
+    Combined with $\abs{V(\+T)}\leq \left(3\Delta\right)^{\Delta \ell + 1}$, we have
+    Constraint~\ref{item-first-LP} can be constructed in time $\BuildTime$.
+    Similarly, one can also verify that Constraints~\ref{item-second-LP}, \ref{item-third-LP} and \ref{item-sixth-LP} can be constructed in time $\BuildTime$.
+    Now we turn to Constraint~\ref{item-forth-LP}.
+    For any $(\sigma, \tau, \seqS) \in \+L_{\!{good}} \cap \+V$, by Item~\eqref{item:CT-property-ratio} in~\Cref{prop:property-of-truncated-tree}, 
+    we have $\mu(\tau)/\mu(\sigma) = f_v\left(\abs{\tau(E_v)}\right)/f_v\left(\abs{\sigma(E_v)}\right)$.
+    Thus, one can verify that $\mu(\tau)/\mu(\sigma)$ can be calculated in time $O(\abs{E_v}) = O(\Delta)$.
+    Thus Constraint~\ref{item-forth-LP} can be constructed in time 
+    $O(\Delta)\cdot \abs{V(\+T)} = \poly\left(\Delta^{\Delta \ell}\right)$.
+    At last, we consider Constraint~\ref{item-fifth-LP}.
+    For each node $(\sigma,\tau,\seqS)\in \+V\setminus\+L$, we claim that the set $\+D(\sigma,\tau,\seqS)$ can be constructed in time $O(\Delta\ell\cdot V(\+T)) = \poly\left(\Delta^{\Delta \ell}\right)$. 
+    Thus, Constraints~\ref{item-fifth-LP} can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)\cdot \poly\left(\Delta^{\Delta \ell}\right) = \poly\left(\Delta^{\Delta \ell}\right)$.
+    In the following, we prove the claim that $\+D(\sigma,\tau,\seqS)$ can be constructed in time $O(\Delta\ell\cdot V(\+T))$.
+    Note that $\+D(\sigma,\tau,\seqS)\subseteq V(\+T)$.
+    In addition, for each $(\sigma',\tau',\seqS')\in V(\+T)$,
+    by \Cref{def-notation-v-tct} and Item~\eqref{item:CT-property-size} in~\Cref{prop:property-of-truncated-tree}, one can check whether $(\sigma',\tau',\seqS')\in \+D(\sigma,\tau,\seqS)$ within time $O(\Lambda(\sigma) + \Lambda(\tau) + \Lambda(\sigma') + \Lambda(\tau') + 2\Delta) = O(\Delta\ell)$.
+    Therefore, the time cost for constructing $\+D(\sigma,\tau,\seqS)$ is $O(\Delta\ell\cdot V(\+T))$.
+    In summary, the LP can be constructed in time $\poly\left(\Delta^{\Delta \ell}\right)$. The lemma is proved.
+    
 \end{proof}
 
 \end{document}
