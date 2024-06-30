@@ -1436,8 +1436,8 @@ The lemma is proved.
 
 We show that a feasible solution to the LP provides both upper and lower bounds for $R_{\Phi}(e_\bot)$.
 
-\hktodo{use $B$ not $B$ here}
-\hktodo{change all $B$ to $B$}
+\hktodo{use $B$ not $B_{\min}$ here}
+\hktodo{change all $B_{\min}$ to $B$}
 
 \begin{theorem} \label{thm:ratio-bound-by-LP}
     Assume that all the constraints of the LP in~\Cref{def:induced-LP} hold. Then it holds that
@@ -1756,11 +1756,11 @@ Thus, by \eqref{eq-d-subset-1},  \eqref{eq-d-subset-2}, \eqref{eq-d-subset-3} an
  &\quad \sum_{(\sigma,\tau, \seqS)\in \+L(\ell)} \widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{(\sigma,\tau, \seqS)\in \+L_{\!{good}}(\ell+1)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
 \left(\text{by \eqref{eq-d-subset-1} and \eqref{eq-d-subset-2}}\right)\quad &\leq \sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma) - \sum_{u\in \+S}\ \sum_{(\sigma',\tau',\seqS')\in \+D_{\ell+1}(u)} \widehat{p}^{\sigma'}_{\sigma',\tau',\seqS'}\cdot \mu^{\sigma_{\bot}}_{\seqS'}(\sigma') \\
 \left(\text{by \eqref{eq-d-subset-3}}\right)\quad &\leq
-\left( 1 -B^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+S}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
 \left(\text{by $\+S\subseteq \+L_{\!{bad}}(\ell)$}\right)
 \quad &\leq
-\left( 1 -B^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
-\left(\text{by I.H.}\right)\quad &\leq \left(1-B^2\right)^{\ell+1}.
+\left( 1 -B_{\min}^2\right)\cdot\sum_{(\sigma,\tau,\seqS)\in \+L_{\!{bad}}(\ell)}\widehat{p}^{\sigma}_{\sigma,\tau,\seqS}\cdot \mu^{\sigma_{\bot}}_{\seqS}(\sigma)\\
+\left(\text{by I.H.}\right)\quad &\leq \left(1-B_{\min}^2\right)^{\ell+1}.
 \end{aligned}
 \end{equation}
 Moreover, by \Cref{lem:ratio-identity}, we have
